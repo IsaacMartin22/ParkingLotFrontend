@@ -1,0 +1,35 @@
+/* 404 Not Found page styles */
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.not-found h2 {
+  font-size: 2.5em;
+  color: #d32f2f;
+}
+
+.not-found p {
+  font-size: 1.2em;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #282c34;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #3d4149;
+}
