@@ -33,6 +33,12 @@ function Home() {
             <h3>Cache Service</h3>
             <p>Redis caching and performance optimization</p>
           </Link>
+
+          <Link to="/parking-lots" className="service-card">
+            <div className="service-card-icon">🚗</div>
+            <h3>Parking Lots</h3>
+            <p>View and monitor parking lot availability and details</p>
+          </Link>
         </div>
       </main>
       <footer>

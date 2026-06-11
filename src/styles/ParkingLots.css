@@ -1,0 +1,56 @@
+.parking-container {
+  padding-top: 10px;
+}
+
+.parking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.parking-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.parking-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.parking-card-header h4 {
+  margin: 0;
+  font-size: 1.05em;
+}
+
+.parking-status {
+  font-size: 0.85em;
+  padding: 6px 10px;
+  border-radius: 14px;
+  background: #f0f4ff;
+  color: #334155;
+  font-weight: 600;
+}
+
+.parking-body p {
+  margin: 6px 0;
+  color: #333;
+}
+
+.error {
+  color: #b00020;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .parking-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
