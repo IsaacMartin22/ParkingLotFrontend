@@ -7,6 +7,7 @@ import ServiceAPI from './pages/ServiceAPI';
 import ServiceDatabase from './pages/ServiceDatabase';
 import ServiceCache from './pages/ServiceCache';
 import ParkingLots from './pages/ParkingLots';
+import ParkingLotDetails from './pages/ParkingLotDetails';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/services/database" element={<ServiceDatabase />} />
             <Route path="/services/cache" element={<ServiceCache />} />
             <Route path="/parking-lots" element={<ParkingLots />} />
+            <Route path="/parking-lots/:id" element={<ParkingLotDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

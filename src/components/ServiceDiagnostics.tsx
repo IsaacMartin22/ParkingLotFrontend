@@ -1,7 +1,32 @@
 import React from 'react';
 import '../styles/ServiceDiagnostics.css';
 
-function ServiceDiagnostics({ serviceName, status, statusColor, metrics, logs }) {
+interface Metric {
+  label: string;
+  value: string;
+}
+
+interface Log {
+  timestamp: string;
+  message: string;
+  type: 'success' | 'info' | 'error';
+}
+
+interface ServiceDiagnosticsProps {
+  serviceName: string;
+  status: string;
+  statusColor: 'healthy' | 'warning' | 'critical';
+  metrics: Metric[];
+  logs: Log[];
+}
+
+function ServiceDiagnostics({
+  serviceName,
+  status,
+  statusColor,
+  metrics,
+  logs,
+}: ServiceDiagnosticsProps) {
   return (
     <div className="service-diagnostics">
       <div className="diagnostics-header">
