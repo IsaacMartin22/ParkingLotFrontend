@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
 import '../styles/ServicePage.css';
 
-function ServiceDatabase() {
+function ServiceDatabase(): JSX.Element {
   const metrics = [
     { label: 'Uptime', value: '99.95%' },
     { label: 'Query Time', value: '12ms' },
@@ -17,7 +17,7 @@ function ServiceDatabase() {
     { timestamp: '14:35:10', message: 'Connection pool at 49% capacity', type: 'info' },
     { timestamp: '14:34:50', message: 'Slow query detected: 245ms', type: 'warning' },
     { timestamp: '14:34:35', message: 'Index rebuild completed successfully', type: 'success' },
-  ];
+  ] as const;
 
   return (
     <>
@@ -46,4 +46,3 @@ function ServiceDatabase() {
 }
 
 export default ServiceDatabase;
-

@@ -1,26 +1,27 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import './App.css';
+import './styles/App.css';
 import Home from './pages/Home';
-import ServiceAPI from './pages/ServiceAPI';
-import ServiceDatabase from './pages/ServiceDatabase';
-import ServiceCache from './pages/ServiceCache';
+import ServiceAPIDashboard from './pages/ServiceAPIDashboard';
+import ServiceDatabaseDashboard from './pages/ServiceDatabaseDashboard';
+import ServiceCacheDashboard from './pages/ServiceCacheDashboard';
 import ParkingLots from './pages/ParkingLots';
 import ParkingLotDetails from './pages/ParkingLotDetails';
 import NotFound from './pages/NotFound';
 
-function App() {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
+
+function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <div className="App">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/services/api" element={<ServiceAPI />} />
-            <Route path="/services/database" element={<ServiceDatabase />} />
-            <Route path="/services/cache" element={<ServiceCache />} />
+            <Route path="/services/api" element={<ServiceAPIDashboard />} />
+            <Route path="/services/database" element={<ServiceDatabaseDashboard />} />
+            <Route path="/services/cache" element={<ServiceCacheDashboard />} />
             <Route path="/parking-lots" element={<ParkingLots />} />
             <Route path="/parking-lots/:id" element={<ParkingLotDetails />} />
             <Route path="*" element={<NotFound />} />

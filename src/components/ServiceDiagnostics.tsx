@@ -9,7 +9,7 @@ interface Metric {
 interface Log {
   timestamp: string;
   message: string;
-  type: 'success' | 'info' | 'error';
+  type: 'success' | 'info' | 'error' | 'warning';
 }
 
 interface ServiceDiagnosticsProps {
@@ -17,7 +17,7 @@ interface ServiceDiagnosticsProps {
   status: string;
   statusColor: 'healthy' | 'warning' | 'critical';
   metrics: Metric[];
-  logs: Log[];
+  logs: readonly Log[];
 }
 
 function ServiceDiagnostics({

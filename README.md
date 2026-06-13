@@ -12,9 +12,9 @@ src/
 ├── styles/         # CSS stylesheets
 │   ├── Home.css
 │   └── NotFound.css
-├── App.js          # Main App component
+├── App.tsx         # Main App component
 ├── App.css         # App styles
-├── index.js        # React entry point
+├── index.tsx        # React entry point
 └── index.css       # Global styles
 public/
 ├── index.html      # HTML entry point

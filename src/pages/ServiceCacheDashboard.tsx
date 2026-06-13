@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
 import '../styles/ServicePage.css';
 
-function ServiceCache() {
+function ServiceCache(): JSX.Element {
   const metrics = [
     { label: 'Uptime', value: '99.99%' },
     { label: 'Hit Rate', value: '94.2%' },
@@ -17,7 +17,7 @@ function ServiceCache() {
     { timestamp: '14:35:25', message: 'Stale entries evicted: 523', type: 'success' },
     { timestamp: '14:35:15', message: 'Cache performance optimal', type: 'success' },
     { timestamp: '14:35:00', message: 'TTL refresh executed for 1,240 keys', type: 'info' },
-  ];
+  ] as const;
 
   return (
     <>
@@ -46,4 +46,3 @@ function ServiceCache() {
 }
 
 export default ServiceCache;
-

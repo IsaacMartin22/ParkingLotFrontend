@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
 import '../styles/ServicePage.css';
 
-function ServiceAPI() {
+function ServiceAPIDashboard(): JSX.Element {
   const metrics = [
     { label: 'Uptime', value: '99.98%' },
     { label: 'Response Time', value: '45ms' },
@@ -17,7 +17,7 @@ function ServiceAPI() {
     { timestamp: '14:35:08', message: 'Database connection established', type: 'success' },
     { timestamp: '14:34:55', message: 'Cache hit ratio: 92%', type: 'info' },
     { timestamp: '14:34:42', message: 'All health checks passed', type: 'success' },
-  ];
+  ] as const;
 
   return (
     <>
@@ -45,5 +45,4 @@ function ServiceAPI() {
   );
 }
 
-export default ServiceAPI;
-
+export default ServiceAPIDashboard;
