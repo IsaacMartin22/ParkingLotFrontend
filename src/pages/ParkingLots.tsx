@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/ServicePage.css';
 import '../styles/ParkingLots.css';
 import useParkingLots from '../hooks/useParkingLots';
-import ParkingLotCard from '../components/ParkingLotCard';
+import Floors from '../components/Floors';
 
 function ParkingLots() {
   const { data: lots = [], isLoading: loading, isError } = useParkingLots();
@@ -24,7 +24,7 @@ function ParkingLots() {
             <div className="parking-grid">
               {lots.length === 0 && <p>No parking lots found.</p>}
               {lots.map((lot) => (
-                <ParkingLotCard lot={lot} />
+                <Floors lot={lot} />
               ))}
             </div>
           )}

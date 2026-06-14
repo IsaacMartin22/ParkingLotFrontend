@@ -12,7 +12,7 @@ interface ParkingLotCardProps {
   lot: ParkingLot;
 }
 
-export default function ParkingLotCard({ lot }: ParkingLotCardProps) {
+export default function Floors({ lot }: ParkingLotCardProps) {
   const pct = percentFull(lot);
 
   return (
