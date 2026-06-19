@@ -1,81 +1,70 @@
-# React Frontend Skeleton
+# Parking Lot Frontend
 
-A boilerplate React frontend application set up with modern tools and best practices.
+A React + TypeScript frontend for viewing parking lot information, service health, and operational diagnostics.
 
-## Project Structure
-
-```
-src/
-├── pages/          # Page components
-│   ├── Home.js
-│   └── NotFound.js
-├── styles/         # CSS stylesheets
-│   ├── Home.css
-│   └── NotFound.css
-├── App.tsx         # Main App component
-├── App.css         # App styles
-├── index.tsx        # React entry point
-└── index.css       # Global styles
-public/
-├── index.html      # HTML entry point
-package.json        # Dependencies and scripts
-```
-
-## Getting Started
-
-### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd react-frontend
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm start
-```
-
-The app will open at `http://localhost:3000` in your default browser.
-
-## Available Scripts
-
-- `npm start` - Runs the app in development mode
-- `npm build` - Builds the app for production
-- `npm test` - Launches the test runner
-- `npm eject` - Ejects from Create React App (irreversible)
+This application provides pages for browsing parking lots, viewing lot/floor details, and checking dashboard-style service status information for API, database, and cache layers.
 
 ## Features
 
-- ✅ React 18
-- ✅ React Router v6 for client-side routing
-- ✅ Modern CSS styling
-- ✅ Component-based architecture
-- ✅ ESLint configuration
+- Parking lot overview page
+- Parking lot detail pages
+- Floor-level parking space details
+- API diagnostics dashboard
+- Database service dashboard
+- Cache service dashboard
+- Client-side routing with React Router
+- Server-state management with TanStack React Query
+- TypeScript-based data models
+- Create React App build tooling
 
-## Technologies Used
+## Tech Stack
 
-- React 18.2.0
-- React Router DOM 6.20.0
-- React Scripts 5.0.1
+- React
+- TypeScript
+- TanStack React Query 4
+- Npm
 
-## Notes
+## Prerequisites
 
-This is a skeleton project. Expand it by:
-- Adding more page components in `src/pages/`
-- Creating reusable components in `src/components/`
-- Adding services/utilities in `src/services/`
-- Implementing state management (Context API, Redux, etc.)
+Install the following before running the project:
 
-## License
+- Node.js
+- npm
 
-MIT
+This project uses npm as its package manager.
+
+## Getting Started
+
+Clone the repository and install dependencies, then start the local development server:
+```
+npm install
+bash npm start
+```
+Runs on [http://localhost:3000](http://localhost:3000)
+
+## Backend API
+
+The frontend requires the backend API to be available locally at:
+http://localhost:8080/api
+
+The diagnostics endpoint is expected at:
+[http://localhost:8080/api/diagnostics](http://localhost:8080/api/diagnostics)
+
+Parking lot data is also loaded from the backend API through the app’s custom React Query hooks.
+
+Make sure the backend service is running before using pages that load live data.
+
+## Application Routes
+
+| Route | Description |
+| --- | --- |
+| `/` | Home page |
+| `/services/api` | API diagnostics dashboard |
+| `/services/database` | Database service dashboard |
+| `/services/cache` | Cache service dashboard |
+| `/parking-lots` | Parking lots overview |
+| `/parking-lots/:lotId` | Parking lot details |
+| `/parking-lots/:lotId/floors/:floorId` | Parking lot floor details |
+| `*` | Not found page |
+
+No tests yet
