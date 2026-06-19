@@ -3,33 +3,7 @@ import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
 import useAPIDiagnostics from '../hooks/useAPIDiagnostics';
 import '../styles/ServicePage.css';
-
-function formatDuration(milliseconds: number): string {
-  const totalSeconds = Math.floor(milliseconds / 1000);
-  const days = Math.floor(totalSeconds / 86_400);
-  const hours = Math.floor((totalSeconds % 86_400) / 3_600);
-  const minutes = Math.floor((totalSeconds % 3_600) / 60);
-
-  if (days > 0) {
-    return `${days}d ${hours}h ${minutes}m`;
-  }
-
-  if (hours > 0) {
-    return `${hours}h ${minutes}m`;
-  }
-
-  return `${minutes}m`;
-}
-
-function formatTimestamp(value: string): string {
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return date.toLocaleTimeString();
-}
+import {formatTimestamp, formatDuration} from "../formattingUtils";
 
 function ServiceAPIDashboard(): JSX.Element {
   const { data: diagnostics, isLoading, isError, error } = useAPIDiagnostics();

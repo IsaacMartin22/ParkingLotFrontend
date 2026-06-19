@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/ServicePage.css';
-import '../styles/ParkingLots.css';
-import useParkingLots from '../hooks/useParkingLots';
-import Floors from '../components/Floors';
+import '../../styles/ServicePage.css';
+import '../../styles/ParkingLots.css';
+import useListParkingLots from '../../hooks/useListParkingLots';
+import LotSummaryCard from "../../components/LotSummaryCard";
 
-function ParkingLots() {
-  const { data: lots = [], isLoading: loading, isError } = useParkingLots();
+function ParkingLotsOverview() {
+  const { data: lots = [], isLoading: loading, isError } = useListParkingLots();
 
   return (
     <>
@@ -24,7 +24,7 @@ function ParkingLots() {
             <div className="parking-grid">
               {lots.length === 0 && <p>No parking lots found.</p>}
               {lots.map((lot) => (
-                <Floors lot={lot} />
+                <LotSummaryCard key={lot.id} lot={lot} />
               ))}
             </div>
           )}
@@ -37,5 +37,5 @@ function ParkingLots() {
   );
 }
 
-export default ParkingLots;
+export default ParkingLotsOverview;
 

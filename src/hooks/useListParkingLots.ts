@@ -4,7 +4,7 @@ import { ParkingLot } from '../types/parking';
 const API_URL = 'http://localhost:8080/api';
 
 function validateLot(lot: ParkingLot): ParkingLot {
-  if (!lot.id || !lot.name || !lot.totalCapacity || lot.totalFreeSpaces === undefined || !lot.levelIds) {
+  if (!lot.id || !lot.name || !lot.totalCapacity || lot.totalFreeSpaces === undefined || !lot.floorIds) {
     throw new Error(`Invalid parking lot data: missing required fields in ${JSON.stringify(lot)}`);
   }
 
@@ -23,7 +23,7 @@ async function fetchParkingLots(): Promise<ParkingLot[]> {
   return data.map(validateLot);
 }
 
-export default function useParkingLots() {
+export default function useListParkingLots() {
   return useQuery(['parkingLots'], fetchParkingLots, {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,

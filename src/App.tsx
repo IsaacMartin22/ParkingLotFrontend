@@ -6,9 +6,10 @@ import Home from './pages/Home';
 import ServiceAPIDashboard from './pages/ServiceAPIDashboard';
 import ServiceDatabaseDashboard from './pages/ServiceDatabaseDashboard';
 import ServiceCacheDashboard from './pages/ServiceCacheDashboard';
-import ParkingLots from './pages/ParkingLots';
-import ParkingLotDetails from './pages/ParkingLotDetails';
+import ParkingLotsOverview from './pages/parking/ParkingLotsOverview';
+import ParkingLotDetails from './pages/parking/ParkingLotDetails';
 import NotFound from './pages/NotFound';
+import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
 
 const queryClient = new QueryClient();
 
@@ -22,8 +23,9 @@ function App(): JSX.Element {
             <Route path="/services/api" element={<ServiceAPIDashboard />} />
             <Route path="/services/database" element={<ServiceDatabaseDashboard />} />
             <Route path="/services/cache" element={<ServiceCacheDashboard />} />
-            <Route path="/parking-lots" element={<ParkingLots />} />
-            <Route path="/parking-lots/:id" element={<ParkingLotDetails />} />
+            <Route path="/parking-lots" element={<ParkingLotsOverview />} />
+            <Route path="/parking-lots/:lotId/floors/:floorId" element={<ParkingLotFloorDetails />} />
+            <Route path="/parking-lots/:lotId" element={<ParkingLotDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

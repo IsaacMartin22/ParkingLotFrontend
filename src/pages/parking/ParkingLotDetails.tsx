@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import useParkingLots from '../hooks/useParkingLots';
-import { ParkingLot } from '../types/parking';
-import '../styles/ServicePage.css';
-import '../styles/ParkingLots.css';
+import { ParkingLot } from '../../types/parking';
+import '../../styles/ServicePage.css';
+import '../../styles/ParkingLots.css';
+import useParkingLot from "../../hooks/useParkingLot";
+import FloorSummaryCard from "../../components/FloorSummaryCard";
 
 function pctFor(lot: ParkingLot): number {
   if (lot.totalCapacity === 0) return 0;
@@ -12,19 +13,16 @@ function pctFor(lot: ParkingLot): number {
 }
 
 interface RouteParams {
-  id: string;
+  lotId: string;
 }
 
 export default function ParkingLotDetails() {
   // @ts-ignore
-  const { id } = useParams<RouteParams>();
-  const { data: lots = [], isLoading: loading, isError } = useParkingLots();
+  const { lotId } = useParams<RouteParams>();
+  const { data: lot, isLoading: loading, isError } = useParkingLot(lotId);
 
   if (loading) return <p>Loading...</p>;
   if (isError) return <p className="error">Error: {'Unknown error'}</p>;
-
-  // find by id (string/number)
-  const lot = lots.find(l => String(l.id) === String(id));
 
   if (!lot) {
     return (
@@ -65,29 +63,22 @@ export default function ParkingLotDetails() {
             </div>
           </div>
 
-          <section className="level-list">
-            <h3>Levels ({lot.levelIds.length})</h3>
-            {lot.levelIds.length === 0 && <p>No level data available.</p>}
-            <p>Fetch and map level data</p>
-            {/*{lot.levelIds.map((level, i) => {*/}
-            {/*  const pct = pctFor(level);*/}
-            {/*  const levelLabel = level.name || `Level ${i + 1}`;*/}
-            {/*  return (*/}
-            {/*    <div className="level-item" key={level.id}>*/}
-            {/*      <div className="level-meta">*/}
-            {/*        <strong>{levelLabel}</strong>*/}
-            {/*        {level.totalCapacity !== undefined && <span className="level-cap">{level.capacity} cap</span>}*/}
-            {/*      </div>*/}
-            {/*      {level.available !== undefined && <p>Available: {level.available}</p>}*/}
-            {/*      {level.capacity !== undefined && level.available !== undefined && pct != null && (*/}
-            {/*        <div className="progress" aria-hidden>*/}
-            {/*          <div className="progress-bar" style={{ width: `${pct}%` }} />*/}
-            {/*          <div className="progress-label">{pct}% full</div>*/}
-            {/*        </div>*/}
-            {/*      )}*/}
-            {/*    </div>*/}
-            {/*  );*/}
-            {/*})}*/}
+          <section className="floor-list">
+            <h3>Floors ({lot.floorIds.length})</h3>
+            {lot.floorIds.length === 0 && <p>No floor data available.</p>}
+
+            {lot.floorIds.length > 0 && (
+              <div className="floor-diagram">
+                {lot.floorIds.map((floorId, index) => (
+                  <FloorSummaryCard
+                    key={floorId}
+                    lotId={lotId}
+                    floorId={floorId}
+                    fallbackIndex={index}
+                  />
+                ))}
+              </div>
+            )}
           </section>
         </div>
       </main>
