@@ -12,13 +12,20 @@ export interface FloorSection {
   spaces: ParkingSpace[];
 }
 
+export interface Car {
+  id: number;
+  color: string;
+  make: string;
+  model: string;
+  manufacturingYear: number;
+  licensePlate: string;
+}
+
 export interface ParkingSpace {
   id: number;
-  name: string;
+  number: string;
   occupied: boolean;
-  carColor?: string;
-  licensePlate?: string;
-  parkedSince?: string;
+  car: Car | null;
 }
 
 export interface ParkingLotResponse {

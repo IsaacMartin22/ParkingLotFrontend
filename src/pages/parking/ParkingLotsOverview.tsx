@@ -23,7 +23,7 @@ function ParkingLotsOverview() {
           {!loading && !isError && (
             <div className="parking-grid">
               {lots.length === 0 && <p>No parking lots found.</p>}
-              {lots.map((lot) => (
+              {lots.sort((a, b) => a.name.localeCompare(b.name)).map((lot) => (
                 <LotSummaryCard key={lot.id} lot={lot} />
               ))}
             </div>

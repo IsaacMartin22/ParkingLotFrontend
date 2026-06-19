@@ -54,24 +54,24 @@ export default function SectionSummaryCard({ lotId, floorId }: FloorSummaryCardP
       {sections.length === 0 && <p>No section data available.</p>}
       {sections.length > 0 && (
         <div className="floor-sections">
-          {sections.map((section) => (
+          {sections.sort((a, b) => a.name.localeCompare(b.name)).map((section) => (
             <div className="floor-section" key={section.id}>
               <p className="floor-section-name">{section.name}</p>
               <div className="space-grid">
                 {section.spaces.map((space) => {
-                  const colorHex = space.carColor ? CAR_COLOR_HEX[space.carColor] || '#64748b' : '#cbd5e1';
+                  const colorHex = space.car?.color ? CAR_COLOR_HEX[space.car.color] || '#64748b' : '#cbd5e1';
                   return (
                     <div
                       className={`space-tile ${space.occupied ? 'space-occupied' : 'space-free'}`}
                       key={space.id}
                       style={{ borderColor: colorHex, backgroundColor: space.occupied ? `${colorHex}22` : '#f8fafc' }}
                     >
-                      <strong>{space.name}</strong>
+                      <strong>{space.number}</strong>
                       {space.occupied ? (
                         <>
-                          <span>Car: {space.carColor || 'Unknown'}</span>
-                          <span>Plate: {space.licensePlate || 'Unknown'}</span>
-                          <span>Time: {formatDuration(toNumber(space.parkedSince))}</span>
+                          <span>Car: {space.car?.manufacturingYear} {space.car?.make || 'Unknown'} {space.car?.model || 'Unknown'}</span>
+                          <span>Plate: {space.car?.licensePlate || 'Unknown'}</span>
+                          {/*<span>Time: {formatDuration(toNumber(space))}</span>*/}
                         </>
                       ) : (
                         <span>Open</span>

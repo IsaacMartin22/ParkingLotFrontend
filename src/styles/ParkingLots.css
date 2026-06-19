@@ -110,6 +110,8 @@
   border-radius: 8px;
   padding: 10px;
   background: #f8fbff;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .floor-diagram-floor h5 {
@@ -118,9 +120,11 @@
 }
 
 .floor-sections {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .floor-section {
@@ -128,6 +132,10 @@
   border-radius: 8px;
   padding: 8px;
   background: #ffffff;
+  flex: 1 1 320px;
+  min-width: 280px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .floor-section-name {
@@ -140,6 +148,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
   gap: 8px;
+  min-width: 0;
 }
 
 .space-tile {
@@ -190,6 +199,11 @@
 @media (max-width: 600px) {
   .parking-grid {
     grid-template-columns: 1fr;
+  }
+
+  .floor-sections {
+    flex-basis: 100%;
+    min-width: 0;
   }
 }
 

@@ -69,12 +69,11 @@ export default function ParkingLotDetails() {
 
             {lot.floorIds.length > 0 && (
               <div className="floor-diagram">
-                {lot.floorIds.map((floorId, index) => (
+                {lot.floorIds.sort().map((floorId, index) => (
                   <FloorSummaryCard
                     key={floorId}
                     lotId={lotId}
-                    floorId={floorId}
-                    fallbackIndex={index}
+                    floorId={String(floorId)}
                   />
                 ))}
               </div>
