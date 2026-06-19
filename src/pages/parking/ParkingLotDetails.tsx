@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ParkingLot } from '../../types/parking';
 import '../../styles/ServicePage.css';
 import '../../styles/ParkingLots.css';
 import useParkingLot from "../../hooks/useParkingLot";
-import FloorSummaryCard from "../../components/FloorSummaryCard";
+import FloorSummary from "../../components/FloorSummary";
+import {ParkingLotResponse} from "../../types/parking";
 
-function pctFor(lot: ParkingLot): number {
+function pctFor(lot: ParkingLotResponse): number {
   if (lot.totalCapacity === 0) return 0;
   const occupied = Math.max(0, lot.totalCapacity - lot.totalFreeSpaces);
   return Math.round((occupied / lot.totalCapacity) * 100);
@@ -68,15 +68,15 @@ export default function ParkingLotDetails() {
             {lot.floorIds.length === 0 && <p>No floor data available.</p>}
 
             {lot.floorIds.length > 0 && (
-              <div className="floor-diagram">
-                {lot.floorIds.sort().map((floorId, index) => (
-                  <FloorSummaryCard
-                    key={floorId}
-                    lotId={lotId}
-                    floorId={String(floorId)}
-                  />
-                ))}
-              </div>
+                <div className="floor-summary-grid">
+                  {lot.floors.sort((a, b) => a.name.localeCompare(b.name)).map((floor) => (
+                      <FloorSummary
+                          key={floor.id}
+                          lotId={lotId}
+                          floor={floor}
+                      />
+                  ))}
+                </div>
             )}
           </section>
         </div>

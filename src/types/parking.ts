@@ -1,8 +1,8 @@
 export interface Floor {
   id: number;
   name: string;
-  capacity?: number;
-  available?: number;
+  capacity: number;
+  totalFreeSpaces: number;
   sections?: FloorSection[];
 }
 
@@ -36,8 +36,5 @@ export interface ParkingLotResponse {
   totalFreeSpaces: number;
   type: string;
   floorIds: number[];
-}
-
-export interface ParkingLot extends ParkingLotResponse {
-  floors?: Floor[];
+  floors: Floor[];
 }

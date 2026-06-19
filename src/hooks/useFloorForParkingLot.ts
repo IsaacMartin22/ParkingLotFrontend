@@ -68,7 +68,7 @@ function normalizeFloor(floor: any, fallbackFloorId: string): Floor {
     id,
     name: String(floor?.name ?? floor?.floorName ?? `Floor ${id}`),
     capacity: toNumber(floor?.capacity ?? floor?.totalCapacity),
-    available: toNumber(floor?.available ?? floor?.freeSpaces ?? floor?.totalFreeSpaces),
+    totalFreeSpaces: toNumber(floor?.available ?? floor?.freeSpaces ?? floor?.totalFreeSpaces),
     sections: sections.map(normalizeSection),
   };
 }

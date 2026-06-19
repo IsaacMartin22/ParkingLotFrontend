@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import useFloorForParkingLot from '../../hooks/useFloorForParkingLot';
 import '../../styles/ServicePage.css';
 import '../../styles/ParkingLots.css';
-import SectionSummaryCard from "../../components/SectionSummaryCard";
+import CarCard from "../../components/CarCard";
 
 interface RouteParams {
   lotId: string;
@@ -68,7 +68,7 @@ export default function ParkingLotFloors() {
               <p><strong>Floor:</strong> {floor.name}</p>
               <p><strong>Total Sections:</strong> {sections.length}</p>
               {floor.capacity !== undefined && <p><strong>Capacity:</strong> {floor.capacity}</p>}
-              {floor.available !== undefined && <p><strong>Available:</strong> {floor.available}</p>}
+              {floor.totalFreeSpaces !== undefined && <p><strong>Available:</strong> {floor.totalFreeSpaces}</p>}
             </div>
           </div>
 
@@ -78,10 +78,24 @@ export default function ParkingLotFloors() {
             {sections.length === 0 && <p>No section data available.</p>}
 
             {sections.length > 0 && (
-              <SectionSummaryCard
-                lotId={lotId}
-                floorId={floorId}
-              />
+                <div className="floor-sections">
+                  {sections
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((section) => (
+                          <div className="floor-section" key={section.id}>
+                            <p className="floor-section-name">{section.name}</p>
+
+                            <div className="space-grid">
+                              {section.spaces.map((space) => (
+                                  <div key={space.id}>
+                                    <strong>{space.number}</strong>
+                                    <CarCard car={space.car} />
+                                  </div>
+                              ))}
+                            </div>
+                          </div>
+                      ))}
+                </div>
             )}
           </section>
         </div>

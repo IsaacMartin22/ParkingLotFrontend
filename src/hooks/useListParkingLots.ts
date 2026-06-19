@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { ParkingLot } from '../types/parking';
+import { ParkingLotResponse } from '../types/parking';
 
 const API_URL = 'http://localhost:8080/api';
 
-function validateLot(lot: ParkingLot): ParkingLot {
+function validateLot(lot: ParkingLotResponse): ParkingLotResponse {
   if (!lot.id || !lot.name || !lot.totalCapacity || lot.totalFreeSpaces === undefined || !lot.floorIds) {
     throw new Error(`Invalid parking lot data: missing required fields in ${JSON.stringify(lot)}`);
   }
@@ -11,7 +11,7 @@ function validateLot(lot: ParkingLot): ParkingLot {
   return lot;
 }
 
-async function fetchParkingLots(): Promise<ParkingLot[]> {
+async function fetchParkingLots(): Promise<ParkingLotResponse[]> {
   const res = await fetch(`${API_URL}/lots`);
   if (!res.ok) throw new Error(`API responded with ${res.status}`);
   const data: unknown = await res.json();

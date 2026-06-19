@@ -1,6 +1,5 @@
 import React from 'react';
 import useFloorForParkingLot from '../hooks/useFloorForParkingLot';
-import {formatDuration, toNumber} from "../formattingUtils";
 
 const CAR_COLOR_HEX: Record<string, string> = {
   Red: '#ef4444',
@@ -11,12 +10,12 @@ const CAR_COLOR_HEX: Record<string, string> = {
   Green: '#10b981',
 };
 
-interface FloorSummaryCardProps {
+interface SectionSummaryCardProps {
   lotId: string;
   floorId: string;
 }
 
-export default function SectionSummaryCard({ lotId, floorId }: FloorSummaryCardProps) {
+export default function SectionSummaryCard({ lotId, floorId }: SectionSummaryCardProps) {
   const { data: floor, isLoading, isError } = useFloorForParkingLot(lotId, floorId);
 
   if (isLoading) {
