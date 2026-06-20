@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { APIDiagnostics } from '../types/apiDiagnostics';
-
-const API_URL = 'http://localhost:8080/api';
+import {API_URL} from "../types/constants";
 
 function validateAPIDiagnostics(diagnostics: unknown): APIDiagnostics {
   if (!diagnostics || typeof diagnostics !== 'object') {

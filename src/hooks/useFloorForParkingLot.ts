@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import {Car, Floor} from '../types/parking';
 import {toNumber} from "../formattingUtils";
-
-const API_URL = 'http://localhost:8080/api';
+import {API_URL} from "../types/constants";
 
 function normalizeCar(car: any): Car | null {
   if (!car) {

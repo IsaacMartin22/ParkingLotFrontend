@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ParkingLotResponse } from '../types/parking';
-
-const API_URL = 'http://localhost:8080/api';
+import {API_URL} from "../types/constants";
 
 function validateLot(lot: ParkingLotResponse): ParkingLotResponse {
   if (!lot.id || !lot.name || !lot.totalCapacity || lot.totalFreeSpaces === undefined || !lot.floorIds) {
