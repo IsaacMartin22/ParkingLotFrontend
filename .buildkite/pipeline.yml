@@ -1,0 +1,15 @@
+steps:
+  - label: ":node: Install dependencies"
+    key: "install"
+    command: "npm ci"
+    agents:
+      queue: "default"
+
+  - wait
+
+  - label: ":jest: Unit tests"
+    command: "npm test -- --watchAll=false"
+    env:
+      CI: "true"
+    agents:
+      queue: "default"
