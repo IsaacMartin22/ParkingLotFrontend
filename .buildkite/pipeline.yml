@@ -1,7 +1,9 @@
 steps:
   - label: ":jest: Unit Tests"
     command:
-    - "npm ci"
-    - "npm test -- --watchAll=false"
+      - "node --version"
+      - "npm --version"
+      - "npm ci"
+      - "npm test -- --watchAll=false"
 
 
