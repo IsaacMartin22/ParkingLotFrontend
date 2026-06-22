@@ -1,11 +1,7 @@
 steps:
-  - label: ":node: Install dependencies"
-    key: "install"
-    command: "npm ci"
+  - label: ":jest: Unit Tests"
+    command:
+    - "npm ci"
+    - "npm test -- --watchAll=false"
 
-  - wait
 
-  - label: ":jest: Unit tests"
-    command: "npm test -- --watchAll=false"
-    env:
-      CI: "true"
