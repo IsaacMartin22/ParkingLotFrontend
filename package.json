@@ -11,7 +11,8 @@
     "@tanstack/react-query": "^4.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.0"
+    "react-router-dom": "^6.20.0",
+    "serve": "^14.2.4"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
@@ -23,8 +24,8 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "start": "serve -s build -l ${PORT:-3000}",
-    "build": "NODE_OPTIONS=--max-old-space-size=512 GENERATE_SOURCEMAP=false react-scripts build",
+    "start": "serve -s build -l 3000",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
