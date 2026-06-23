@@ -67,4 +67,8 @@ Make sure the backend service is running before using pages that load live data.
 | `/parking-lots/:lotId/floors/:floorId` | Parking lot floor details |
 | `*` | Not found page |
 
-No tests yet
+**Deployment**
+Render provides very little memory for the free option so 512 is max memory. Use max memory when building/running
+``export NODE_OPTIONS="--max-old-space-size=512"
+GENERATE_SOURCEMAP=false
+npm run build`

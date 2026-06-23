@@ -22,8 +22,9 @@
     "typescript": "4.9.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "react-scripts start",
+    "start": "serve -s build -l ${PORT:-3000}",
+    "build": "NODE_OPTIONS=--max-old-space-size=512 GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
