@@ -1,7 +1,7 @@
 import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
-import '../styles/ServicePage.css';
+import '../styles/ServicePageStyles.css';
 
 function ServiceDatabase(): JSX.Element {
   const metrics = [
@@ -22,8 +22,15 @@ function ServiceDatabase(): JSX.Element {
   return (
     <>
       <header className="service-header">
-        <Link to="/" className="back-link">← Back to Home</Link>
+        <div className="service-header-nav">
+          <Link to="/services" className="back-link">← Services Dashboard</Link>
+          <Link to="/" className="header-action-link">Parking Home</Link>
+        </div>
+        <p className="service-eyebrow">Settings & diagnostics</p>
         <h1>Database Service Dashboard</h1>
+        <p className="service-subtitle">
+          Review persistence health, storage behavior, and database capacity behind the parking lot app.
+        </p>
       </header>
       <main className="service-container">
         <ServiceDiagnostics
@@ -35,11 +42,11 @@ function ServiceDatabase(): JSX.Element {
         />
         <div className="service-details">
           <h3>Service Overview</h3>
-          <p>The Database Service manages all persistent data storage and retrieval operations. It handles user data, application state, and provides ACID compliance for critical transactions.</p>
+          <p>The database service stores parking lot, floor, section, and occupancy data so the frontend can render live availability with dependable historical and transactional consistency.</p>
         </div>
       </main>
       <footer>
-        <p>&copy; 2025 React Application. All rights reserved.</p>
+        <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
       </footer>
     </>
   );

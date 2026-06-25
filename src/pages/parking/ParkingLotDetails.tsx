@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import '../../styles/ServicePage.css';
+import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import useParkingLot from "../../hooks/useParkingLot";
 import FloorSummary from "../../components/FloorSummary";
@@ -28,8 +28,13 @@ export default function ParkingLotDetails() {
     return (
       <div className="service-container">
         <header className="service-header">
-          <Link to="/parking-lots" className="back-link">← Back to Parking Lots</Link>
+          <div className="service-header-nav">
+            <Link to="/parking-lots" className="back-link">← Parking Lots</Link>
+            <Link to="/services" className="header-action-link">Settings</Link>
+          </div>
+          <p className="service-eyebrow">Parking lot app</p>
           <h1>Parking Lot</h1>
+          <p className="service-subtitle">Return to the parking lots overview to choose another lot.</p>
         </header>
         <main className="service-details parking-container">
           <p>Parking lot not found.</p>
@@ -43,8 +48,15 @@ export default function ParkingLotDetails() {
   return (
     <>
       <header className="service-header">
-        <Link to="/parking-lots" className="back-link">← Back to Parking Lots</Link>
+        <div className="service-header-nav">
+          <Link to="/parking-lots" className="back-link">← Parking Lots</Link>
+          <Link to="/services" className="header-action-link">Settings</Link>
+        </div>
+        <p className="service-eyebrow">Parking lot app</p>
         <h1>{lot.name}</h1>
+        <p className="service-subtitle">
+          Review lot capacity, current availability, and the floors available for deeper inspection.
+        </p>
       </header>
       <main className="service-container">
         <div className="service-details parking-container">

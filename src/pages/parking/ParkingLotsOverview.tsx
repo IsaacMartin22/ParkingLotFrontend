@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/ServicePage.css';
+import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import useListParkingLots from '../../hooks/useListParkingLots';
 import LotSummaryCard from "../../components/LotSummaryCard";
@@ -11,8 +11,15 @@ function ParkingLotsOverview() {
   return (
     <>
       <header className="service-header">
-        <Link to="/" className="back-link">← Back to Home</Link>
+        <div className="service-header-nav">
+          <Link to="/" className="back-link">← Parking Home</Link>
+          <Link to="/services" className="header-action-link">Settings</Link>
+        </div>
+        <p className="service-eyebrow">Parking lot app</p>
         <h1>Parking Lots</h1>
+        <p className="service-subtitle">
+          Browse live parking lots and drill down into floors, sections, and current space availability.
+        </p>
       </header>
       <main className="service-container">
         <div className="service-details parking-container">
@@ -31,7 +38,7 @@ function ParkingLotsOverview() {
         </div>
       </main>
       <footer>
-        <p>&copy; 2025 React Application. All rights reserved.</p>
+        <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
       </footer>
     </>
   );

@@ -1,7 +1,7 @@
 import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
-import '../styles/ServicePage.css';
+import '../styles/ServicePageStyles.css';
 
 function ServiceCache(): JSX.Element {
   const metrics = [
@@ -22,8 +22,15 @@ function ServiceCache(): JSX.Element {
   return (
     <>
       <header className="service-header">
-        <Link to="/" className="back-link">← Back to Home</Link>
+        <div className="service-header-nav">
+          <Link to="/services" className="back-link">← Services Dashboard</Link>
+          <Link to="/" className="header-action-link">Parking Home</Link>
+        </div>
+        <p className="service-eyebrow">Settings & diagnostics</p>
         <h1>Cache Service Dashboard</h1>
+        <p className="service-subtitle">
+          Monitor cached parking availability data and the in-memory service performance that supports fast reads.
+        </p>
       </header>
       <main className="service-container">
         <ServiceDiagnostics
@@ -35,11 +42,11 @@ function ServiceCache(): JSX.Element {
         />
         <div className="service-details">
           <h3>Service Overview</h3>
-          <p>The Cache Service provides in-memory data caching to improve application performance and reduce database load. It stores frequently accessed data and session information for fast retrieval.</p>
+          <p>The cache service keeps frequently requested parking availability data close to the frontend experience so lot and floor views load quickly while reducing pressure on the database.</p>
         </div>
       </main>
       <footer>
-        <p>&copy; 2025 React Application. All rights reserved.</p>
+        <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
       </footer>
     </>
   );

@@ -1,0 +1,51 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+}
+
+header {
+  background:
+    linear-gradient(135deg, rgba(7, 26, 47, 0.96), rgba(15, 53, 87, 0.94)),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 36px,
+      rgba(246, 183, 60, 0.16) 36px,
+      rgba(246, 183, 60, 0.16) 40px
+    );
+  padding: 34px 20px;
+  color: white;
+  box-shadow: 0 16px 36px rgba(7, 26, 47, 0.24);
+  border-bottom: 4px solid var(--las-gold);
+}
+
+header h1 {
+  letter-spacing: -0.04em;
+}
+
+main {
+  flex: 1;
+  padding: 40px 20px;
+}
+
+footer {
+  background-color: var(--las-navy);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-top: 4px solid var(--las-gold);
+}
+
+footer p {
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+}

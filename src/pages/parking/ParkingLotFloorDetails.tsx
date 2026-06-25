@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import '../../styles/ServicePage.css';
+import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import {Car, Floor, ParkingSpace} from "../../types/parking";
 import useFloorForParkingLot from "../../hooks/useFloorForParkingLot";
@@ -243,8 +243,13 @@ export default function ParkingLotFloors() {
     return (
       <>
         <header className="service-header">
-          <Link to={`/parking-lots/${lotId}`} className="back-link">← Back to Floors</Link>
+          <div className="service-header-nav">
+            <Link to={`/parking-lots/${lotId}`} className="back-link">← Lot Details</Link>
+            <Link to="/services" className="header-action-link">Settings</Link>
+          </div>
+          <p className="service-eyebrow">Parking lot app</p>
           <h1>Parking Lot Floor</h1>
+          <p className="service-subtitle">Return to the lot details page to choose another floor.</p>
         </header>
         <main className="service-container">
           <div className="service-details parking-container">
@@ -260,8 +265,15 @@ export default function ParkingLotFloors() {
   return (
     <>
       <header className="service-header">
-        <Link to={`/parking-lots/${lotId}`} className="back-link">← Back to Floors</Link>
+        <div className="service-header-nav">
+          <Link to={`/parking-lots/${lotId}`} className="back-link">← Lot Details</Link>
+          <Link to="/services" className="header-action-link">Settings</Link>
+        </div>
+        <p className="service-eyebrow">Parking lot app</p>
         <h1>{floor.name} Sections</h1>
+        <p className="service-subtitle">
+          Review section occupancy and live parking space updates for this floor.
+        </p>
       </header>
 
       <main className="service-container">

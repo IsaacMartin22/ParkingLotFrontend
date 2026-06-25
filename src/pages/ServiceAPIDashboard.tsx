@@ -2,7 +2,7 @@ import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
 import useAPIDiagnostics from '../hooks/useAPIDiagnostics';
-import '../styles/ServicePage.css';
+import '../styles/ServicePageStyles.css';
 import {formatTimestamp, formatDuration} from "../formattingUtils";
 
 function ServiceAPIDashboard(): JSX.Element {
@@ -70,8 +70,15 @@ function ServiceAPIDashboard(): JSX.Element {
   return (
       <>
         <header className="service-header">
-          <Link to="/" className="back-link">← Back to Home</Link>
+          <div className="service-header-nav">
+            <Link to="/services" className="back-link">← Services Dashboard</Link>
+            <Link to="/" className="header-action-link">Parking Home</Link>
+          </div>
+          <p className="service-eyebrow">Settings & diagnostics</p>
           <h1>API Service Dashboard</h1>
+          <p className="service-subtitle">
+            Inspect API uptime, request volume, error rate, and endpoint activity for the parking lot application.
+          </p>
         </header>
         <main className="service-container">
           <ServiceDiagnostics
@@ -83,7 +90,7 @@ function ServiceAPIDashboard(): JSX.Element {
           />
           <div className="service-details">
             <h3>Service Overview</h3>
-            <p>The REST API Service handles all incoming API requests and provides data endpoints for the frontend application. It processes requests, manages authentication, and communicates with the database.</p>
+            <p>The REST API service handles parking application requests, serves lot and floor data to the frontend, and coordinates with downstream services to keep occupancy views current.</p>
             {diagnostics && (
                 <p>
                   Service started at {new Date(diagnostics.startedAt).toLocaleString()} and is currently tracking{' '}
@@ -94,7 +101,7 @@ function ServiceAPIDashboard(): JSX.Element {
           </div>
         </main>
         <footer>
-          <p>&copy; 2025 React Application. All rights reserved.</p>
+          <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
         </footer>
       </>
   );

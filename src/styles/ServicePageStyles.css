@@ -1,0 +1,189 @@
+/* Service Pages Styles */
+
+.service-header {
+  background:
+    linear-gradient(135deg, rgba(7, 26, 47, 0.96), rgba(15, 53, 87, 0.92)),
+    radial-gradient(circle at 85% 20%, rgba(246, 183, 60, 0.35), transparent 18rem);
+  color: white;
+  padding: 32px 20px 46px;
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  border-bottom: 4px solid var(--las-gold);
+  box-shadow: 0 16px 36px rgba(7, 26, 47, 0.2);
+}
+
+.service-header::after {
+  content: "LAS";
+  position: absolute;
+  right: 24px;
+  bottom: 14px;
+  color: rgba(255, 255, 255, 0.12);
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.08em;
+}
+
+.service-header h1 {
+  margin: 0;
+  font-size: 2.2em;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.service-header-nav {
+  width: min(1200px, 100%);
+  margin: 0 auto 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.service-eyebrow {
+  margin: 0 0 10px;
+  color: var(--las-gold);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.service-subtitle {
+  width: min(760px, 100%);
+  margin: 16px auto 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.back-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.back-link:hover {
+  background-color: rgba(246, 183, 60, 0.22);
+  transform: translateX(-5px);
+}
+
+.header-action-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.header-action-link:hover {
+  background: rgba(72, 183, 216, 0.18);
+  border-color: rgba(72, 183, 216, 0.4);
+}
+
+.service-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  margin-bottom: 40px;
+}
+
+.service-details {
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--las-border);
+  border-radius: 18px;
+  padding: 25px;
+  margin-top: 25px;
+  box-shadow: var(--las-shadow);
+}
+
+.service-details h3 {
+  margin-top: 0;
+  font-size: 1.35em;
+  color: var(--las-navy);
+  border-bottom: 3px solid var(--las-gold);
+  padding-bottom: 10px;
+}
+
+.service-details p {
+  color: #475569;
+  line-height: 1.6;
+  font-size: 1em;
+  margin-bottom: 0;
+}
+
+.service-dashboard-panel {
+  margin-top: 0;
+}
+
+.service-dashboard-panel h2 {
+  margin: 0;
+  color: var(--las-navy);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+}
+
+.service-dashboard-heading {
+  display: block;
+  text-align: center;
+}
+
+.service-dashboard-heading > div {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.service-dashboard-heading h2,
+.service-dashboard-heading .section-copy {
+  text-align: center;
+}
+
+.service-dashboard-heading .section-copy {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.service-dashboard-grid {
+  margin-top: 28px;
+}
+
+@media (max-width: 768px) {
+  .service-header {
+    padding-top: 24px;
+  }
+
+  .service-header h1 {
+    font-size: 1.6em;
+  }
+
+  .service-header-nav {
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+
+  .service-container {
+    padding: 0 10px;
+  }
+
+  .service-details {
+    padding: 15px;
+  }
+
+  .service-subtitle {
+    font-size: 0.98rem;
+  }
+}

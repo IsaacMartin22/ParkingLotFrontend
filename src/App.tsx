@@ -1,8 +1,7 @@
 import React, {JSX} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import './styles/App.css';
-import Home from './pages/Home';
+import './styles/HeaderFooter.css';
 import ServiceAPIDashboard from './pages/ServiceAPIDashboard';
 import ServiceDatabaseDashboard from './pages/ServiceDatabaseDashboard';
 import ServiceCacheDashboard from './pages/ServiceCacheDashboard';
@@ -10,6 +9,9 @@ import ParkingLotsOverview from './pages/parking/ParkingLotsOverview';
 import ParkingLotDetails from './pages/parking/ParkingLotDetails';
 import NotFound from './pages/NotFound';
 import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
+import Home from "./pages/Home";
+import ServicesHome from "./pages/ServicesHome";
+
 
 const queryClient = new QueryClient();
 
@@ -20,6 +22,7 @@ function App(): JSX.Element {
         <div className="App">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/services" element={<ServicesHome />} />
             <Route path="/services/api" element={<ServiceAPIDashboard />} />
             <Route path="/services/database" element={<ServiceDatabaseDashboard />} />
             <Route path="/services/cache" element={<ServiceCacheDashboard />} />
