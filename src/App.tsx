@@ -11,6 +11,8 @@ import NotFound from './pages/NotFound';
 import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
 import Home from "./pages/Home";
 import ServicesHome from "./pages/ServicesHome";
+import IntroHome from './pages/IntroHome';
+import Blog from "./pages/BlogEngineeringJournal";
 
 
 const queryClient = new QueryClient();
@@ -21,7 +23,9 @@ function App(): JSX.Element {
       <BrowserRouter>
         <div className="App">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<IntroHome />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/parking" element={<Home />} />
             <Route path="/services" element={<ServicesHome />} />
             <Route path="/services/api" element={<ServiceAPIDashboard />} />
             <Route path="/services/database" element={<ServiceDatabaseDashboard />} />

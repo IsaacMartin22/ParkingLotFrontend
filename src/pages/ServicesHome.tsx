@@ -8,8 +8,8 @@ function ServicesHome(): JSX.Element {
     <div className="settings-dashboard">
       <header className="service-header">
         <div className="service-header-nav">
-          <Link to="/" className="back-link">← Parking Home</Link>
-          <Link to="/parking-lots" className="header-action-link">Parking Explorer</Link>
+          <Link to="/" className="back-link">← Isaac Home</Link>
+          <Link to="/parking" className="header-action-link">Parking Home</Link>
         </div>
         <p className="service-eyebrow">Settings & diagnostics</p>
         <h1>Services Dashboard</h1>

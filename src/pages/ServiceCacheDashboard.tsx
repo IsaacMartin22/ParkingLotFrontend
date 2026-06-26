@@ -24,7 +24,7 @@ function ServiceCache(): JSX.Element {
       <header className="service-header">
         <div className="service-header-nav">
           <Link to="/services" className="back-link">← Services Dashboard</Link>
-          <Link to="/" className="header-action-link">Parking Home</Link>
+          <Link to="/parking" className="header-action-link">Parking Home</Link>
         </div>
         <p className="service-eyebrow">Settings & diagnostics</p>
         <h1>Cache Service Dashboard</h1>

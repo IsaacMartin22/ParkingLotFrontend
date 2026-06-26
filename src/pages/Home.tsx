@@ -8,14 +8,18 @@ function Home(): JSX.Element {
       <header className="home-hero">
         <div className="container hero-toolbar">
           <span className="hero-brand-chip">Parking Lot App</span>
+          <Link to="/" className="hero-settings-link">
+            <span className="hero-settings-icon">I</span>
+            Isaac Home
+          </Link>
         </div>
 
         <div className="container hero-content">
-          <p className="eyebrow">Harry Reid International Airport · LAS</p>
-          <h1>Parking Lot App</h1>
+          <p className="eyebrow">Project Demo · Parking Experience</p>
+          <h1>Parking App Home</h1>
           <p className="hero-copy">
-            Start from one central home page to explore airport parking lots, inspect floor availability,
-            and keep the operational parking experience front and center.
+            Explore the core product workflow with live parking lot and floor availability, then jump to
+            service dashboards for system-level diagnostics.
           </p>
 
           <div className="hero-actions">
@@ -28,26 +32,26 @@ function Home(): JSX.Element {
       <main className="container">
         <section className="airport-status-strip" aria-label="Airport parking status highlights">
           <div>
-            <span className="status-label">Airport</span>
-            <strong>LAS</strong>
+            <span className="status-label">Role</span>
+            <strong>Frontend Demo</strong>
           </div>
           <div>
-            <span className="status-label">Mode</span>
-            <strong>Live Parking</strong>
+            <span className="status-label">Primary flow</span>
+            <strong>Parking Explorer</strong>
           </div>
           <div>
-            <span className="status-label">Services</span>
-            <strong>Settings Dashboard</strong>
+            <span className="status-label">Supporting flow</span>
+            <strong>Service Diagnostics</strong>
           </div>
         </section>
 
         <section className="page-section">
           <div className="section-heading">
             <div>
-              <h2>Parking Operations Home</h2>
+              <h2>Parking Application</h2>
               <p className="section-copy">
-                Keep the main user experience focused on parking workflows. Service health and diagnostics now live behind the
-                settings entry point so the app has one clear primary home page.
+                This area demonstrates the product-facing experience. Visit Isaac's intro page for context,
+                then use this home to evaluate the parking user journey end to end.
               </p>
             </div>
             <Link to="/parking-lots" className="text-link">Browse parking lots →</Link>
@@ -72,7 +76,7 @@ function Home(): JSX.Element {
       </main>
 
       <footer>
-        <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
+        <p>&copy; 2026 Isaac - Parking App Demo.</p>
       </footer>
     </div>
   );
