@@ -6,11 +6,16 @@ const poweredByTechnologies = [
   'React 18',
   'TypeScript',
   'TanStack Query',
+  'CSS Components',
   'Java Spring Boot API',
   'PostgreSQL Database',
   'RabbitMQ',
-  'Component-based CSS architecture',
-  '',
+  'Buildkite',
+  'Docker',
+  'Jest',
+  'Playwright',
+  'Grafana',
+  'Render',
 ];
 
 const systemContributions = [
@@ -42,8 +47,9 @@ function IntroHome(): JSX.Element {
           <p className="intro-eyebrow">Software Engineer Portfolio</p>
           <h1>Hi, I am Isaac.</h1>
           <p className="intro-copy">
-            This is my website. Its purpose is to show my competency as a Software Engineer.
-            This site hosts the frontend of a parking lot application themed for the LAS (Las Vegas) airport, which is where I live.
+            This website's purpose is to show my competency as a Software Engineer.
+            This site hosts my development portfolio as well as the frontend of a parking
+            lot application themed for the LAS (Las Vegas) airport, which is where I live.
 
           </p>
           <div className="intro-actions">
@@ -63,57 +69,34 @@ function IntroHome(): JSX.Element {
 
       <main className="container intro-main">
         <section className="intro-panel" aria-label="About Isaac">
-          <h2>Parking Lot App</h2>
+          <h2>Parking Lot App Solution</h2>
           <p>
-            I encountered an issue my development skills allow me to solve. At the airport
-            a handmade wooden "Parking Lot Full" sign was up. The sign was placed by hand and was not accurate,
-            there were multiple parking spaces open. The task of placing the sign could be eliminated
-            by the creation of a simple website with live updates.
+            While visiting the LAS airport, I noticed a handmade wooden "Parking Lot Full" sign displayed
+            at the entrance. Despite the sign, several parking spaces were still available. The
+            sign placement being a manual task meant the information was not trustworthy because it
+            could quickly become outdated.
           </p>
           <p>
-            The result would be time and cost savings for the airport because an employee no longer has to place signs and it would
-            also improve the customer experience by providing reliably up to date parking lot information.
+            I realized a simple auto-updating website would be a better solution. LAS employees wouldn't have to manually
+            place or update the sign and the information would be more reliable, which is a win-win for both customers and
+            the airport. Because I have the skills I decided to attempt to take on this project and document my process to
+            essentially be a more readable and practical resume hiring managers can assess.
           </p>
-        </section>
-
-        <section className="intro-grid" aria-label="Project highlights">
-          <article className="intro-card">
-            <h3>Parking lot application</h3>
-            <p>
-              Navigate lots, floors, sections, and occupancy details with API-backed pages and reusable components.
-            </p>
-            <Link to="/parking" className="intro-card-link">Open parking experience</Link>
-          </article>
-
-          <article className="intro-card">
-            <h3>System perspective</h3>
-            <p>
-              The experience is intentionally presented as a connected system, showing how frontend, backend,
-              persistence, and supporting services work together to deliver the parking application.
-            </p>
-          </article>
-
-          <article className="intro-card">
-            <h3>Engineering focus</h3>
-            <p>
-              Emphasis on readable code, typed contracts, practical UX, service integration, and maintainable
-              patterns that scale from reusable UI components to diagnostic and infrastructure-oriented views.
-            </p>
-          </article>
         </section>
 
         <section className="intro-grid intro-support-grid" aria-label="Project references and technologies">
           <article className="intro-card">
             <h3>System architecture</h3>
             <p>
-              The parking lot application reflects contributions across product UI, service APIs, persistence, and
-              generated operational events.
+              Other tools are involved with the hosting this site but there are 3 main apps/services responsible for the core functionality.
+              All are created by me and are open source.
             </p>
             <div className="intro-architecture-list">
               {systemContributions.map((contribution) => (
                 <div key={contribution.title} className="intro-architecture-item">
                   <h4>{contribution.title}</h4>
                   <p>{contribution.description}</p>
+                  <a href={contribution.link} target="_blank" rel="noreferrer" className="text-link">View on GitHub</a>
                 </div>
               ))}
             </div>
@@ -122,8 +105,8 @@ function IntroHome(): JSX.Element {
           <article className="intro-card">
             <h3>Powered by</h3>
             <p>
-              The site and the larger application rely on a blend of frontend, backend, and data technologies that
-              support routing, typed client code, API integration, persistence, and event-driven workflows.
+              A non-exhaustive list of technologies that power this site and the application, and others used for
+              development infrastructure
             </p>
             <ul className="intro-tech-list">
               {poweredByTechnologies.map((technology) => (

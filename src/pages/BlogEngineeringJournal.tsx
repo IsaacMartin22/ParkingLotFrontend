@@ -24,6 +24,17 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">June 27th 2026</p>
+            <h3>Day 2</h3>
+            <p>
+              Had a pretty busy day today, made mostly just spelling and grammar changes and fixed some of the Powered By technologies on the Intro page.
+              Added links for the Github Projects
+            </p>
+            <p>
+
+            </p>
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">June 26th 2026</p>
             <h3>First engineering note</h3>
             <p>
