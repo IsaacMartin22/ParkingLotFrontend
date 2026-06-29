@@ -24,14 +24,26 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">June 28th 2026</p>
+            <h3>Day 3</h3>
+            <p>
+              Added html page for API service that documents how to use the endpoints. Added agent instructions for
+              all 3 repos and added dockerfile that doesn't work yet to Event Generator service. Need to update RabbitMQ
+              on generator service because it was hardcoded to localhost.
+            </p>
+            <p>
+              Had some tentative ideas for a new project involving AI, looked into RAGs and Redis vector database but I think
+              Copilot's existing tool is already pretty good and sounds like it uses RAG already. I don't want to remake the wheel.
+              Eventually want to come up with some other sort of project, ideally AI related because that's what companies are going
+              crazy for at the moment.
+            </p>
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">June 27th 2026</p>
             <h3>Day 2</h3>
             <p>
               Had a pretty busy day today, made mostly just spelling and grammar changes and fixed some of the Powered By technologies on the Intro page.
               Added links for the Github Projects
-            </p>
-            <p>
-
             </p>
           </article>
           <article className="blog-entry-card">
