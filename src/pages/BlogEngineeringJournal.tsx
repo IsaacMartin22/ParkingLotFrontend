@@ -24,6 +24,29 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">June 29th 2026</p>
+            <h3>Day 4</h3>
+            <p>
+              Did a lot today. API had bug where PUT parking space requests could change its section so I fixed that bug and
+              added validation checks. Floors sections and parking spaces are now only certain amount per parent entity, enforced
+              at java service level and database level. Also fixed the actual logic and adjusted so PUT requests will fetch and
+              then modify the existing entity first rather than just blindly saving the user's raw request. Also added intermediate
+              entity for PUT/POST endpoints so user isn't putting raw database entities as request bodies.
+            </p>
+            <p>
+              At that point I realized I had to update the event generator, which I did by just copy pasting the new JSON bodies
+              into AI and having it update stuff automatically. But I realized I could publish an SDK for the API project and then
+              use the API SDK http client along with the request bodies as models to make those updates more seamless and help
+              me pay attention to when I'm going to make a breaking change to the API, it does affect the frontend service and
+              event generator service as well.
+            </p>
+            <p>
+              Maven Central credentials have been created and a buildkite release/publish step has been added to the API service but
+              it doesn't work yet. Haven't set that kind of thing up yet so it's a learning process, once it's done though I should
+              be able to publish a new SDK version from buildkite whenever I want by unblocking the release step.
+            </p>
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">June 28th 2026</p>
             <h3>Day 3</h3>
             <p>
