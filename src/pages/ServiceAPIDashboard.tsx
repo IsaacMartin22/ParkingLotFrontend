@@ -1,6 +1,7 @@
 import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
+import ServiceLogViewer from '../components/ServiceLogViewer';
 import useAPIDiagnostics from '../hooks/useAPIDiagnostics';
 import '../styles/ServicePageStyles.css';
 import {formatTimestamp, formatDuration} from "../formattingUtils";
@@ -88,6 +89,7 @@ function ServiceAPIDashboard(): JSX.Element {
               metrics={metrics}
               logs={logs}
           />
+          {diagnostics && <ServiceLogViewer logs={diagnostics.recentLogs} />}
           <div className="service-details">
             <h3>Service Overview</h3>
             <p>The REST API service handles parking application requests, serves lot and floor data to the frontend, and coordinates with downstream services to keep occupancy views current.</p>

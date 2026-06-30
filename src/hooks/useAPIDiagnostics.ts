@@ -7,7 +7,12 @@ function validateAPIDiagnostics(diagnostics: unknown): APIDiagnostics {
     throw new Error(`Invalid API diagnostics data: ${JSON.stringify(diagnostics)}`);
   }
 
-  return diagnostics as APIDiagnostics;
+  const parsed = diagnostics as APIDiagnostics;
+
+  return {
+    ...parsed,
+    recentLogs: Array.isArray(parsed.recentLogs) ? parsed.recentLogs : [],
+  };
 }
 
 async function fetchAPIDiagnostics(): Promise<APIDiagnostics> {
