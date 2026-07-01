@@ -47,7 +47,7 @@ function ServicesHome(): JSX.Element {
             <Link to="/services/cache" className="service-card">
               <div className="service-card-icon">⚡</div>
               <span className="service-card-kicker">Performance</span>
-              <h3>Cache Service</h3>
+              <h3>Cache Service - Not implemented yet</h3>
               <p>Monitor cache behavior that speeds up occupancy lookups and parking availability reads.</p>
             </Link>
           </div>

@@ -1,8 +1,8 @@
-import React, {JSX} from 'react';
+import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
 import useDatabaseDiagnostics from '../hooks/useDatabaseDiagnostics';
-import {formatDuration} from '../formattingUtils';
+import { formatDuration } from '../formattingUtils';
 import '../styles/ServicePageStyles.css';
 
 function formatBytes(bytes: number): string {
@@ -17,8 +17,10 @@ function formatBytes(bytes: number): string {
   return `${value.toFixed(value >= 10 || exponent === 0 ? 0 : 1)} ${units[exponent]}`;
 }
 
-function ServiceDatabase(): JSX.Element {
+function ServiceDatabaseDashboard(): JSX.Element {
   const { data: diagnostics, isLoading, isError, error } = useDatabaseDiagnostics();
+  const longRunningQueries = diagnostics?.longRunningQueries ?? [];
+  const queryCount = longRunningQueries.length;
 
   const metrics = diagnostics
     ? [
@@ -30,6 +32,7 @@ function ServiceDatabase(): JSX.Element {
           value: `${diagnostics.activeConnections.toLocaleString()}/${diagnostics.maxConnections.toLocaleString()}`,
         },
         { label: 'Storage Used', value: formatBytes(diagnostics.databaseSize) },
+        { label: 'Long-running Queries', value: queryCount.toLocaleString() },
       ]
     : [
         { label: 'Connectivity', value: isLoading ? 'Loading...' : 'Unavailable' },
@@ -37,6 +40,7 @@ function ServiceDatabase(): JSX.Element {
         { label: 'Uptime', value: isLoading ? 'Loading...' : 'Unavailable' },
         { label: 'Connections', value: isLoading ? 'Loading...' : 'Unavailable' },
         { label: 'Storage Used', value: isLoading ? 'Loading...' : 'Unavailable' },
+        { label: 'Long-running Queries', value: isLoading ? 'Loading...' : 'Unavailable' },
       ];
 
   const longRunningQueryLogs = diagnostics
@@ -60,9 +64,9 @@ function ServiceDatabase(): JSX.Element {
       : [
           {
             timestamp: new Date().toLocaleTimeString(),
-            message: isLoading
-              ? 'Loading database diagnostics...'
-              : 'No long-running queries reported by the database service.',
+              message: isLoading
+                  ? 'Loading database diagnostics...'
+                  : 'No long-running queries reported by the database service.',
             type: isLoading ? 'info' : 'success',
           },
         ] as const;
@@ -108,17 +112,84 @@ function ServiceDatabase(): JSX.Element {
           metrics={metrics}
           logs={logs}
         />
-        <div className="service-details">
-          <h3>Service Overview</h3>
-          <p>The database service stores parking lot, floor, section, and occupancy data so the frontend can render live availability with dependable historical and transactional consistency.</p>
-          {diagnostics && (
+
+        <section className="service-details">
+          <h3>Database Snapshot</h3>
+          {diagnostics ? (
+            <div className="database-snapshot-grid">
+              <div>
+                <span className="service-card-kicker">Connectivity</span>
+                <p>{diagnostics.connectivity ? 'Connected' : 'Disconnected'}</p>
+              </div>
+              <div>
+                <span className="service-card-kicker">Latency</span>
+                <p>{diagnostics.latency.toLocaleString()} ms</p>
+              </div>
+              <div>
+                <span className="service-card-kicker">Uptime</span>
+                <p>{formatDuration(diagnostics.uptimeMillis)}</p>
+              </div>
+              <div>
+                <span className="service-card-kicker">Connections</span>
+                <p>
+                  {diagnostics.activeConnections.toLocaleString()} active of{' '}
+                  {diagnostics.maxConnections.toLocaleString()}
+                </p>
+              </div>
+              <div>
+                <span className="service-card-kicker">Storage Used</span>
+                <p>{formatBytes(diagnostics.databaseSize)}</p>
+              </div>
+              <div>
+                <span className="service-card-kicker">Long-running Queries</span>
+                <p>{queryCount.toLocaleString()}</p>
+              </div>
+            </div>
+          ) : (
+            <p>{isLoading ? 'Loading database snapshot...' : 'Database diagnostics are unavailable.'}</p>
+          )}
+        </section>
+
+        <section className="service-details">
+          <h3>Long Running Queries</h3>
+          {longRunningQueries.length > 0 ? (
+            <div className="database-query-list">
+              {longRunningQueries.map((query, index) => (
+                <article key={`${query.timeRunningMillis}-${index}`} className="database-query-card">
+                  <p className="database-query-time">{formatDuration(query.timeRunningMillis)} running</p>
+                  <pre>{query.queryText}</pre>
+                </article>
+              ))}
+            </div>
+          ) : (
             <p>
-              Current latency is {diagnostics.latency.toLocaleString()} ms with {diagnostics.activeConnections.toLocaleString()} active
-              connection{diagnostics.activeConnections === 1 ? '' : 's'} and {diagnostics.longRunningQueries.length.toLocaleString()} long-running{' '}
-              {diagnostics.longRunningQueries.length === 1 ? 'query' : 'queries'} observed.
+              {isLoading
+                ? 'Loading long-running query data...'
+                : 'No long-running queries were reported by the database service.'}
             </p>
           )}
-        </div>
+        </section>
+
+        <section className="service-details">
+          <h3>Service Overview</h3>
+          <p>
+            The database service stores parking lot, floor, section, and occupancy data so the frontend can
+            render live availability with dependable historical and transactional consistency.
+          </p>
+          {diagnostics && (
+            <p>
+              Current latency is {diagnostics.latency.toLocaleString()} ms with{' '}
+              {diagnostics.activeConnections.toLocaleString()} active connection
+              {diagnostics.activeConnections === 1 ? '' : 's'} and {queryCount.toLocaleString()} long-running{' '}
+              {queryCount === 1 ? 'query' : 'queries'} observed.
+            </p>
+          )}
+          {isError && (
+            <p className="error">
+              {error instanceof Error ? error.message : 'Failed to load database diagnostics'}
+            </p>
+          )}
+        </section>
       </main>
       <footer>
         <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
@@ -127,4 +198,4 @@ function ServiceDatabase(): JSX.Element {
   );
 }
 
-export default ServiceDatabase;
+export default ServiceDatabaseDashboard;

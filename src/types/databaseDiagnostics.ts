@@ -1,9 +1,9 @@
-export interface LongRunningQuery {
+export type LongRunningQuery = {
   timeRunningMillis: number;
   queryText: string;
-}
+};
 
-export interface DatabaseDiagnostics {
+export type DatabaseDiagnostics = {
   connectivity: boolean;
   latency: number;
   uptimeMillis: number;
@@ -11,4 +11,4 @@ export interface DatabaseDiagnostics {
   maxConnections: number;
   databaseSize: number;
   longRunningQueries: LongRunningQuery[];
-}
+};

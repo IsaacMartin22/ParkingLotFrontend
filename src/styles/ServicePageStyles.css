@@ -126,6 +126,65 @@
   margin-bottom: 0;
 }
 
+.database-snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.database-snapshot-grid > div,
+.database-query-card {
+  border: 1px solid var(--las-border);
+  border-radius: 16px;
+  background: rgba(248, 251, 255, 0.96);
+  box-shadow: 0 10px 24px rgba(7, 26, 47, 0.08);
+}
+
+.database-snapshot-grid > div {
+  padding: 16px;
+}
+
+.database-snapshot-grid .service-card-kicker,
+.database-query-time {
+  display: block;
+  color: var(--las-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.database-snapshot-grid p {
+  margin: 0;
+  color: var(--las-asphalt);
+  font-weight: 700;
+}
+
+.database-query-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.database-query-card {
+  padding: 16px;
+}
+
+.database-query-card pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--las-asphalt);
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+.database-query-card .database-query-time {
+  margin-bottom: 10px;
+}
+
 .service-dashboard-panel {
   margin-top: 0;
 }
@@ -185,5 +244,9 @@
 
   .service-subtitle {
     font-size: 0.98rem;
+  }
+
+  .database-snapshot-grid {
+    grid-template-columns: 1fr;
   }
 }

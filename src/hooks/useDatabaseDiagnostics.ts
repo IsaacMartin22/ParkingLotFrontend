@@ -1,18 +1,37 @@
 import { useQuery } from '@tanstack/react-query';
-import {API_URL} from "../types/constants";
-import {DatabaseDiagnostics} from "../types/databaseDiagnostics";
+import { API_URL } from '../types/constants';
+import { DatabaseDiagnostics, LongRunningQuery } from '../types/databaseDiagnostics';
+
+function isLongRunningQuery(value: unknown): value is LongRunningQuery {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const candidate = value as Partial<LongRunningQuery>;
+
+  return (
+    typeof candidate.timeRunningMillis === 'number' &&
+    Number.isFinite(candidate.timeRunningMillis) &&
+    typeof candidate.queryText === 'string'
+  );
+}
 
 function validateDatabaseDiagnostics(diagnostics: unknown): DatabaseDiagnostics {
   if (!diagnostics || typeof diagnostics !== 'object') {
-    throw new Error(`Invalid Database diagnostics data: ${JSON.stringify(diagnostics)}`);
+    throw new Error(`Invalid database diagnostics data: ${JSON.stringify(diagnostics)}`);
   }
 
-  const parsed = diagnostics as DatabaseDiagnostics;
+  const parsed = diagnostics as Partial<DatabaseDiagnostics>;
 
   return {
-    ...parsed,
+    connectivity: Boolean(parsed.connectivity),
+    latency: typeof parsed.latency === 'number' ? parsed.latency : 0,
+    uptimeMillis: typeof parsed.uptimeMillis === 'number' ? parsed.uptimeMillis : 0,
+    activeConnections: typeof parsed.activeConnections === 'number' ? parsed.activeConnections : 0,
+    maxConnections: typeof parsed.maxConnections === 'number' ? parsed.maxConnections : 0,
+    databaseSize: typeof parsed.databaseSize === 'number' ? parsed.databaseSize : 0,
     longRunningQueries: Array.isArray(parsed.longRunningQueries)
-      ? parsed.longRunningQueries
+      ? parsed.longRunningQueries.filter(isLongRunningQuery)
       : [],
   };
 }

@@ -22,19 +22,19 @@ const systemContributions = [
   {
     title: 'Frontend application',
     description:
-      'This repository delivers the evaluator-facing experience: routing, UI composition, data hooks, and dashboard workflows.',
+      'This repository hosts this site along with the Parking app frontend: routing, app frontend, data hooks, and diagnostic dashboards.',
     link: 'https://github.com/IsaacMartin22/ParkingLotFrontend',
   },
   {
     title: 'Java API backend',
     description:
-      'A separate Java service provides the parking lot and diagnostics endpoints that power the app\'s product and operational views.',
+      'A CRUD Java API layer which provides the parking lot and diagnostics endpoints that power the app\'s product and operational views.',
     link: 'https://github.com/IsaacMartin22/ParkingLotAPI',
   },
   {
     title: 'Event generation project',
     description:
-      'Another Java repository contributes event generation that helps simulate or drive changes across the parking system lifecycle.',
+      'A Java repository which uses a Maven published SDK and RabbitMQ to generate events that simulate expected parking lot behavior.',
     link: 'https://github.com/IsaacMartin22/ParkingLotEventGenerator',
   },
 ];
@@ -48,9 +48,10 @@ function IntroHome(): JSX.Element {
           <h1>Hi, I am Isaac.</h1>
           <p className="intro-copy">
             This website's purpose is to show my competency as a Software Engineer.
-            This site hosts my development portfolio as well as the frontend of a parking
+            This site hosts my development portfolio which includes the frontend of a parking
             lot application themed for the LAS (Las Vegas) airport, which is where I live.
-
+            It also hosts diagnostic pages for backend services this site relies on. Code
+            for the backend services is open source and can be found on my GitHub profile.
           </p>
           <div className="intro-actions">
             <Link to="/parking" className="intro-primary-link">Explore parking lot app</Link>
@@ -72,7 +73,7 @@ function IntroHome(): JSX.Element {
           <h2>Parking Lot App Solution</h2>
           <p>
             While visiting the LAS airport, I noticed a handmade wooden "Parking Lot Full" sign displayed
-            at the entrance. Despite the sign, several parking spaces were still available. The
+            at an economy lot entrance. Despite the sign, several parking spaces were still available. The
             sign placement being a manual task meant the information was not trustworthy because it
             could quickly become outdated.
           </p>
@@ -80,7 +81,7 @@ function IntroHome(): JSX.Element {
             I realized a simple auto-updating website would be a better solution. LAS employees wouldn't have to manually
             place or update the sign and the information would be more reliable, which is a win-win for both customers and
             the airport. Because I have the skills I decided to attempt to take on this project and document my process to
-            essentially be a more readable and practical resume hiring managers can assess.
+            essentially be a more practical resume for hiring managers to assess.
           </p>
         </section>
 

@@ -2,6 +2,8 @@ import React, {JSX} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './styles/HeaderFooter.css';
+import HamburgerNavigation from './components/HamburgerNavigation';
+import usePageNavigationPing from './hooks/usePageNavigationPing';
 import ServiceAPIDashboard from './pages/ServiceAPIDashboard';
 import ServiceDatabaseDashboard from './pages/ServiceDatabaseDashboard';
 import ServiceCacheDashboard from './pages/ServiceCacheDashboard';
@@ -13,17 +15,27 @@ import Home from "./pages/Home";
 import ServicesHome from "./pages/ServicesHome";
 import IntroHome from './pages/IntroHome';
 import Blog from "./pages/BlogEngineeringJournal";
+import AboutMe from "./pages/AboutMe";
 
 
 const queryClient = new QueryClient();
+
+function PageNavigationPingTracker(): null {
+  usePageNavigationPing();
+
+  return null;
+}
 
 function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <div className="App">
+          <PageNavigationPingTracker />
+          <HamburgerNavigation />
           <Routes>
             <Route path="/" element={<IntroHome />} />
+            <Route path="/aboutme" element={<AboutMe />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/parking" element={<Home />} />
             <Route path="/services" element={<ServicesHome />} />

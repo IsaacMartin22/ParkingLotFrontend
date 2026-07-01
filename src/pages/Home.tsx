@@ -6,14 +6,9 @@ function Home(): JSX.Element {
   return (
     <div className="app-home">
       <header className="home-hero">
-        <div className="container hero-toolbar">
-          <span className="hero-brand-chip">Parking Lot App</span>
-          <Link to="/" className="hero-settings-link">
-            <span className="hero-settings-icon">I</span>
-            Isaac Home
-          </Link>
+        <div className="service-header-nav">
+          <Link to="/" className="back-link">← Isaac Home</Link>
         </div>
-
         <div className="container hero-content">
           <p className="eyebrow">Project Demo · Parking Experience</p>
           <h1>Parking App Home</h1>
