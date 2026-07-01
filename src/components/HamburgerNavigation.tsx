@@ -17,25 +17,17 @@ const navigationSections: NavigationSection[] = [
   {
     heading: 'Portfolio',
     items: [
-      { label: 'Home', to: '/', description: 'Open the portfolio introduction page' },
+      { label: 'ParkingHome', to: '/', description: 'Open the portfolio introduction page' },
       { label: 'Blog', to: '/blog', description: 'Read the engineering journal' },
-      { label: 'About', to: '/aboutme', description: 'Learn more about me' },
     ],
   },
   {
     heading: 'Parking App',
     items: [
-      { label: 'Parking Home', to: '/parking', description: 'Open the parking experience home page' },
-      { label: 'Parking Lots', to: '/parking-lots', description: 'Browse live parking lots' },
-    ],
-  },
-  {
-    heading: 'Diagnostics',
-    items: [
-      { label: 'Services Dashboard', to: '/services', description: 'Open the service landing page' },
+      { label: 'App', to: '/parking', description: 'Open the parking experience home page' },
       { label: 'API', to: '/services/api', description: 'Inspect API service health' },
       { label: 'Database', to: '/services/database', description: 'Inspect database service health' },
-      { label: 'Cache', to: '/services/cache', description: 'Inspect cache service health' },
+      { label: 'Generator', to: '/services/generator', description: 'Configure and run the Event Generator' },
     ],
   },
 ];
@@ -98,8 +90,7 @@ function HamburgerNavigation() {
       )}
 
       <div id="site-navigation-menu" className={`hamburger-menu ${isOpen ? 'is-open' : ''}`}>
-        <p className="hamburger-menu-heading">Navigate to</p>
-        {navigationSections.map((section) => (
+         {navigationSections.map((section) => (
           <div key={section.heading} className="hamburger-menu-section">
             <p className="hamburger-menu-group-title">{section.heading}</p>
             <ul className="hamburger-menu-list">

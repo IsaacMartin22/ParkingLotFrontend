@@ -39,7 +39,7 @@ const systemContributions = [
   },
 ];
 
-function IntroHome(): JSX.Element {
+function PortfolioHome(): JSX.Element {
   return (
     <div className="intro-home">
       <header className="intro-hero">
@@ -50,13 +50,13 @@ function IntroHome(): JSX.Element {
             This website's purpose is to show my competency as a Software Engineer.
             This site hosts my development portfolio which includes the frontend of a parking
             lot application themed for the LAS (Las Vegas) airport, which is where I live.
-            It also hosts diagnostic pages for backend services this site relies on. Code
-            for the backend services is open source and can be found on my GitHub profile.
+            It also hosts diagnostic pages for backend services this site relies on. The backend
+            services themselves can be accessed form their diagnostics pages. The code for this site
+            and services are open source and can be found on my GitHub profile.
           </p>
           <div className="intro-actions">
             <Link to="/parking" className="intro-primary-link">Explore parking lot app</Link>
             <Link to="/blog" className="intro-secondary-link">Read my Development Blog</Link>
-            <Link to="/about" className="intro-secondary-link">Learn more About me</Link>
             <a
               href="https://github.com/IsaacMartin22"
               className="intro-secondary-link"
@@ -126,5 +126,5 @@ function IntroHome(): JSX.Element {
   );
 }
 
-export default IntroHome;
+export default PortfolioHome;
 

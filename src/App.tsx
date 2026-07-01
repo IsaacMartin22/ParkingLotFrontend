@@ -6,16 +6,14 @@ import HamburgerNavigation from './components/HamburgerNavigation';
 import usePageNavigationPing from './hooks/usePageNavigationPing';
 import ServiceAPIDashboard from './pages/ServiceAPIDashboard';
 import ServiceDatabaseDashboard from './pages/ServiceDatabaseDashboard';
-import ServiceCacheDashboard from './pages/ServiceCacheDashboard';
+import ServiceCacheDashboard from './pages/EventGeneratorDashboard';
 import ParkingLotsOverview from './pages/parking/ParkingLotsOverview';
 import ParkingLotDetails from './pages/parking/ParkingLotDetails';
 import NotFound from './pages/NotFound';
 import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
-import Home from "./pages/Home";
-import ServicesHome from "./pages/ServicesHome";
-import IntroHome from './pages/IntroHome';
-import Blog from "./pages/BlogEngineeringJournal";
-import AboutMe from "./pages/AboutMe";
+import ParkingHome from "./pages/ParkingHome";
+import PortfolioHome from './pages/PortfolioHome';
+import Blog from "./pages/Blog";
 
 
 const queryClient = new QueryClient();
@@ -34,14 +32,12 @@ function App(): JSX.Element {
           <PageNavigationPingTracker />
           <HamburgerNavigation />
           <Routes>
-            <Route path="/" element={<IntroHome />} />
-            <Route path="/about" element={<AboutMe />} />
+            <Route path="/" element={<PortfolioHome />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/parking" element={<Home />} />
-            <Route path="/services" element={<ServicesHome />} />
+            <Route path="/parking" element={<ParkingHome />} />
             <Route path="/services/api" element={<ServiceAPIDashboard />} />
             <Route path="/services/database" element={<ServiceDatabaseDashboard />} />
-            <Route path="/services/cache" element={<ServiceCacheDashboard />} />
+            <Route path="/services/generator" element={<ServiceCacheDashboard />} />
             <Route path="/parking-lots" element={<ParkingLotsOverview />} />
             <Route path="/parking-lots/:lotId/floors/:floorId" element={<ParkingLotFloorDetails />} />
             <Route path="/parking-lots/:lotId" element={<ParkingLotDetails />} />

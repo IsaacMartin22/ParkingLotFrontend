@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import '../styles/HomeHeroStyles.css';
 import '../styles/ServicePageStyles.css';
 
-function Home(): JSX.Element {
+function ParkingHome(): JSX.Element {
   return (
     <div className="settings-dashboard">
       <header className="service-header">
         <div className="service-header-nav">
           <Link to="/" className="back-link">← Home</Link>
-          <Link to="/services" className="header-action-link">Services Dashboard</Link>
         </div>
         <p className="service-eyebrow">Project demo · parking experience</p>
         <h1>Parking App Home</h1>
@@ -25,8 +24,9 @@ function Home(): JSX.Element {
             <div>
               <h2>Parking Application</h2>
               <p className="section-copy">
-                This area demonstrates the product-facing experience. Visit Isaac's intro page for context,
-                then use this home to evaluate the parking user journey end to end.
+                The Parking Explorer demonstrates the product-facing experience. The service dashboards display diagnostic
+                information relevant to each service. The non-database service dashboards contain external URLs that
+                demonstrate their intended use.
               </p>
             </div>
           </div>
@@ -35,15 +35,29 @@ function Home(): JSX.Element {
             <Link to="/parking-lots" className="service-card primary-service-card">
               <div className="service-card-icon">🅿️</div>
               <span className="service-card-kicker">Primary experience</span>
-              <h3>Terminal Parking Explorer</h3>
+              <h3>Parking Explorer</h3>
               <p>View real-time section and space availability for lots and floors.</p>
             </Link>
 
-            <Link to="/services" className="service-card">
-              <div className="service-card-icon">⚙️</div>
-              <span className="service-card-kicker">Diagnostics</span>
-              <h3>Services Dashboard</h3>
-              <p>View the health of the services this site depends on.</p>
+            <Link to="/services/api" className="service-card">
+              <div className="service-card-icon">🛫</div>
+              <span className="service-card-kicker">Traffic</span>
+              <h3>API Service</h3>
+              <p>Check request handling, endpoint activity, uptime, and availability for the parking API.</p>
+            </Link>
+
+            <Link to="/services/generator" className="service-card">
+              <div className="service-card-icon">⚡</div>
+              <span className="service-card-kicker">Update</span>
+              <h3>Event Generator</h3>
+              <p>Configure and trigger a continuous stream of Parking Lot events to see this site update in real time.</p>
+            </Link>
+
+            <Link to="/services/database" className="service-card">
+              <div className="service-card-icon">🗄️</div>
+              <span className="service-card-kicker">Persistence</span>
+              <h3>Database</h3>
+              <p>Review the health of stored parking data for lots, floors, sections, vehicles, and spaces.</p>
             </Link>
           </div>
         </section>
@@ -56,4 +70,4 @@ function Home(): JSX.Element {
   );
 }
 
-export default Home;
+export default ParkingHome;

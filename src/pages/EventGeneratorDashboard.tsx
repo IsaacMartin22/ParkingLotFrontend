@@ -2,8 +2,9 @@ import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
 import '../styles/ServicePageStyles.css';
+import {API_WEBPAGE, EVENT_GENERATOR_WEBPAGE} from "../types/constants";
 
-function ServiceCache(): JSX.Element {
+function EventGenerator(): JSX.Element {
   const metrics = [
     { label: 'Uptime', value: '99.99%' },
     { label: 'Hit Rate', value: '94.2%' },
@@ -23,18 +24,25 @@ function ServiceCache(): JSX.Element {
     <>
       <header className="service-header">
         <div className="service-header-nav">
-          <Link to="/services" className="back-link">← Services Dashboard</Link>
-          <Link to="/parking" className="header-action-link">Parking Home</Link>
+          <Link to="/parking" className="back-link">← Parking Home</Link>
+          <a
+              href={EVENT_GENERATOR_WEBPAGE}
+              className="header-action-link"
+              target="_blank"
+              rel="noreferrer"
+          >
+            Configure Generator ↗
+          </a>
         </div>
         <p className="service-eyebrow">Settings & diagnostics</p>
-        <h1>Cache Service Dashboard</h1>
+        <h1>Event Generator Dashboard</h1>
         <p className="service-subtitle">
-          Monitor cached parking availability data and the in-memory service performance that supports fast reads.
+          Diagnostics page for the Event Generator service. Visit the service page to configure and run events.
         </p>
       </header>
       <main className="service-container">
         <ServiceDiagnostics
-          serviceName="Redis Cache Service"
+          serviceName="Event Generator Service"
           status="Healthy"
           statusColor="healthy"
           metrics={metrics}
@@ -42,7 +50,7 @@ function ServiceCache(): JSX.Element {
         />
         <div className="service-details">
           <h3>Service Overview</h3>
-          <p>The cache service keeps frequently requested parking availability data close to the frontend experience so lot and floor views load quickly while reducing pressure on the database.</p>
+          <p>The event generator service simulates parking events to test the system's response and performance under various conditions.</p>
         </div>
       </main>
       <footer>
@@ -52,4 +60,4 @@ function ServiceCache(): JSX.Element {
   );
 }
 
-export default ServiceCache;
+export default EventGenerator;

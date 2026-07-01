@@ -1,21 +1,6 @@
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
-import { PAGE_VIEW_PING_URL } from '../types/constants';
-
-const recentPings = new Map<string, number>();
-const DEDUPE_WINDOW_MS = 1500;
-
-function shouldSkipPing(signature: string): boolean {
-  const now = Date.now();
-  const lastPingAt = recentPings.get(signature);
-
-  if (lastPingAt !== undefined && now - lastPingAt < DEDUPE_WINDOW_MS) {
-    return true;
-  }
-
-  recentPings.set(signature, now);
-  return false;
-}
+import { PAGE_VIEW_PING_URL, PAGE_PING_CACHE_TIME_MS } from '../types/constants';
 
 async function sendPagePing(url: string, payload: Record<string, unknown>): Promise<void> {
   const body = JSON.stringify(payload);
@@ -40,27 +25,28 @@ async function sendPagePing(url: string, payload: Record<string, unknown>): Prom
 
 export default function usePageNavigationPing(pingUrl: string = PAGE_VIEW_PING_URL): void {
   const location = useLocation();
+  const locationSignature = `${location.pathname}${location.search}${location.hash}`;
 
-  useEffect(() => {
-    if (!pingUrl) {
-      return;
-    }
+  useQuery({
+    queryKey: ['page-navigation-ping', pingUrl, locationSignature],
+    enabled: Boolean(pingUrl),
+    queryFn: async () => {
+      await sendPagePing(pingUrl, {
+        path: location.pathname,
+        search: location.search,
+        hash: location.hash,
+        referrer: typeof document !== 'undefined' ? document.referrer : undefined,
+        timestamp: new Date().toISOString(),
+      });
 
-    const signature = `${location.pathname}${location.search}${location.hash}`;
-
-    if (shouldSkipPing(signature)) {
-      return;
-    }
-
-    void sendPagePing(pingUrl, {
-      path: location.pathname,
-      search: location.search,
-      hash: location.hash,
-      referrer: typeof document !== 'undefined' ? document.referrer : undefined,
-      timestamp: new Date().toISOString(),
-    }).catch((error) => {
-      console.warn('Page navigation ping failed', error);
-    });
-  }, [location.hash, location.pathname, location.search, pingUrl]);
+      return locationSignature;
+    },
+    staleTime: PAGE_PING_CACHE_TIME_MS,
+    cacheTime: PAGE_PING_CACHE_TIME_MS,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
 }
 

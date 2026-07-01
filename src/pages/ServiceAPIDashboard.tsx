@@ -5,6 +5,7 @@ import ServiceLogViewer from '../components/ServiceLogViewer';
 import useAPIDiagnostics from '../hooks/useAPIDiagnostics';
 import '../styles/ServicePageStyles.css';
 import {formatTimestamp, formatDuration} from "../formattingUtils";
+import { API_WEBPAGE } from '../types/constants';
 
 function ServiceAPIDashboard(): JSX.Element {
   const { data: diagnostics, isLoading, isError, error } = useAPIDiagnostics();
@@ -72,8 +73,15 @@ function ServiceAPIDashboard(): JSX.Element {
       <>
         <header className="service-header">
           <div className="service-header-nav">
-            <Link to="/services" className="back-link">← Services Dashboard</Link>
-            <Link to="/parking" className="header-action-link">Parking Home</Link>
+            <Link to="/parking" className="back-link">← Parking Home</Link>
+            <a
+                href={API_WEBPAGE}
+                className="header-action-link"
+                target="_blank"
+                rel="noreferrer"
+            >
+              API Documentation ↗
+            </a>
           </div>
           <p className="service-eyebrow">Settings & diagnostics</p>
           <h1>API Service Dashboard</h1>

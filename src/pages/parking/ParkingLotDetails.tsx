@@ -30,7 +30,6 @@ export default function ParkingLotDetails() {
         <header className="service-header">
           <div className="service-header-nav">
             <Link to="/parking-lots" className="back-link">← Parking Lots</Link>
-            <Link to="/services" className="header-action-link">Settings</Link>
           </div>
           <p className="service-eyebrow">Parking lot app</p>
           <h1>Parking Lot</h1>
@@ -50,7 +49,6 @@ export default function ParkingLotDetails() {
       <header className="service-header">
         <div className="service-header-nav">
           <Link to="/parking-lots" className="back-link">← Parking Lots</Link>
-          <Link to="/services" className="header-action-link">Settings</Link>
         </div>
         <p className="service-eyebrow">Parking lot app</p>
         <h1>{lot.name}</h1>

@@ -90,24 +90,17 @@
   margin: 0;
 }
 
-.hamburger-menu-heading {
-  color: var(--las-navy);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
 .hamburger-menu-section + .hamburger-menu-section {
-  margin-top: 18px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(72, 183, 216, 0.5);
 }
 
 .hamburger-menu-group-title {
-  color: var(--las-muted);
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
+  color: var(--las-navy);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 10px;
 }

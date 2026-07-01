@@ -56,16 +56,16 @@ Make sure the backend service is running before using pages that load live data.
 
 ## Application Routes
 
-| Route | Description |
-| --- | --- |
-| `/` | Home page |
-| `/services/api` | API diagnostics dashboard |
-| `/services/database` | Database service dashboard |
-| `/services/cache` | Cache service dashboard |
-| `/parking-lots` | Parking lots overview |
-| `/parking-lots/:lotId` | Parking lot details |
+| Route                                  | Description |
+|----------------------------------------| --- |
+| `/`                                    | ParkingHome page |
+| `/services/api`                        | API diagnostics dashboard |
+| `/services/database`                   | Database service dashboard |
+| `/services/generator`                  | Event generator dashboard |
+| `/parking-lots`                        | Parking lots overview |
+| `/parking-lots/:lotId`                 | Parking lot details |
 | `/parking-lots/:lotId/floors/:floorId` | Parking lot floor details |
-| `*` | Not found page |
+| `*`                                    | Not found page |
 
 **Deployment**
 Render provides very little memory for the free option so 512 is max memory. Use max memory when building/running

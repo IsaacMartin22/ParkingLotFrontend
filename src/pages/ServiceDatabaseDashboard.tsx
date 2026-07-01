@@ -95,8 +95,7 @@ function ServiceDatabaseDashboard(): JSX.Element {
     <>
       <header className="service-header">
         <div className="service-header-nav">
-          <Link to="/services" className="back-link">← Services Dashboard</Link>
-          <Link to="/parking" className="header-action-link">Parking Home</Link>
+            <Link to="/parking" className="back-link">← Parking Home</Link>
         </div>
         <p className="service-eyebrow">Settings & diagnostics</p>
         <h1>Database Service Dashboard</h1>
@@ -112,43 +111,6 @@ function ServiceDatabaseDashboard(): JSX.Element {
           metrics={metrics}
           logs={logs}
         />
-
-        <section className="service-details">
-          <h3>Database Snapshot</h3>
-          {diagnostics ? (
-            <div className="database-snapshot-grid">
-              <div>
-                <span className="service-card-kicker">Connectivity</span>
-                <p>{diagnostics.connectivity ? 'Connected' : 'Disconnected'}</p>
-              </div>
-              <div>
-                <span className="service-card-kicker">Latency</span>
-                <p>{diagnostics.latency.toLocaleString()} ms</p>
-              </div>
-              <div>
-                <span className="service-card-kicker">Uptime</span>
-                <p>{formatDuration(diagnostics.uptimeMillis)}</p>
-              </div>
-              <div>
-                <span className="service-card-kicker">Connections</span>
-                <p>
-                  {diagnostics.activeConnections.toLocaleString()} active of{' '}
-                  {diagnostics.maxConnections.toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <span className="service-card-kicker">Storage Used</span>
-                <p>{formatBytes(diagnostics.databaseSize)}</p>
-              </div>
-              <div>
-                <span className="service-card-kicker">Long-running Queries</span>
-                <p>{queryCount.toLocaleString()}</p>
-              </div>
-            </div>
-          ) : (
-            <p>{isLoading ? 'Loading database snapshot...' : 'Database diagnostics are unavailable.'}</p>
-          )}
-        </section>
 
         <section className="service-details">
           <h3>Long Running Queries</h3>
