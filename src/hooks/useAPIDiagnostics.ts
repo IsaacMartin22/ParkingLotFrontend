@@ -16,7 +16,7 @@ function validateAPIDiagnostics(diagnostics: unknown): APIDiagnostics {
 }
 
 async function fetchAPIDiagnostics(): Promise<APIDiagnostics> {
-  const res = await fetch(`${API_URL}/diagnostics`);
+  const res = await fetch(`${API_URL}/diagnostics/api`);
   if (!res.ok) throw new Error(`API responded with ${res.status}`);
   const data: unknown = await res.json();
 

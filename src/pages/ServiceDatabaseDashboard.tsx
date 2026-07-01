@@ -1,23 +1,91 @@
 import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
+import useDatabaseDiagnostics from '../hooks/useDatabaseDiagnostics';
+import {formatDuration} from '../formattingUtils';
 import '../styles/ServicePageStyles.css';
 
-function ServiceDatabase(): JSX.Element {
-  const metrics = [
-    { label: 'Uptime', value: '99.95%' },
-    { label: 'Query Time', value: '12ms' },
-    { label: 'Connections', value: '248/500' },
-    { label: 'Storage Used', value: '45.2 GB' },
-  ];
+function formatBytes(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes <= 0) {
+    return '0 B';
+  }
 
-  const logs = [
-    { timestamp: '14:35:30', message: 'Query executed: SELECT * FROM users', type: 'success' },
-    { timestamp: '14:35:20', message: 'Database backup completed', type: 'success' },
-    { timestamp: '14:35:10', message: 'Connection pool at 49% capacity', type: 'info' },
-    { timestamp: '14:34:50', message: 'Slow query detected: 245ms', type: 'warning' },
-    { timestamp: '14:34:35', message: 'Index rebuild completed successfully', type: 'success' },
-  ] as const;
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  const value = bytes / 1024 ** exponent;
+
+  return `${value.toFixed(value >= 10 || exponent === 0 ? 0 : 1)} ${units[exponent]}`;
+}
+
+function ServiceDatabase(): JSX.Element {
+  const { data: diagnostics, isLoading, isError, error } = useDatabaseDiagnostics();
+
+  const metrics = diagnostics
+    ? [
+        { label: 'Connectivity', value: diagnostics.connectivity ? 'Connected' : 'Disconnected' },
+        { label: 'Latency', value: `${diagnostics.latency.toLocaleString()} ms` },
+        { label: 'Uptime', value: formatDuration(diagnostics.uptimeMillis) },
+        {
+          label: 'Connections',
+          value: `${diagnostics.activeConnections.toLocaleString()}/${diagnostics.maxConnections.toLocaleString()}`,
+        },
+        { label: 'Storage Used', value: formatBytes(diagnostics.databaseSize) },
+      ]
+    : [
+        { label: 'Connectivity', value: isLoading ? 'Loading...' : 'Unavailable' },
+        { label: 'Latency', value: isLoading ? 'Loading...' : 'Unavailable' },
+        { label: 'Uptime', value: isLoading ? 'Loading...' : 'Unavailable' },
+        { label: 'Connections', value: isLoading ? 'Loading...' : 'Unavailable' },
+        { label: 'Storage Used', value: isLoading ? 'Loading...' : 'Unavailable' },
+      ];
+
+  const longRunningQueryLogs = diagnostics
+    ? diagnostics.longRunningQueries.map((query) => ({
+        timestamp: `${formatDuration(query.timeRunningMillis)} ago`,
+        message: query.queryText,
+        type: query.timeRunningMillis >= 30_000 ? 'warning' : 'info',
+      } as const))
+    : [];
+
+  const logs = isError
+    ? [
+        {
+          timestamp: new Date().toLocaleTimeString(),
+          message: error instanceof Error ? error.message : 'Failed to load database diagnostics',
+          type: 'error',
+        },
+      ] as const
+    : longRunningQueryLogs.length > 0
+      ? longRunningQueryLogs
+      : [
+          {
+            timestamp: new Date().toLocaleTimeString(),
+            message: isLoading
+              ? 'Loading database diagnostics...'
+              : 'No long-running queries reported by the database service.',
+            type: isLoading ? 'info' : 'success',
+          },
+        ] as const;
+
+  const status = isError
+    ? 'Unavailable'
+    : !diagnostics
+      ? 'Loading'
+      : !diagnostics.connectivity
+        ? 'Disconnected'
+        : diagnostics.longRunningQueries.length > 0
+          ? 'Warning'
+          : 'Healthy';
+
+  const statusColor: 'healthy' | 'warning' | 'critical' = isError
+    ? 'critical'
+    : !diagnostics
+      ? 'warning'
+      : !diagnostics.connectivity
+        ? 'critical'
+        : diagnostics.longRunningQueries.length > 0
+          ? 'warning'
+          : 'healthy';
 
   return (
     <>
@@ -35,14 +103,21 @@ function ServiceDatabase(): JSX.Element {
       <main className="service-container">
         <ServiceDiagnostics
           serviceName="PostgreSQL Database"
-          status="Healthy"
-          statusColor="healthy"
+          status={status}
+          statusColor={statusColor}
           metrics={metrics}
           logs={logs}
         />
         <div className="service-details">
           <h3>Service Overview</h3>
           <p>The database service stores parking lot, floor, section, and occupancy data so the frontend can render live availability with dependable historical and transactional consistency.</p>
+          {diagnostics && (
+            <p>
+              Current latency is {diagnostics.latency.toLocaleString()} ms with {diagnostics.activeConnections.toLocaleString()} active
+              connection{diagnostics.activeConnections === 1 ? '' : 's'} and {diagnostics.longRunningQueries.length.toLocaleString()} long-running{' '}
+              {diagnostics.longRunningQueries.length === 1 ? 'query' : 'queries'} observed.
+            </p>
+          )}
         </div>
       </main>
       <footer>

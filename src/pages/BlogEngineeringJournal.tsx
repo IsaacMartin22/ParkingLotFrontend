@@ -24,6 +24,21 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">June 30th 2026</p>
+            <h3>Day 5</h3>
+            <p>
+              Got maven central publishing buildkite step to work, successfully imported the API SDK into the event generator service.
+              The event generator no longer works with the SDK, still need to figure that out, but did publish and import the SDK successfully.
+              Also expanded the API service to add logs so I can display them in the diagnostics page. Not very secure but it's good to show that
+              logs are something that should be displayed on a diagnostic page for a service.
+            </p>
+            <p>
+              Planning on separating out the diagnostics hook into its own API-specific thing and split off a separate diagnostics hook for different
+              database diagnostics. Database doesn't really have logs and endpoints so its diagnostics page is going to look different and the info I'm
+              fetching will be different so I should separate it into its own thing.
+            </p>
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">June 29th 2026</p>
             <h3>Day 4</h3>
             <p>
