@@ -56,6 +56,7 @@ function IntroHome(): JSX.Element {
           <div className="intro-actions">
             <Link to="/parking" className="intro-primary-link">Explore parking lot app</Link>
             <Link to="/blog" className="intro-secondary-link">Read my Development Blog</Link>
+            <Link to="/about" className="intro-secondary-link">Learn more About me</Link>
             <a
               href="https://github.com/IsaacMartin22"
               className="intro-secondary-link"

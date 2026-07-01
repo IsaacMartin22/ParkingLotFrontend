@@ -1,118 +1,56 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/BlogStyles.css';
+import '../styles/AboutMe.css';
 
-function Blog(): JSX.Element {
+function AboutMe(): JSX.Element {
   return (
-    <div className="blog-page">
-      <header className="blog-hero">
-        <div className="container blog-hero-content">
-          <p className="blog-eyebrow">Engineering Journal</p>
-          <h1>Developer Blog</h1>
-          <p className="blog-copy">
-            My development blog. Trying to make an entry once per day. The blog will probably mainly document
-            what I'm trying to do, what I got done, and what to do next. I'm going to keep contributing to this
-            site or the projects hosted in this site until I'm hired. I'm nearing the point where I feel I can
-            link this site in my resume.
+    <div className="about-page">
+      <header className="about-hero">
+        <div className="container about-hero-content">
+          <p className="about-eyebrow">Personal</p>
+          <h1>About me</h1>
+          <p className="about-copy">
+            This is a miscellaneous autobiographical page for those who want a more general sense of my life.
+            I'll put things like hobbies, interests, groups, and other personal information here.
           </p>
-          <Link to="/" className="blog-home-link">Back to portfolio home</Link>
+          <Link to="/" className="about-home-link">Back to portfolio home</Link>
         </div>
       </header>
 
-      <main className="container blog-main">
-        <section className="blog-entry-placeholder" aria-label="Future blog entries">
-          <h2>Entries</h2>
-          <article className="blog-entry-card">
-            <p className="blog-entry-date">June 30th 2026</p>
-            <h3>Day 5</h3>
+      <main className="container about-main">
+        <section className="about-section" aria-label="About me details">
+          <h2>Overview</h2>
+          <article className="about-card">
             <p>
-              Got maven central publishing buildkite step to work, successfully imported the API SDK into the event generator service.
-              The event generator no longer works with the SDK, still need to figure that out, but did publish and import the SDK successfully.
-              Also expanded the API service to add logs so I can display them in the diagnostics page. Not very secure but it's good to show that
-              logs are something that should be displayed on a diagnostic page for a service.
+              I run. I ran cross country in high school and running has been my preferred form of exercise ever since. I have a goal of being able to
+              run under the "Elite" category for a larger city half marathon race, which would require a half marathon time of ~1:10 or better depending
+              on the race. My current PR is 1:27:17 from the 2026 Eugene half marathon so I do still have a long way to go, but there's no penalty for
+              shooting for the moon so I'm aiming high. <a href="https://results.laurelt.com/eug/results?pk=8792715" target="_blank" rel="noopener noreferrer">My 2026 Eugene Results</a>.
             </p>
             <p>
-              Separated out the diagnostics hook into its own API-specific thing and split off a separate diagnostics hook for different
-              database diagnostics. Database doesn't really have logs and endpoints so its diagnostics page looks different and the info I'm
-              fetching will be different so it is its own thing.
+              I play flute. I played in middle school and high school but stopped in college. After moving to Las Vegas in 2023 I joined the UNLV Community
+              Concert Band which has been around since 1987. The members of the band span many ages and nationalities, there are over 90 of us as of last
+              term and the instructors and members are fantastic. We have one set performance per term but we additionally perform at various other charitable
+              or community events members hear of or organize. It's a great way to be involved, it's a great skill to learn, it's affordable, and I look forward
+              to practice every week.
             </p>
             <p>
-              Also want to fix random unnecessary bubbles on frontend and mark the Cache Service as not implemented yet.
-            </p>
-          </article>
-          <article className="blog-entry-card">
-            <p className="blog-entry-date">June 29th 2026</p>
-            <h3>Day 4</h3>
-            <p>
-              Did a lot today. API had bug where PUT parking space requests could change its section so I fixed that bug and
-              added validation checks. Floors sections and parking spaces are now only certain amount per parent entity, enforced
-              at java service level and database level. Also fixed the actual logic and adjusted so PUT requests will fetch and
-              then modify the existing entity first rather than just blindly saving the user's raw request. Also added intermediate
-              entities for PUT/POST endpoints so user isn't putting raw database entities as request bodies.
+              I read. Growing up I read almost exclusively fantasy and sci-fi,
             </p>
             <p>
-              At that point I realized I had to update the event generator, which I did by just copy pasting the new JSON bodies
-              into AI and having it update stuff automatically. But I realized I could publish an SDK for the API project and then
-              use the API SDK http client along with the request bodies as models to make those updates more seamless and help
-              me pay attention to when I'm going to make a breaking change to the API, it does affect the frontend service and
-              event generator service as well.
-            </p>
-            <p>
-              Maven Central credentials have been created and a buildkite release/publish step has been added to the API service but
-              it doesn't work yet. Haven't set that kind of thing up yet so it's a learning process, once it's done though I should
-              be able to publish a new SDK version from buildkite whenever I want by unblocking the release step.
+              I play video games.
             </p>
           </article>
-          <article className="blog-entry-card">
-            <p className="blog-entry-date">June 28th 2026</p>
-            <h3>Day 3</h3>
+          <h2>Links</h2>
+          <article className="about-card">
             <p>
-              Added html page for API service that documents how to use the endpoints. Added agent instructions for
-              all 3 repos and added dockerfile that doesn't work yet to Event Generator service. Need to update RabbitMQ
-              on generator service because it was hardcoded to localhost.
+              LinkedIn: <a href="https://www.linkedin.com/in/isaac-martin-22/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/isaac-martin-22/</a>
             </p>
             <p>
-              Had some tentative ideas for a new project involving AI, looked into RAGs and Redis vector database but I think
-              Copilot's existing tool is already pretty good and sounds like it uses RAG already. I don't want to remake the wheel.
-              Eventually want to come up with some other sort of project, ideally AI related because that's what companies are going
-              crazy for at the moment.
-            </p>
-          </article>
-          <article className="blog-entry-card">
-            <p className="blog-entry-date">June 27th 2026</p>
-            <h3>Day 2</h3>
-            <p>
-              Had a pretty busy day today, made mostly just spelling and grammar changes and fixed some of the Powered By technologies on the Intro page.
-              Added links for the Github Projects
-            </p>
-          </article>
-          <article className="blog-entry-card">
-            <p className="blog-entry-date">June 26th 2026</p>
-            <h3>First engineering note</h3>
-            <p>
-              First blog day. Today I'm switching from having the website just host the parking application to
-              more generally being my portfolio website. It already wasn't strictly the parking app, it also has
-              some service dashboard pages, and I was going to have to add some sort of introduction/navigation
-              guide for the site so I figure why not just make it my portfolio website anyways.
+              GitHub: <a href="https://github.com/isaac-martin-22" target="_blank" rel="noopener noreferrer">https://github.com/isaac-martin-22</a>
             </p>
             <p>
-              I've already been working on this project for a couple weeks, I just realized after I decided to have this
-              website be more of a portfolio that I could add a blog page. That might be something hiring managers are interested
-              in. So I'm starting a blog as of today despite already being a couple weeks into the project.
-            </p>
-            <p>
-              Most of today was just typing up things, putting my thoughts into text on the website and refactoring
-              the navigation to accommodate the new structure as a portfolio site. As a sort of snapshot of where things are
-              when I'm starting this blog the frontend (Including the portfolio site) is hosted on Render, the Java API backend
-              is also hosted on render via Docker image, and the PostgreSQL database is also on Render. The event generation is not,
-              I've just been running it locally on my machine.
-            </p>
-            <p>
-              The next things to do on my Trello board are to add a migration to make the DB closer to what Harry Reid (The LAS airport)
-              actually has, I'll have to figure out some sort of process for implementing database migrations because they're going to be inevitable.
-              Realistically the airport might add more floors or sections or even another lot so I should figure out how that process should be handled.
-              I did remove those endpoints from the API for those entities because end users shouldn't be able to do that stuff. Alright going to call
-              it for the first blog post. Until next time
+              UNLV Community Concert band: <a href="https://www.unlv.edu/music/community-concert-band" target="_blank" rel="noopener noreferrer">https://www.unlv.edu/music/community-concert-band</a>
             </p>
           </article>
         </section>
@@ -125,4 +63,4 @@ function Blog(): JSX.Element {
   );
 }
 
-export default Blog;
+export default AboutMe;

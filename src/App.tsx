@@ -35,7 +35,7 @@ function App(): JSX.Element {
           <HamburgerNavigation />
           <Routes>
             <Route path="/" element={<IntroHome />} />
-            <Route path="/aboutme" element={<AboutMe />} />
+            <Route path="/about" element={<AboutMe />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/parking" element={<Home />} />
             <Route path="/services" element={<ServicesHome />} />

@@ -19,7 +19,7 @@ const navigationSections: NavigationSection[] = [
     items: [
       { label: 'Home', to: '/', description: 'Open the portfolio introduction page' },
       { label: 'Blog', to: '/blog', description: 'Read the engineering journal' },
-      { label: 'About Me', to: '/aboutme', description: 'Learn more about me' },
+      { label: 'About', to: '/aboutme', description: 'Learn more about me' },
     ],
   },
   {
@@ -30,12 +30,12 @@ const navigationSections: NavigationSection[] = [
     ],
   },
   {
-    heading: 'Services',
+    heading: 'Diagnostics',
     items: [
       { label: 'Services Dashboard', to: '/services', description: 'Open the service landing page' },
-      { label: 'API Diagnostics', to: '/services/api', description: 'Inspect API service health' },
-      { label: 'Database Diagnostics', to: '/services/database', description: 'Inspect database service health' },
-      { label: 'Cache Diagnostics', to: '/services/cache', description: 'Inspect cache service health' },
+      { label: 'API', to: '/services/api', description: 'Inspect API service health' },
+      { label: 'Database', to: '/services/database', description: 'Inspect database service health' },
+      { label: 'Cache', to: '/services/cache', description: 'Inspect cache service health' },
     ],
   },
 ];

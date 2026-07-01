@@ -1,47 +1,27 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/HomeHeroStyles.css';
+import '../styles/ServicePageStyles.css';
 
 function Home(): JSX.Element {
   return (
-    <div className="app-home">
-      <header className="home-hero">
+    <div className="settings-dashboard">
+      <header className="service-header">
         <div className="service-header-nav">
-          <Link to="/" className="back-link">← Isaac Home</Link>
+          <Link to="/" className="back-link">← Home</Link>
+          <Link to="/services" className="header-action-link">Services Dashboard</Link>
         </div>
-        <div className="container hero-content">
-          <p className="eyebrow">Project Demo · Parking Experience</p>
-          <h1>Parking App Home</h1>
-          <p className="hero-copy">
-            Explore the core product workflow with live parking lot and floor availability, then jump to
-            service dashboards for system-level diagnostics.
-          </p>
-
-          <div className="hero-actions">
-            <Link to="/parking-lots" className="primary-action-link">Open parking explorer</Link>
-            <Link to="/services" className="secondary-action-link">Open services dashboard</Link>
-          </div>
-        </div>
+        <p className="service-eyebrow">Project demo · parking experience</p>
+        <h1>Parking App Home</h1>
+        <p className="service-subtitle">
+          Explore the core product workflow with live parking lot and floor availability, then jump to
+          service dashboards for system-level diagnostics.
+        </p>
       </header>
 
-      <main className="container">
-        <section className="airport-status-strip" aria-label="Airport parking status highlights">
-          <div>
-            <span className="status-label">Role</span>
-            <strong>Frontend Demo</strong>
-          </div>
-          <div>
-            <span className="status-label">Primary flow</span>
-            <strong>Parking Explorer</strong>
-          </div>
-          <div>
-            <span className="status-label">Supporting flow</span>
-            <strong>Service Diagnostics</strong>
-          </div>
-        </section>
-
-        <section className="page-section">
-          <div className="section-heading">
+      <main className="service-container">
+        <section className="service-details service-dashboard-panel">
+          <div className="section-heading service-dashboard-heading">
             <div>
               <h2>Parking Application</h2>
               <p className="section-copy">
@@ -49,10 +29,9 @@ function Home(): JSX.Element {
                 then use this home to evaluate the parking user journey end to end.
               </p>
             </div>
-            <Link to="/parking-lots" className="text-link">Browse parking lots →</Link>
           </div>
 
-          <div className="services-grid home-feature-grid">
+          <div className="services-grid service-dashboard-grid">
             <Link to="/parking-lots" className="service-card primary-service-card">
               <div className="service-card-icon">🅿️</div>
               <span className="service-card-kicker">Primary experience</span>
