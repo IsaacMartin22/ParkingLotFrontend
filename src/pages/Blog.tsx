@@ -23,6 +23,25 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">July 1st 2026</p>
+            <h3>Day 6</h3>
+            <p>
+              It's late, going to make this quick. Another productive day. Fixed a lot of bugs, made site look better, switched over to
+              having the event generator service be the 3rd service instead of caching service. Expanded API to include a health ping
+              check, will use in frontend to wake up API service. Refactored API to remove car entity, it really didn't make much sense
+              and had a lot of overlap with parking space. The Parking app doesn't really car about car entities, it only cares about what's
+              in parking spaces, so I adjusted the database.
+            </p>
+            <p>
+              Did other work I'm probably forgetting. Cached API check for 10 minutes, added external links to service pages from the
+              diagnostic pages. Removed About Me, just doesn't fit in well. Eliminated Service home page and fixed navigation there.
+              Need to work on fixing SDK, just published a new SDK version so I'll import that and figure out what's broken. A lot of
+              the AI code was suspicious and I removed it, the Event Generator service looks a lot cleaner now. Paying the price for
+              the AI tech debt in the form of refactoring.
+            </p>
+
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">June 30th 2026</p>
             <h3>Day 5</h3>
             <p>
