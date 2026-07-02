@@ -58,7 +58,7 @@ export default function SectionSummaryCard({ lotId, floorId }: SectionSummaryCar
               <p className="floor-section-name">{section.name}</p>
               <div className="space-grid">
                 {section.spaces.map((space) => {
-                  const colorHex = space.car?.color ? CAR_COLOR_HEX[space.car.color] || '#64748b' : '#cbd5e1';
+                  const colorHex = space.color ? CAR_COLOR_HEX[space.color] || '#64748b' : '#cbd5e1';
                   return (
                     <div
                       className={`space-tile ${space.occupied ? 'space-occupied' : 'space-free'}`}
@@ -68,8 +68,8 @@ export default function SectionSummaryCard({ lotId, floorId }: SectionSummaryCar
                       <strong>{space.number}</strong>
                       {space.occupied ? (
                         <>
-                          <span>Car: {space.car?.manufacturingYear} {space.car?.make || 'Unknown'} {space.car?.model || 'Unknown'}</span>
-                          <span>Plate: {space.car?.licensePlate || 'Unknown'}</span>
+                          <span>Car: {space.manufacturingYear} {space.make || 'Unknown'} {space.model || 'Unknown'}</span>
+                          <span>Plate: {space.licensePlate || 'Unknown'}</span>
                           {/*<span>Time: {formatDuration(toNumber(space))}</span>*/}
                         </>
                       ) : (

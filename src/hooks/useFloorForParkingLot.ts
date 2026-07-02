@@ -1,41 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import {Car, Floor} from '../types/parking';
+import {Floor} from '../types/parking';
 import {toNumber} from "../formattingUtils";
 import {API_URL} from "../types/constants";
-
-function normalizeCar(car: any): Car | null {
-  if (!car) {
-    return null;
-  }
-
-  return {
-    id: toNumber(car?.id ?? car?.carId) ?? 0,
-    color: String(car?.color ?? ''),
-    make: String(car?.make ?? ''),
-    model: String(car?.model ?? ''),
-    manufacturingYear: toNumber(car?.manufacturingYear ?? car?.year) ?? 0,
-    licensePlate: String(car?.licensePlate ?? car?.plate ?? car?.plateNumber ?? ''),
-  };
-}
-
-function normalizeSpace(space: any, index: number) {
-  const id = toNumber(space?.id ?? space?.spaceId ?? space?.parkingSpaceId) ?? index + 1;
-  const number = String(space?.number ?? space?.name ?? space?.label ?? space?.spaceNumber ?? `S-${index + 1}`);
-
-  const car = normalizeCar(space?.car);
-  const occupied = typeof space?.occupied === 'boolean'
-      ? space.occupied
-      : typeof space?.isOccupied === 'boolean'
-          ? space.isOccupied
-          : car !== null || String(space?.status || '').toUpperCase() === 'OCCUPIED';
-
-  return {
-    id,
-    number,
-    occupied,
-    car,
-  };
-}
 
 function normalizeSection(section: any, index: number) {
   const id = toNumber(section?.id ?? section?.sectionId) ?? index + 1;
@@ -51,7 +17,7 @@ function normalizeSection(section: any, index: number) {
   return {
     id,
     name,
-    spaces: spaces.map(normalizeSpace),
+    spaces,
   };
 }
 
