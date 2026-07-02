@@ -1,10 +1,6 @@
 import React from 'react';
-import { Car } from '../types/parking';
 
-interface CarCardProps {
-  car?: Car | null;
-  occupied?: boolean;
-}
+import { ParkingSpaceResponse } from '../types/parking';
 
 const CAR_COLOR_HEX: Record<string, string> = {
   Red: '#ef4444',
@@ -15,9 +11,9 @@ const CAR_COLOR_HEX: Record<string, string> = {
   Green: '#10b981',
 };
 
-export default function CarCard({ car, occupied = false }: CarCardProps) {
-  const colorHex = car?.color ? CAR_COLOR_HEX[car.color] || '#64748b' : '#cbd5e1';
-  const isOccupied = occupied || car !== null;
+export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: ParkingSpaceResponse }) {
+  const colorHex = parkingSpace?.color ? CAR_COLOR_HEX[parkingSpace.color] || '#64748b' : '#cbd5e1';
+  const isOccupied = parkingSpace.occupied;
 
   return (
     <div
@@ -27,9 +23,9 @@ export default function CarCard({ car, occupied = false }: CarCardProps) {
         backgroundColor: isOccupied ? `${colorHex}22` : '#f8fafc',
       }}
     >
-      {car ? (
+      {isOccupied ? (
         <>
-          <span>{car.color} {car.manufacturingYear} {car.make} {car.model}</span>
+          <span>{parkingSpace.color} {parkingSpace.manufacturingYear} {parkingSpace.make} {parkingSpace.model}</span>
         </>
       ) : isOccupied ? (
         <span>Occupied</span>

@@ -3,9 +3,9 @@ import { Link, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
-import {Car, Floor, ParkingSpace} from "../../types/parking";
+import {ParkingSpaceResponse, Floor} from "../../types/parking";
 import useFloorForParkingLot from "../../hooks/useFloorForParkingLot";
-import CarCard from "../../components/CarCard";
+import ParkingSpaceCard from "../../components/ParkingSpaceCard";
 import { API_URL } from "../../types/constants";
 
 interface RouteParams {
@@ -13,138 +13,30 @@ interface RouteParams {
   floorId: string;
 }
 
-type ParkingSpaceEventAction = 'ADD' | 'UPDATE' | 'REMOVE' | 'OCCUPY' | 'VACATE';
+type ParkingSpaceEventAction = 'UPDATE' | 'REMOVE';
 
 interface ParkingSpaceSseEvent {
-  action?: ParkingSpaceEventAction | string;
-  type?: ParkingSpaceEventAction | string;
-  eventType?: ParkingSpaceEventAction | string;
-  floor?: Floor;
-  floorId?: number | string;
-  sectionId?: number | string;
-  spaceId?: number | string;
-  parkingSpaceId?: number | string;
-  car?: Car | null;
-  space?: Partial<ParkingSpace> & {
-    car?: Car | null;
-    occupied?: boolean;
-    isOccupied?: boolean;
-  };
+  action: ParkingSpaceEventAction;
+  lotId: number;
+  floorId: number;
+  spaceId: number;
+  parkingSpaceResponse: ParkingSpaceResponse;
+  timestamp: number;
 }
 
-function toNumber(value: unknown): number | undefined {
-  const numberValue = Number(value);
-  return Number.isFinite(numberValue) ? numberValue : undefined;
-}
-
-function normalizeCar(car: any): Car | null {
-  if (!car) {
-    return null;
-  }
-
-  return {
-    id: toNumber(car?.id ?? car?.carId) ?? 0,
-    color: String(car?.color ?? ''),
-    make: String(car?.make ?? ''),
-    model: String(car?.model ?? ''),
-    manufacturingYear: toNumber(car?.manufacturingYear ?? car?.year) ?? 0,
-    licensePlate: String(car?.licensePlate ?? car?.plate ?? car?.plateNumber ?? ''),
-  };
-}
-
-function normalizeEventAction(event: ParkingSpaceSseEvent): string {
-  return String(event.action ?? event.type ?? event.eventType ?? 'UPDATE').toUpperCase();
-}
-
-function getEventSpaceId(event: ParkingSpaceSseEvent): number | undefined {
-  return toNumber(
-    event.space?.id ??
-    event.spaceId ??
-    event.parkingSpaceId
-  );
-}
-
-function getEventCar(event: ParkingSpaceSseEvent): Car | null {
-  if ('car' in event) {
-    return normalizeCar(event.car);
-  }
-
-  if (event.space && 'car' in event.space) {
-    return normalizeCar(event.space.car);
-  }
-
-  return null;
-}
-
-function hasEventCarUpdate(event: ParkingSpaceSseEvent): boolean {
-  return Object.prototype.hasOwnProperty.call(event, 'car')
-    || Boolean(event.space && Object.prototype.hasOwnProperty.call(event.space, 'car'));
-}
-
-function getEventOccupied(
-  event: ParkingSpaceSseEvent,
-  action: string,
-  car: Car | null,
-  currentOccupied: boolean
-): boolean {
-  if (action === 'REMOVE' || action === 'VACATE') {
-    return false;
-  }
-
-  if (typeof event.space?.occupied === 'boolean') {
-    return event.space.occupied;
-  }
-
-  if (typeof event.space?.isOccupied === 'boolean') {
-    return event.space.isOccupied;
-  }
-
-  if (hasEventCarUpdate(event)) {
-    return car !== null;
-  }
-
-  return currentOccupied;
-}
-
-function updateFloorFromSseEvent(currentFloor: Floor | undefined, event: ParkingSpaceSseEvent): Floor | undefined {
-  if (!currentFloor) {
-    return currentFloor;
-  }
-
-  if (event.floor) {
-    return event.floor;
-  }
-
-  const spaceId = getEventSpaceId(event);
-
-  if (spaceId === undefined) {
-    return currentFloor;
-  }
-
-  const action = normalizeEventAction(event);
-  const eventCar = getEventCar(event);
-  const hasCarUpdate = hasEventCarUpdate(event);
+function updateFloorFromSseEvent(currentFloor: Floor, event: ParkingSpaceSseEvent): Floor {
   let didUpdateSpace = false;
 
   const sections = (currentFloor.sections ?? []).map((section) => ({
     ...section,
     spaces: section.spaces.map((space) => {
-      if (space.id !== spaceId) {
+      if (space.id !== event.spaceId) {
         return space;
       }
 
       didUpdateSpace = true;
-
-      const car = hasCarUpdate ? eventCar : space.car;
-      const occupied = getEventOccupied(event, action, car, space.occupied);
-
       return {
-        ...space,
-        ...event.space,
-        id: space.id,
-        number: String(event.space?.number ?? space.number),
-        occupied,
-        car: occupied ? car : null,
+        ...event.parkingSpaceResponse,
       };
     }),
   }));
@@ -183,10 +75,9 @@ export default function ParkingLotFloors() {
     const handleParkingSpaceEvent = (message: MessageEvent<string>) => {
       try {
         const parsedEvent = JSON.parse(message.data) as ParkingSpaceSseEvent;
-        const eventType = message.type !== 'message' ? message.type : undefined;
         const event: ParkingSpaceSseEvent = {
           ...parsedEvent,
-          action: parsedEvent.action ?? parsedEvent.type ?? parsedEvent.eventType ?? eventType,
+          action: parsedEvent.action,
         };
 
         queryClient.setQueryData<Floor | undefined>(
@@ -307,7 +198,7 @@ export default function ParkingLotFloors() {
                               {section.spaces.map((space) => (
                                   <div key={space.id}>
                                     <strong>{space.number}</strong>
-                                     <CarCard car={space.car} occupied={space.occupied} />
+                                     <ParkingSpaceCard parkingSpace={space} />
                                   </div>
                               ))}
                             </div>

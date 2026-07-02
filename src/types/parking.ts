@@ -9,23 +9,19 @@ export interface Floor {
 export interface FloorSection {
   id: number;
   name: string;
-  spaces: ParkingSpace[];
+  spaces: ParkingSpaceResponse[];
 }
 
-export interface Car {
-  id: number;
-  color: string;
-  make: string;
-  model: string;
-  manufacturingYear: number;
-  licensePlate: string;
-}
-
-export interface ParkingSpace {
+export interface ParkingSpaceResponse {
   id: number;
   number: string;
   occupied: boolean;
-  car: Car | null;
+  sectionId: number;
+  color?: string;
+  make?: string;
+  model?: string;
+  manufacturingYear?: number;
+  licensePlate?: string;
 }
 
 export interface ParkingLotResponse {
