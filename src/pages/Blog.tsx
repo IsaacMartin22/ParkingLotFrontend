@@ -23,6 +23,14 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">July 2nd 2026</p>
+            <h3>Day 7</h3>
+            <p>
+              Another late, quick entry. Was sick today so didn't do much. Added template html page for event generator service, need to
+              check that the configuration adjustments live update the requests going out. SDK isn't working still yet
+            </p>
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">July 1st 2026</p>
             <h3>Day 6</h3>
             <p>
@@ -39,7 +47,6 @@ function Blog(): JSX.Element {
               the AI code was suspicious and I removed it, the Event Generator service looks a lot cleaner now. Paying the price for
               the AI tech debt in the form of refactoring.
             </p>
-
           </article>
           <article className="blog-entry-card">
             <p className="blog-entry-date">June 30th 2026</p>
