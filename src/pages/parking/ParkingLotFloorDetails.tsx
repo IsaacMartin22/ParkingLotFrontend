@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import {ParkingSpaceResponse, Floor} from "../../types/parking";
-import useFloorForParkingLot from "../../hooks/useFloorForParkingLot";
+import useFloorForParkingLot from "../../network/useFloorForParkingLot";
 import ParkingSpaceCard from "../../components/ParkingSpaceCard";
 import { API_URL } from "../../types/constants";
 
@@ -195,9 +195,9 @@ export default function ParkingLotFloors() {
                             <p className="floor-section-name">{section.name}</p>
 
                             <div className="space-grid">
-                              {section.spaces.map((space) => (
+                              {section.spaces.sort((a, b) => a.id - b.id).map((space) => (
                                   <div key={space.id}>
-                                    <strong>{space.number}</strong>
+                                    <strong>{space.id}</strong>
                                      <ParkingSpaceCard parkingSpace={space} />
                                   </div>
                               ))}

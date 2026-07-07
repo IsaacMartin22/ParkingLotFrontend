@@ -1,7 +1,7 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
-import useDatabaseDiagnostics from '../hooks/useDatabaseDiagnostics';
+import useDatabaseDiagnostics from '../network/useDatabaseDiagnostics';
 import { formatDuration } from '../formattingUtils';
 import '../styles/ServicePageStyles.css';
 

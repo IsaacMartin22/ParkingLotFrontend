@@ -1,0 +1,36 @@
+.space-action-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.space-action-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.space-action-btn:disabled {
+  background-color: #d1d5db;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.space-action-btn--add:not(:disabled) {
+  background-color: #10b981;
+}
+
+.space-action-btn--remove:not(:disabled) {
+  background-color: #ef4444;
+}
+

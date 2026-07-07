@@ -2,7 +2,7 @@ import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../components/ServiceDiagnostics';
 import ServiceLogViewer from '../components/ServiceLogViewer';
-import useAPIDiagnostics from '../hooks/useAPIDiagnostics';
+import useAPIDiagnostics from '../network/useAPIDiagnostics';
 import '../styles/ServicePageStyles.css';
 import {formatTimestamp, formatDuration} from "../formattingUtils";
 import { API_WEBPAGE } from '../types/constants';

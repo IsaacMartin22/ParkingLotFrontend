@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './styles/HeaderFooter.css';
 import HamburgerNavigation from './components/HamburgerNavigation';
-import usePingAPI from './hooks/usePingAPI';
+import usePingAPI from './network/usePingAPI';
 import ServiceAPIDashboard from './pages/ServiceAPIDashboard';
 import ServiceDatabaseDashboard from './pages/ServiceDatabaseDashboard';
 import ServiceCacheDashboard from './pages/EventGeneratorDashboard';

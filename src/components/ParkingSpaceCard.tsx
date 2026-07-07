@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ParkingSpaceResponse } from '../types/parking';
+import '../styles/ParkingSpaceCard.css';
+import { useAddCar, useRemoveCar } from '../network/useParkingSpace';
 
 const CAR_COLOR_HEX: Record<string, string> = {
   Red: '#ef4444',
@@ -12,33 +14,14 @@ const CAR_COLOR_HEX: Record<string, string> = {
 };
 
 export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: ParkingSpaceResponse }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const addCar = useAddCar();
+  const removeCar = useRemoveCar();
+  const isLoading = addCar.isLoading || removeCar.isLoading;
   const colorHex = parkingSpace?.color ? CAR_COLOR_HEX[parkingSpace.color] || '#64748b' : '#cbd5e1';
   const isOccupied = parkingSpace.occupied;
 
-  const handleAddCar = async () => {
-    setIsLoading(true);
-    try {
-      // TODO: Add API call to add a car to this parking space
-      // Example: await addCarToParkingSpace(parkingSpace.id, sectionId);
-    } catch (error) {
-      console.error('Failed to add car:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleRemoveCar = async () => {
-    setIsLoading(true);
-    try {
-      // TODO: Add API call to remove a car from this parking space
-      // Example: await removeCarFromParkingSpace(parkingSpace.id, sectionId);
-    } catch (error) {
-      console.error('Failed to remove car:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const handleAddCar = () => addCar.mutate(parkingSpace.id);
+  const handleRemoveCar = () => removeCar.mutate(parkingSpace.id);
 
   return (
     <div
@@ -52,43 +35,27 @@ export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: Parki
         <>
           <span>{parkingSpace.color} {parkingSpace.manufacturingYear} {parkingSpace.make} {parkingSpace.model}</span>
         </>
-      ) : isOccupied ? (
-        <span>Occupied</span>
       ) : (
         <span>Open</span>
       )}
-      <div style={{ marginTop: '12px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
+      <div className="space-action-buttons">
         <button
           onClick={handleAddCar}
           disabled={isOccupied || isLoading}
-          style={{
-            padding: '6px 12px',
-            fontSize: '14px',
-            backgroundColor: isOccupied || isLoading ? '#d1d5db' : '#10b981',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: isOccupied || isLoading ? 'not-allowed' : 'pointer',
-            opacity: isOccupied || isLoading ? 0.6 : 1,
-          }}
+          aria-label="Add car"
+          title="Add car"
+          className="space-action-btn space-action-btn--add"
         >
-          Add
+          +
         </button>
         <button
           onClick={handleRemoveCar}
           disabled={!isOccupied || isLoading}
-          style={{
-            padding: '6px 12px',
-            fontSize: '14px',
-            backgroundColor: !isOccupied || isLoading ? '#d1d5db' : '#ef4444',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: !isOccupied || isLoading ? 'not-allowed' : 'pointer',
-            opacity: !isOccupied || isLoading ? 0.6 : 1,
-          }}
+          aria-label="Remove car"
+          title="Remove car"
+          className="space-action-btn space-action-btn--remove"
         >
-          Remove
+          -
         </button>
       </div>
     </div>

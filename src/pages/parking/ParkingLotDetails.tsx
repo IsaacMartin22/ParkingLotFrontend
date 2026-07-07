@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
-import useParkingLot from "../../hooks/useParkingLot";
+import useParkingLot from "../../network/useParkingLot";
 import FloorSummary from "../../components/FloorSummary";
 import {ParkingLotResponse} from "../../types/parking";
 

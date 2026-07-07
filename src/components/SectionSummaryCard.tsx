@@ -1,5 +1,5 @@
 import React from 'react';
-import useFloorForParkingLot from '../hooks/useFloorForParkingLot';
+import useFloorForParkingLot from '../network/useFloorForParkingLot';
 
 const CAR_COLOR_HEX: Record<string, string> = {
   Red: '#ef4444',
@@ -57,7 +57,7 @@ export default function SectionSummaryCard({ lotId, floorId }: SectionSummaryCar
             <div className="floor-section" key={section.id}>
               <p className="floor-section-name">{section.name}</p>
               <div className="space-grid">
-                {section.spaces.map((space) => {
+                {section.spaces.sort((a, b) => a.number.localeCompare(b.number)).map((space) => {
                   const colorHex = space.color ? CAR_COLOR_HEX[space.color] || '#64748b' : '#cbd5e1';
                   return (
                     <div

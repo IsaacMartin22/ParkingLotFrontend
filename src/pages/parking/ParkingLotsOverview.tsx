@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
-import useListParkingLots from '../../hooks/useListParkingLots';
+import useListParkingLots from '../../network/useListParkingLots';
 import LotSummaryCard from "../../components/LotSummaryCard";
 
 function ParkingLotsOverview() {
