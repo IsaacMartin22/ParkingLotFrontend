@@ -23,7 +23,7 @@ async function sendPagePing(url: string, payload: Record<string, unknown>): Prom
   });
 }
 
-export default function usePageNavigationPing(pingUrl: string = PAGE_VIEW_PING_URL): void {
+export default function usePingAPI(pingUrl: string = PAGE_VIEW_PING_URL): void {
   const location = useLocation();
   const locationSignature = `${location.pathname}${location.search}${location.hash}`;
 

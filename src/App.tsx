@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './styles/HeaderFooter.css';
 import HamburgerNavigation from './components/HamburgerNavigation';
-import usePageNavigationPing from './hooks/usePageNavigationPing';
+import usePingAPI from './hooks/usePingAPI';
 import ServiceAPIDashboard from './pages/ServiceAPIDashboard';
 import ServiceDatabaseDashboard from './pages/ServiceDatabaseDashboard';
 import ServiceCacheDashboard from './pages/EventGeneratorDashboard';
@@ -19,7 +19,7 @@ import Blog from "./pages/Blog";
 const queryClient = new QueryClient();
 
 function PageNavigationPingTracker(): null {
-  usePageNavigationPing();
+  usePingAPI();
 
   return null;
 }
