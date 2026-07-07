@@ -23,6 +23,16 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">July 6th 2026</p>
+            <h3>Day 8</h3>
+            <p>
+              Was gone for 4th of July weekend, happy 250th USA. Decided on my idea for next project, going to be a SAAS style
+              internal dev tool thing. Going to integrate with a lot of common tools used for devs, such as CI, deploying, monitoring,
+              logging, those kinds of things. Ideally devs could centralize all their internal tools there, might need a lot of support
+              for different options but I'll start with one per category.
+            </p>
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">July 2nd 2026</p>
             <h3>Day 7</h3>
             <p>
