@@ -23,6 +23,22 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">July 7th 2026</p>
+            <h3>Day 9</h3>
+            <p>
+              Fixed the SDK, it now works entirely. Separated the common JAR elements into its own module and published that to Maven
+              as well. Added an add/remove button to the parking space card that does a put/delete request to the api to add or remove
+              a car. Completely gutted the 3rd event generator service, just made it an SDK wrapper, it just doesn't make sense to have
+              as its own service. The most it should be is maybe a component on the frontend to automatically generate some random events
+              but I don't want to clutter up my page so I'm just going to leave it gutted.
+            </p>
+            <p>
+              I'm really happy with having the new common module for the API, it made syncing the SDK and API way easier, and it will
+              also be way easier to maintain if I ever change anything about the API. Seems unlikely I'll change anything but having a
+              separate common module is definitely something I would do if I create an SDK again, which could happen.
+            </p>
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">July 6th 2026</p>
             <h3>Day 8</h3>
             <p>
