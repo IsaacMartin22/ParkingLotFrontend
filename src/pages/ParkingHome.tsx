@@ -25,7 +25,7 @@ function ParkingHome(): JSX.Element {
               <h2>Parking Application</h2>
               <p className="section-copy">
                 The Parking Explorer demonstrates the product-facing experience. The service dashboards display diagnostic
-                information relevant to each service. The non-database service dashboards contain external URLs that
+                information relevant to each service. The non-database dashboards contain external URLs that
                 demonstrate their intended use.
               </p>
             </div>
@@ -50,7 +50,7 @@ function ParkingHome(): JSX.Element {
               <div className="service-card-icon">⚡</div>
               <span className="service-card-kicker">Update</span>
               <h3>Event Generator</h3>
-              <p>Configure and trigger a continuous stream of Parking Lot events to see this site update in real time.</p>
+              <p>Use a Maven published SDK to trigger a stream of Parking Lot events. The site updates in real time.</p>
             </Link>
 
             <Link to="/services/database" className="service-card">

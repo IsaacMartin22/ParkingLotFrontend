@@ -13,6 +13,17 @@
   box-shadow: 0 16px 36px rgba(7, 26, 47, 0.2);
 }
 
+.app-shell--parking .service-header {
+  width: min(1400px, calc(100% - 32px));
+  margin: 18px auto 30px;
+  border: 1px solid rgba(72, 183, 216, 0.36);
+  border-bottom: 4px solid var(--las-gold);
+  border-radius: 22px;
+  box-shadow:
+    0 26px 48px rgba(2, 9, 19, 0.42),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
 .service-header::after {
   content: "LAS";
   position: absolute;
@@ -40,6 +51,33 @@
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.service-context-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(246, 183, 60, 0.42);
+  background: rgba(246, 183, 60, 0.14);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.service-hosted-note {
+  width: min(760px, 100%);
+  margin: 18px auto 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .service-eyebrow {
@@ -102,6 +140,11 @@
   margin-bottom: 40px;
 }
 
+.app-shell--parking .service-container {
+  width: min(1400px, calc(100% - 32px));
+  padding: 0;
+}
+
 .service-details {
   background-color: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--las-border);
@@ -109,6 +152,23 @@
   padding: 25px;
   margin-top: 25px;
   box-shadow: var(--las-shadow);
+}
+
+.app-shell--parking .service-details {
+  background: rgba(248, 251, 255, 0.97);
+  border: 1px solid rgba(72, 183, 216, 0.28);
+  box-shadow:
+    0 22px 44px rgba(2, 9, 19, 0.28),
+    0 0 0 1px rgba(72, 183, 216, 0.12);
+}
+
+.app-shell--parking .service-details::before {
+  content: "";
+  display: block;
+  height: 8px;
+  margin: -25px -25px 20px;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(90deg, var(--las-gold), var(--las-sky));
 }
 
 .service-details h3 {
@@ -221,6 +281,17 @@
 }
 
 @media (max-width: 768px) {
+  .app-shell--parking .service-header,
+  .app-shell--parking .service-container {
+    width: calc(100% - 18px);
+  }
+
+  .app-shell--parking .service-details::before {
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: -15px;
+  }
+
   .service-header {
     padding-top: 24px;
   }
@@ -232,6 +303,11 @@
   .service-header-nav {
     justify-content: center;
     margin-bottom: 18px;
+  }
+
+  .service-context-pill {
+    width: 100%;
+    justify-content: center;
   }
 
   .service-container {

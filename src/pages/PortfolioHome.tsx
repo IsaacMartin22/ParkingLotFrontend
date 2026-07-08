@@ -1,41 +1,48 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/IntroHome.css';
+import { API_GITHUB, EVENT_GENERATOR_GITHUB, FRONTEND_GITHUB } from "../types/constants";
 
-const poweredByTechnologies = [
-  'React 18',
+const technologies = [
+  'React',
   'TypeScript',
-  'TanStack Query',
-  'CSS Components',
-  'Java Spring Boot API',
-  'PostgreSQL Database',
-  'RabbitMQ',
+  'Java',
+  'Spring Boot',
+  'PostgreSQL',
   'Buildkite',
   'Docker',
-  'Jest',
-  'Playwright',
-  'Grafana',
+  'Maven',
+  'Java SDK',
   'Render',
+  'Github Copilot'
+];
+
+const libraries = [
+  'TanStack Query',
+  'Lombok',
+  'Micrometer',
+  'Jest',
+  'Flyway',
 ];
 
 const systemContributions = [
   {
-    title: 'Frontend application',
+    title: 'Frontend app',
     description:
       'This repository hosts this site along with the Parking app frontend: routing, app frontend, data hooks, and diagnostic dashboards.',
-    link: 'https://github.com/IsaacMartin22/ParkingLotFrontend',
+    link: FRONTEND_GITHUB,
   },
   {
     title: 'Java API backend',
     description:
-      'A CRUD Java API layer which provides the parking lot and diagnostics endpoints that power the app\'s product and operational views.',
-    link: 'https://github.com/IsaacMartin22/ParkingLotAPI',
+      'A CRUD Java API layer which provides parking info and diagnostics. Emits SSE events on parking lot changes to keep the frontend up to date in real time.',
+    link: API_GITHUB,
   },
   {
-    title: 'Event generation project',
+    title: 'Event generation',
     description:
-      'A Java repository which uses a Maven published SDK and RabbitMQ to generate events that simulate expected parking lot behavior.',
-    link: 'https://github.com/IsaacMartin22/ParkingLotEventGenerator',
+      'A barebones Java application that wraps an SDK for the API. Can be cloned and run to simulate parking lot events.',
+    link: EVENT_GENERATOR_GITHUB,
   },
 ];
 
@@ -47,12 +54,12 @@ function PortfolioHome(): JSX.Element {
           <p className="intro-eyebrow">Software Engineer Portfolio</p>
           <h1>Hi, I am Isaac.</h1>
           <p className="intro-copy">
-            This website's purpose is to show my competency as a Software Engineer.
-            This site hosts my development portfolio which includes the frontend of a parking
-            lot application themed for the LAS (Las Vegas) airport, which is where I live.
-            It also hosts diagnostic pages for backend services this site relies on. The backend
-            services themselves can be accessed form their diagnostics pages. The code for this site
-            and services are open source and can be found on my GitHub profile.
+            This site's purpose is to show my competency as a Software Engineer.
+            It hosts my development portfolio which includes the frontend of a parking
+            lot application themed for the LAS airport, which is where I live. It also
+            hosts diagnostic pages for services this site relies on. The services can be
+            accessed from the diagnostics pages on this site. All my code for this project
+            is open source and available on my GitHub profile.
           </p>
           <div className="intro-actions">
             <Link to="/parking" className="intro-primary-link">Explore parking lot app</Link>
@@ -74,15 +81,15 @@ function PortfolioHome(): JSX.Element {
           <h2>Parking Lot App Solution</h2>
           <p>
             While visiting the LAS airport, I noticed a handmade wooden "Parking Lot Full" sign displayed
-            at an economy lot entrance. Despite the sign, several parking spaces were still available. The
-            sign placement being a manual task meant the information was not trustworthy because it
-            could quickly become outdated.
+            at a parking lot entrance. Despite the sign, several parking spaces were still available. Cars
+            park and leave rapidly in an airport as large as LAS so such a sign will quickly become outdated.
           </p>
           <p>
             I realized a simple auto-updating website would be a better solution. LAS employees wouldn't have to manually
             place or update the sign and the information would be more reliable, which is a win-win for both customers and
-            the airport. Because I have the skills I decided to attempt to take on this project and document my process to
-            essentially be a more practical resume for hiring managers to assess.
+            the airport. Updates will also be instantaneously reflected on the website. Because I have the skills I decided
+            to attempt to take on this project. I documented my process in a blog, also on this site. I hope for this site
+            to be a more practical resume for hiring managers to assess my competency as a developer.
           </p>
         </section>
 
@@ -107,12 +114,20 @@ function PortfolioHome(): JSX.Element {
           <article className="intro-card">
             <h3>Powered by</h3>
             <p>
-              A non-exhaustive list of technologies that power this site and the application, and others used for
-              development infrastructure
+              A non-exhaustive list of technologies used in this project
             </p>
             <ul className="intro-tech-list">
-              {poweredByTechnologies.map((technology) => (
+              {technologies.map((technology) => (
                 <li key={technology} className="intro-tech-pill">{technology}</li>
+              ))}
+            </ul>
+
+            <br/><br/>
+
+            <h3>Libraries</h3>
+            <ul className="intro-tech-list">
+              {libraries.map((library) => (
+                  <li key={library} className="intro-tech-pill">{library}</li>
               ))}
             </ul>
           </article>

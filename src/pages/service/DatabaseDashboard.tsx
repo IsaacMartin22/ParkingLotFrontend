@@ -1,9 +1,9 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
-import ServiceDiagnostics from '../components/ServiceDiagnostics';
-import useDatabaseDiagnostics from '../network/useDatabaseDiagnostics';
-import { formatDuration } from '../formattingUtils';
-import '../styles/ServicePageStyles.css';
+import ServiceDiagnostics from '../../components/ServiceDiagnostics';
+import useDatabaseDiagnostics from '../../network/useDatabaseDiagnostics';
+import { formatDuration } from '../../formattingUtils';
+import '../../styles/ServicePageStyles.css';
 
 function formatBytes(bytes: number): string {
   if (!Number.isFinite(bytes) || bytes <= 0) {
@@ -17,7 +17,7 @@ function formatBytes(bytes: number): string {
   return `${value.toFixed(value >= 10 || exponent === 0 ? 0 : 1)} ${units[exponent]}`;
 }
 
-function ServiceDatabaseDashboard(): JSX.Element {
+function DatabaseDashboard(): JSX.Element {
   const { data: diagnostics, isLoading, isError, error } = useDatabaseDiagnostics();
   const longRunningQueries = diagnostics?.longRunningQueries ?? [];
   const queryCount = longRunningQueries.length;
@@ -98,7 +98,7 @@ function ServiceDatabaseDashboard(): JSX.Element {
             <Link to="/parking" className="back-link">← Parking Home</Link>
         </div>
         <p className="service-eyebrow">Settings & diagnostics</p>
-        <h1>Database Service Dashboard</h1>
+        <h1>Database Dashboard</h1>
         <p className="service-subtitle">
           Review persistence health, storage behavior, and database capacity behind the parking lot app.
         </p>
@@ -127,15 +127,15 @@ function ServiceDatabaseDashboard(): JSX.Element {
             <p>
               {isLoading
                 ? 'Loading long-running query data...'
-                : 'No long-running queries were reported by the database service.'}
+                : 'No long-running queries were reported by the database.'}
             </p>
           )}
         </section>
 
         <section className="service-details">
-          <h3>Service Overview</h3>
+          <h3>Database Overview</h3>
           <p>
-            The database service stores parking lot, floor, section, and occupancy data so the frontend can
+            The database stores parking lot, floor, section, and occupancy data so the frontend can
             render live availability with dependable historical and transactional consistency.
           </p>
           {diagnostics && (
@@ -160,4 +160,4 @@ function ServiceDatabaseDashboard(): JSX.Element {
   );
 }
 
-export default ServiceDatabaseDashboard;
+export default DatabaseDashboard;

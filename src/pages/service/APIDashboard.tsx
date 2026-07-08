@@ -1,13 +1,13 @@
 import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
-import ServiceDiagnostics from '../components/ServiceDiagnostics';
-import ServiceLogViewer from '../components/ServiceLogViewer';
-import useAPIDiagnostics from '../network/useAPIDiagnostics';
-import '../styles/ServicePageStyles.css';
-import {formatTimestamp, formatDuration} from "../formattingUtils";
-import { API_WEBPAGE } from '../types/constants';
+import ServiceDiagnostics from '../../components/ServiceDiagnostics';
+import ServiceLogViewer from '../../components/ServiceLogViewer';
+import useAPIDiagnostics from '../../network/useAPIDiagnostics';
+import '../../styles/ServicePageStyles.css';
+import {formatTimestamp, formatDuration} from "../../formattingUtils";
+import { API_WEBPAGE } from '../../types/constants';
 
-function ServiceAPIDashboard(): JSX.Element {
+function APIDashboard(): JSX.Element {
   const { data: diagnostics, isLoading, isError, error } = useAPIDiagnostics();
 
   const failedRequests = diagnostics?.failedRequests ?? 0;
@@ -117,4 +117,4 @@ function ServiceAPIDashboard(): JSX.Element {
   );
 }
 
-export default ServiceAPIDashboard;
+export default APIDashboard;

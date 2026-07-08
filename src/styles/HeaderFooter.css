@@ -5,6 +5,56 @@
   flex-direction: column;
 }
 
+.app-shell {
+  position: relative;
+  isolation: isolate;
+  transition: background 280ms ease;
+}
+
+.app-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+.app-shell--portfolio {
+  background: transparent;
+}
+
+.app-shell--portfolio::before {
+  background: transparent;
+}
+
+.app-shell--parking {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(72, 183, 216, 0.2), transparent 26rem),
+    linear-gradient(180deg, #0c1724 0%, #12263f 45%, #0b1624 100%);
+}
+
+.app-shell--parking::before {
+  opacity: 0.45;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 54px,
+      rgba(255, 255, 255, 0.06) 54px,
+      rgba(255, 255, 255, 0.06) 56px
+    );
+}
+
+.app-shell--parking footer {
+  background: rgba(3, 12, 24, 0.95);
+  border-top-color: var(--las-sky);
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -49,3 +99,40 @@ footer p {
   color: rgba(255, 255, 255, 0.78);
   margin: 0;
 }
+
+.app-shell--parking .hamburger-toggle {
+  background: rgba(3, 12, 24, 0.94);
+  border-color: rgba(72, 183, 216, 0.44);
+  box-shadow: 0 14px 34px rgba(2, 9, 19, 0.5);
+}
+
+.app-shell--parking .hamburger-toggle:hover,
+.app-shell--parking .hamburger-toggle:focus-visible {
+  background: rgba(11, 34, 58, 0.98);
+  border-color: rgba(246, 183, 60, 0.64);
+}
+
+.app-shell--parking .hamburger-menu {
+  background: rgba(11, 20, 34, 0.96);
+  border-color: rgba(72, 183, 216, 0.25);
+}
+
+.app-shell--parking .hamburger-menu-group-title,
+.app-shell--parking .hamburger-menu-link-title {
+  color: #e2ecff;
+}
+
+.app-shell--parking .hamburger-menu-link {
+  background: rgba(255, 255, 255, 0.06);
+  color: #dbe7ff;
+}
+
+.app-shell--parking .hamburger-menu-link:hover,
+.app-shell--parking .hamburger-menu-link:focus-visible {
+  background: rgba(72, 183, 216, 0.22);
+}
+
+.app-shell--parking .hamburger-menu-link-description {
+  color: rgba(226, 236, 255, 0.8);
+}
+
