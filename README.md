@@ -1,74 +1,32 @@
 # Parking Lot Frontend
 
-A React + TypeScript frontend for viewing parking lot information, service health, and operational diagnostics.
-
-This application provides pages for browsing parking lots, viewing lot/floor details, and checking dashboard-style service status information for API, database, and cache layers.
+A React + TypeScript developer portfolio website for Isaac Martin that contains a parking lot application and diagnostic information for services powering the app.
 
 ## Features
 
-- Parking lot overview page
-- Parking lot detail pages
-- Floor-level parking space details
-- API diagnostics dashboard
-- Database service dashboard
-- Cache service dashboard
-- Client-side routing with React Router
+- Parking lot informational pages
+- Randomly generate cars for parking spaces via the UI
+- Make manual API calls or clone the event generator SDK project to tailor updates to parking data
+- API diagnostic dashboard
+- Database diagnostic dashboard
 - Server-state management with TanStack React Query
-- TypeScript-based data models
-- Create React App build tooling
-
-## Tech Stack
-
-- React
-- TypeScript
-- TanStack React Query 4
-- Npm
-
-## Prerequisites
-
-Install the following before running the project:
-
-- Node.js
-- npm
-
-This project uses npm as its package manager.
+- Server sent events from a backend API keeps floor detail information live
+- Information relevant to Isaac Martin's development portfolio
 
 ## Getting Started
 
 Clone the repository and install dependencies, then start the local development server:
 ```
 npm install
-bash npm start
+npm run dev
 ```
 Runs on [http://localhost:3000](http://localhost:3000)
 
 ## Backend API
 
-The frontend requires the backend API to be available locally at:
-http://localhost:8080/api
+The parking application and service diagnostic pages require the backend API to be running. See Parking Lot API repository also on my Github
 
-The diagnostics endpoint is expected at:
-[http://localhost:8080/api/diagnostics](http://localhost:8080/api/diagnostics)
+## Deployment
 
-Parking lot data is also loaded from the backend API through the app’s custom React Query hooks.
-
-Make sure the backend service is running before using pages that load live data.
-
-## Application Routes
-
-| Route                                  | Description |
-|----------------------------------------| --- |
-| `/`                                    | ParkingHome page |
-| `/services/api`                        | API diagnostics dashboard |
-| `/services/database`                   | Database service dashboard |
-| `/services/generator`                  | Event generator dashboard |
-| `/parking-lots`                        | Parking lots overview |
-| `/parking-lots/:lotId`                 | Parking lot details |
-| `/parking-lots/:lotId/floors/:floorId` | Parking lot floor details |
-| `*`                                    | Not found page |
-
-**Deployment**
-Render provides very little memory for the free option so 512 is max memory. Use max memory when building/running
-``export NODE_OPTIONS="--max-old-space-size=512"
-GENERATE_SOURCEMAP=false
-npm run build`
+This application is statically built and then deployed to my github.io page at isaacmartin22.github.io. 
+Run npm run deploy to statically build this site, then copy the build directory to my github.io repository and publish the github page to update the site
