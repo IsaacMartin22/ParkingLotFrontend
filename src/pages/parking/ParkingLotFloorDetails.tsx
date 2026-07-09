@@ -133,16 +133,20 @@ export default function ParkingLotFloors() {
   if (!floor) {
     return (
       <>
-        <header className="service-header">
+        <header className="service-header parking-page--floor-details">
           <div className="service-header-nav">
             <Link to={`/parking-lots/${lotId}`} className="back-link">← Lot Details</Link>
           </div>
+          <p className="parking-page-path">Hierarchy: Lots {'>'} Floors {'>'} Sections</p>
           <p className="service-eyebrow">Parking lot app</p>
+          <div className="parking-page-level">
+            <span className="parking-level-pill parking-level-pill--floor">Level 3 - Floor Sections</span>
+          </div>
           <h1>Parking Lot Floor</h1>
           <p className="service-subtitle">Return to the lot details page to choose another floor.</p>
         </header>
         <main className="service-container">
-          <div className="service-details parking-container">
+          <div className="service-details parking-container parking-content--floor">
             <p>Floor not found.</p>
           </div>
         </main>
@@ -154,11 +158,15 @@ export default function ParkingLotFloors() {
 
   return (
     <>
-      <header className="service-header">
+      <header className="service-header parking-page--floor-details">
         <div className="service-header-nav">
           <Link to={`/parking-lots/${lotId}`} className="back-link">← Lot Details</Link>
         </div>
+        <p className="parking-page-path">Hierarchy: Lots {'>'} Floors {'>'} Sections</p>
         <p className="service-eyebrow">Parking lot app</p>
+        <div className="parking-page-level">
+          <span className="parking-level-pill parking-level-pill--floor">Level 3 - Floor Sections</span>
+        </div>
         <h1>{floor.name} Sections</h1>
         <p className="service-subtitle">
           Review section occupancy and live parking space updates for this floor.
@@ -166,21 +174,7 @@ export default function ParkingLotFloors() {
       </header>
 
       <main className="service-container">
-        <div className="service-details parking-container">
-          <div className="parking-card floor-overview-card">
-            <div className="parking-card-header">
-              <h3>Floor Overview</h3>
-              <span className="parking-status">{sections.length} Sections</span>
-            </div>
-
-            <div className="parking-body">
-              <p><strong>Floor:</strong> {floor.name}</p>
-              <p><strong>Total Sections:</strong> {sections.length}</p>
-              {floor.capacity !== undefined && <p><strong>Capacity:</strong> {floor.capacity}</p>}
-              {floor.totalFreeSpaces !== undefined && <p><strong>Available:</strong> {floor.totalFreeSpaces}</p>}
-            </div>
-          </div>
-
+        <div className="service-details parking-container parking-content--floor">
           <section className="floor-list">
             <h3>Sections ({sections.length})</h3>
 
@@ -194,12 +188,9 @@ export default function ParkingLotFloors() {
                           <div className="floor-section" key={section.id}>
                             <p className="floor-section-name">{section.name}</p>
 
-                            <div className="space-grid">
+                            <div className="space-grid space-grid--cards">
                               {section.spaces.sort((a, b) => a.id - b.id).map((space) => (
-                                  <div key={space.id}>
-                                    <strong>{space.id}</strong>
-                                     <ParkingSpaceCard parkingSpace={space} />
-                                  </div>
+                                  <ParkingSpaceCard key={space.id} parkingSpace={space} />
                               ))}
                             </div>
                           </div>

@@ -19,6 +19,7 @@ export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: Parki
   const isLoading = addCar.isLoading || removeCar.isLoading;
   const colorHex = parkingSpace?.color ? CAR_COLOR_HEX[parkingSpace.color] || '#64748b' : '#cbd5e1';
   const isOccupied = parkingSpace.occupied;
+  const vehicleName = `${parkingSpace.manufacturingYear || ''} ${parkingSpace.make || ''} ${parkingSpace.model || ''}`.trim();
 
   const handleAddCar = () => addCar.mutate(parkingSpace.id);
   const handleRemoveCar = () => removeCar.mutate(parkingSpace.id);
@@ -31,13 +32,31 @@ export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: Parki
         backgroundColor: isOccupied ? `${colorHex}22` : '#f8fafc',
       }}
     >
+      <div className="space-card-header">
+        <strong className="space-card-number">Space {parkingSpace.number}</strong>
+        <span className={`space-card-status ${isOccupied ? 'space-card-status--occupied' : 'space-card-status--open'}`}>
+          {isOccupied ? 'Occupied' : 'Open'}
+        </span>
+      </div>
+
       {isOccupied ? (
         <>
-          <span>{parkingSpace.color} {parkingSpace.manufacturingYear} {parkingSpace.make} {parkingSpace.model}</span>
+          <p className="space-card-vehicle">{vehicleName || 'Vehicle details unavailable'}</p>
+          <dl className="space-card-meta">
+            <div>
+              <dt>Color</dt>
+              <dd>{parkingSpace.color || 'Unknown'}</dd>
+            </div>
+            <div>
+              <dt>Plate</dt>
+              <dd>{parkingSpace.licensePlate || 'Unknown'}</dd>
+            </div>
+          </dl>
         </>
       ) : (
-        <span>Open</span>
+        <p className="space-card-open-note">Empty</p>
       )}
+
       <div className="space-action-buttons">
         <button
           onClick={handleAddCar}

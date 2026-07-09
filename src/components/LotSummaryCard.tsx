@@ -18,10 +18,24 @@ export default function LotSummaryCard({ lot }: LotSummaryCardProps) {
       </div>
 
       <div className="parking-body">
-        <p><strong>Current Capacity:</strong> {occupied}</p>
-        <p><strong>Total Capacity:</strong> {capacity}</p>
-        <p><strong>Available:</strong> {available}</p>
-        <p><strong>Floors:</strong> {lot.floorIds.length}</p>
+        <div className="parking-stat-grid">
+          <div className="parking-stat">
+            <span className="parking-stat-label">Occupied</span>
+            <strong className="parking-stat-value">{occupied}</strong>
+          </div>
+          <div className="parking-stat">
+            <span className="parking-stat-label">Capacity</span>
+            <strong className="parking-stat-value">{capacity}</strong>
+          </div>
+          <div className="parking-stat">
+            <span className="parking-stat-label">Available</span>
+            <strong className="parking-stat-value">{available}</strong>
+          </div>
+          <div className="parking-stat">
+            <span className="parking-stat-label">Floors</span>
+            <strong className="parking-stat-value">{lot.floorIds.length}</strong>
+          </div>
+        </div>
 
         <div className="progress" aria-hidden>
           <div className="progress-bar" style={{ width: `${percentFull}%` }} />

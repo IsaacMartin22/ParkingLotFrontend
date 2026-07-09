@@ -1,8 +1,86 @@
 .space-action-buttons {
-  margin-top: 10px;
+  margin-top: auto;
   display: flex;
   gap: 6px;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.space-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.space-card-number {
+  font-size: 0.83rem;
+  color: #0f172a;
+}
+
+.space-card-status {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.space-card-status--occupied {
+  color: #7f1d1d;
+  background-color: rgba(239, 68, 68, 0.16);
+}
+
+.space-card-status--open {
+  color: #065f46;
+  background-color: rgba(16, 185, 129, 0.16);
+}
+
+.space-card-vehicle {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.25;
+  color: #1e293b;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.space-card-open-note {
+  margin: 0;
+  font-size: 0.74rem;
+  color: #64748b;
+}
+
+.space-card-meta {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.space-card-meta div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.space-card-meta dt {
+  margin: 0;
+  font-size: 0.69rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.space-card-meta dd {
+  margin: 0;
+  font-size: 0.74rem;
+  color: #0f172a;
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .space-action-btn {
