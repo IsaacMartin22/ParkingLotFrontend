@@ -23,6 +23,105 @@ function Blog(): JSX.Element {
         <section className="blog-entry-placeholder" aria-label="Future blog entries">
           <h2>Entries</h2>
           <article className="blog-entry-card">
+            <p className="blog-entry-date">July 8th 2026</p>
+            <h3>Parking Lot Project Summary</h3>
+            <p>
+              I'm considering the parking lot project complete. I'll link it to some people, if they find anything glaring I'll fix it, but
+              I'm going to move on to my next project so I'm not going to be working on feature work for the parking lot project or any sort
+              of improvements to the apps or services. That said, I'll talk about how the project went from start to finish.
+            </p>
+            <p>
+              Starting way, way at the start, the first thing was that I decided I wanted a software development job. The job market isn't great
+              right now, there are AI layoffs and a lot of offshoring. I've used AI, I used it in this project a lot, and given how useful it is
+              I did spend a lot of time considering how (and if) I can still be useful as a developer when someone who knows what they want can just
+              ask AI to do it for them.
+            </p>
+            <p>
+              My conclusion was that yes, I can still be useful as a developer. AI is still a tool, even if it is an incredibly useful tool that
+              dramatically speeds up what used to take hours. AI doesn't manage distributed systems well, it doesn't do configuration stuff well,
+              there are a bunch of resiliency and infrastructure setup and environment and maintenance steps AI doesn't do well.
+            </p>
+            <p>
+              After considering those things, I decided that the best way for me to get hired is to actually showcase some of those things AI
+              would struggle with. I decided I'd make multiple services and link them together and then have a frontend that uses the services.
+              I decided I'd play to my strengths, I don't see any reason to reinvent the wheel so I decided I'd use react and typescript for the
+              frontend, Java for the backend, and a PostgreSQL database, all of which I've used at my previous job.
+            </p>
+            <p>
+              I created a Trello board and filled it with some basic tasks - build barebones UI, build barebones API, get a database running,
+              download all the old tools (Database accessor, Docker, Postman). I did build those out, added some tests for the API, had a barebones
+              frontend running. Then I added SSE from the API, which was the first bigger step. I originally was going to have an event generator
+              service that continually generated random updates for the parking lot while it ran, and I was using RabbitMQ in the generator service.
+              But then I realized that it really shouldn't be running as its own separate thing, that's just needless complexity. I could just make
+              requests from the frontend if I really wanted to, so I added the option for users to create/remove cars from the frontend.
+            </p>
+            <p>
+              I also at some point decided to make an SDK for the API. I made that decision back when I still wanted the event generator as its
+              own service, that was kind of the reason I wanted an SDK. I wanted to publish it from the API repo and then add it as a dependency
+              to the generator service. I published the first version, which didn't work, I had a bunch of duplicate files so at some point I
+              decided to add a separate common module for the Request and Response files which were shared with the actual API itself. That was
+              a great decision, I then published an SDK version that worked after publishing the common module.
+            </p>
+            <p>
+              I also knew I wanted to have some sort of visibility into the infrastructure as part of my frontend. I wanted some sort of developer
+              page where a dev could check out various metrics of things - for the api things like latency, requests per minute, uptime, failed vs
+              successful requests, those sorts of things. So I added diagnostic pages to the frontend, one for each service. The event generator
+              diagnostic page isn't great because I was originally intending for it to be its own service, but because it's not there really isn't
+              any diagnostic information to display for that page. Not much I can do about that, I don't want to delete the page because there still
+              is an SDK that can be used, which I do want to show that I know how to do.
+            </p>
+            <p>
+              There were many changes to styling as well. A lot of editing text too because I expanded the parking app frontend to also be my
+              portfolio site. But yeah a lot of css changes just to make things look clean, I eventually decided on making the parking app pages
+              have a slightly different styling so it's visually clearer that the user is in a sort of "Demo mode" when they navigate to the parking
+              app.
+            </p>
+            <p>
+              All in all the project was pretty straightforward, the only real setbacks were the event generator thing and the other setback was
+              I ended up removing the Car table from the database because I decided the database doesn't care about car entities. If I wanted
+              that to be the case I'd have to create a new car entity for every new license plate and then search up that a car didn't already
+              exist when updating the database, which would negatively affect performance and also the app doesn't really care about cars. It
+              only cares about what's in the parking spaces. So I migrated the car to basically be a subset of the parking space entity which
+              was a big refactor and also broke the frontend's expected API response so I had to do a lot of refactoring there as well. I also
+              had Grafana wired up to the API when I was running it locally but that broke when I started hosting the API and I decided not to
+              fix it because I was adding the diagnostics pages anyways. Mostly the project was pretty straightforward, there isn't anything too
+              fancy going on, it was mostly to check that I can get things hosted, build docker files, run multiple independent services, and regularly
+              deploy and create CI pipelines for things, which I did. So I'd say it's pretty successful.
+            </p>
+            <p>
+              My next project is going to be an Internal Developer tool SAAS thing. Initially I plan on only supporting integrations with the
+              technologies I use (Github, Buildkite, Grafana, Docker, Github Copilot), but ideally I would expand to other technologies as well so I could
+              learn about other technologies and the pros/cons associated with them. The base level project is just going to display data for those things
+              - are any builds going on? Any PRs open for branches? What are the latest created images? How many tokens do I have left? That kind of thing.
+              But eventually I'd like to be able to actually do things from the UI, I haven't gotten that far yet though.
+            </p>
+          </article>
+          <article className="blog-entry-card">
+            <p className="blog-entry-date">July 8th 2026</p>
+            <h3>Day 10</h3>
+            <p>
+              I'm about done with the Parking Lot project. My Trello todo list has been completely cleared and I do have something in mind for my
+              next project. I could keep going here, there are always things to improve, but it's in a good spot right now and I know what I want
+              to work on next. I guess I'll blog about what I did today and kind of summarize the project and I'll do a separate blog post
+              summarizing the Parking Lot project.
+            </p>
+            <p>
+              Today made the Parking Lot App pages look better visually. The information displayed across the lots, floors, and sections pages are
+              now more consistent. The Parking Lot app pages are now also styled differently from the rest of the portfolio site. I wanted the user
+              to have a better understanding that when they land on the Parking Home page they have now transitioned somewhat into demo mode. It's
+              not exactly demo mode because there are still the diagnostic pages they can navigate to/from but from the Parking Lot pages everything
+              in there is specifically for the Parking Lot app, not my portfolio site.
+            </p>
+            <p>
+              So I made the styling for those pages slightly different, it looks good. I also added visual distinctions between the lot, floor, and
+              section pages. All of those pages were really just white cards in a grid with info on them, the pages are now color coded and there are
+              hierarchical indications of which entities the user is looking at. It's still not great, I could probably do something better, but I'm a
+              software engineer not UX. So I'm happy with what's there for now, it's good enough. I'm likely going to bump this Render deploy up to a
+              non-free version so it doesn't take time to access and the performance is better and use a custom domain then show some people. Should
+              only cost 20$/month, and I'll scale it back down to the free version after I'm hired which should hopefully only be a few months max.
+            </p>
+          </article>
+          <article className="blog-entry-card">
             <p className="blog-entry-date">July 7th 2026</p>
             <h3>Day 9</h3>
             <p>

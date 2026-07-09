@@ -54,15 +54,14 @@ function PortfolioHome(): JSX.Element {
           <p className="intro-eyebrow">Software Engineer Portfolio</p>
           <h1>Hi, I am Isaac.</h1>
           <p className="intro-copy">
-            This site's purpose is to show my competency as a Software Engineer.
-            It hosts my development portfolio which includes the frontend of a parking
+            This site hosts my development portfolio which includes the frontend of a parking
             lot application themed for the LAS airport, which is where I live. It also
-            hosts diagnostic pages for services this site relies on. The services can be
-            accessed from the diagnostics pages on this site. All my code for this project
+            hosts diagnostic pages for services the parking app relies on. The services can be
+            accessed from the diagnostics pages on this site. All my code for the project
             is open source and available on my GitHub profile.
           </p>
           <div className="intro-actions">
-            <Link to="/parking" className="intro-primary-link">Explore parking lot app</Link>
+            <Link to="/parking" className="intro-primary-link">Explore Parking Lots</Link>
             <Link to="/blog" className="intro-secondary-link">Read my Development Blog</Link>
             <a
               href="https://github.com/IsaacMartin22"
@@ -78,18 +77,18 @@ function PortfolioHome(): JSX.Element {
 
       <main className="container intro-main">
         <section className="intro-panel" aria-label="About Isaac">
-          <h2>Parking Lot App Solution</h2>
+          <h2>Problem Statement</h2>
           <p>
             While visiting the LAS airport, I noticed a handmade wooden "Parking Lot Full" sign displayed
             at a parking lot entrance. Despite the sign, several parking spaces were still available. Cars
-            park and leave rapidly in an airport as large as LAS so such a sign will quickly become outdated.
+            park and leave rapidly in airports so such signs quickly become outdated.
           </p>
           <p>
-            I realized a simple auto-updating website would be a better solution. LAS employees wouldn't have to manually
-            place or update the sign and the information would be more reliable, which is a win-win for both customers and
-            the airport. Updates will also be instantaneously reflected on the website. Because I have the skills I decided
-            to attempt to take on this project. I documented my process in a blog, also on this site. I hope for this site
-            to be a more practical resume for hiring managers to assess my competency as a developer.
+            A simple auto-updating website would be a better solution for LAS. Employees wouldn't have to
+            manually place the sign and the information would be reliable, which is a win-win for customers and
+            the airport. Updates are also instantaneously reflected on the website. Because I have the skills I decided
+            to take on this project. My blog on this site documents my process. This site should serve as a more
+            practical resume for hiring managers assessing my competency as a developer.
           </p>
         </section>
 
@@ -98,7 +97,9 @@ function PortfolioHome(): JSX.Element {
             <h3>System architecture</h3>
             <p>
               Other tools are involved with the hosting this site but there are 3 main apps/services responsible for the core functionality.
-              All are created by me and are open source.
+              All are created by me and are open source. The frontend, API, and database are each hosted and publicly accessible, the event
+              generator is a standalone Java application wrapping a published SDK for the API. The generator project can be cloned and
+              configured to test the API however desired.
             </p>
             <div className="intro-architecture-list">
               {systemContributions.map((contribution) => (
