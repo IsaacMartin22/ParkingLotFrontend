@@ -1,7 +1,7 @@
 {
   "name": "react-frontend",
   "version": "0.1.0",
-  "homepage": "https://isaacmartin22.github.io/parkinglotfrontend",
+  "homepage": "https://isaacmartin22.github.io",
   "private": true,
   "packageManager": "npm@10.8.2",
   "engines": {
