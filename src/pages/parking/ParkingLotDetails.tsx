@@ -4,13 +4,6 @@ import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import useParkingLot from "../../network/useParkingLot";
 import FloorSummary from "../../components/FloorSummary";
-import {ParkingLotResponse} from "../../types/parking";
-
-function pctFor(lot: ParkingLotResponse): number {
-  if (lot.totalCapacity === 0) return 0;
-  const occupied = Math.max(0, lot.totalCapacity - lot.totalFreeSpaces);
-  return Math.round((occupied / lot.totalCapacity) * 100);
-}
 
 interface RouteParams {
   lotId: string;
@@ -45,8 +38,6 @@ export default function ParkingLotDetails() {
       </div>
     );
   }
-
-  const overallPct = pctFor(lot);
 
   return (
     <>

@@ -1,6 +1,7 @@
 # Parking Lot Frontend
 
 A React + TypeScript developer portfolio website for Isaac Martin that contains a parking lot application and diagnostic information for services powering the app.
+Only 6 car colors are supported visually currently: Red, Blue, Black, White, Yellow, and Green, so ideally use one of those when adding new cars. 
 
 ## Features
 
