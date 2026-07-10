@@ -4,6 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <script>
+      (function(location) {
+        if (!location.search.startsWith('?/')) {
+          return;
+        }
+
+        const decodedPath = location.search
+          .slice(1)
+          .split('&')
+          .map((segment) => segment.replace(/~and~/g, '&'))
+          .join('?');
+
+        window.history.replaceState(null, '', `${location.pathname.slice(0, -1)}${decodedPath}${location.hash}`);
+      })(window.location);
+    </script>
     <meta
       name="description"
       content="React Frontend Application"
