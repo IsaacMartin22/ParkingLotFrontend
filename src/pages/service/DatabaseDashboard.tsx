@@ -154,7 +154,7 @@ function DatabaseDashboard(): JSX.Element {
         </section>
       </main>
       <footer>
-        <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
+          <p>&copy; 2026 Isaac - Parking App Demo.</p>
       </footer>
     </>
   );

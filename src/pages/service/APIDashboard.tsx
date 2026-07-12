@@ -86,7 +86,7 @@ function APIDashboard(): JSX.Element {
           <p className="service-eyebrow">Settings & diagnostics</p>
           <h1>API Service Dashboard</h1>
           <p className="service-subtitle">
-            Inspect API uptime, request volume, error rate, and endpoint activity for the parking lot application.
+              API uptime, request volume, error rate, logging, and endpoint activity.
           </p>
         </header>
         <main className="service-container">
@@ -111,7 +111,7 @@ function APIDashboard(): JSX.Element {
           </div>
         </main>
         <footer>
-          <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
+            <p>&copy; 2026 Isaac - Parking App Demo.</p>
         </footer>
       </>
   );

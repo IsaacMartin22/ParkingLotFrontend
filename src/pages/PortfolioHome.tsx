@@ -29,19 +29,19 @@ const systemContributions = [
   {
     title: 'Frontend app',
     description:
-      'This repository hosts this site along with the Parking app frontend: routing, app frontend, data hooks, and diagnostic dashboards.',
+      'Contains this site, the Parking frontend, and diagnostic dashboards for the Parking app\'s services.',
     link: FRONTEND_GITHUB,
   },
   {
     title: 'Java API backend',
     description:
-      'A CRUD Java API layer which provides parking info and diagnostics. Emits SSE events on parking lot changes to keep the frontend up to date in real time.',
+      'CRUD Java API layer which provides parking info and diagnostics. Emits SSE events to keep client(s) up to date.',
     link: API_GITHUB,
   },
   {
     title: 'Event generation',
     description:
-      'A barebones Java application that wraps an SDK for the API. Can be cloned and run to simulate parking lot events.',
+      'Barebones Java application that wraps an SDK for the API. Can be cloned and run to simulate parking lot events.',
     link: EVENT_GENERATOR_GITHUB,
   },
 ];
@@ -95,12 +95,6 @@ function PortfolioHome(): JSX.Element {
         <section className="intro-grid intro-support-grid" aria-label="Project references and technologies">
           <article className="intro-card">
             <h3>System architecture</h3>
-            <p>
-              Other tools are involved with the hosting this site but there are 3 main apps/services responsible for the core functionality.
-              All are created by me and are open source. The frontend, API, and database are each hosted and publicly accessible, the event
-              generator is a standalone Java application wrapping a published SDK for the API. The generator project can be cloned and
-              configured to test the API however desired.
-            </p>
             <div className="intro-architecture-list">
               {systemContributions.map((contribution) => (
                 <div key={contribution.title} className="intro-architecture-item">
@@ -119,7 +113,7 @@ function PortfolioHome(): JSX.Element {
             </p>
             <ul className="intro-tech-list">
               {technologies.map((technology) => (
-                <li key={technology} className="intro-tech-pill">{technology}</li>
+                  <li key={technology} className="intro-tech-pill">{technology}</li>
               ))}
             </ul>
 
@@ -143,4 +137,3 @@ function PortfolioHome(): JSX.Element {
 }
 
 export default PortfolioHome;
-

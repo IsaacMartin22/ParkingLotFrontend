@@ -13,8 +13,8 @@ function ParkingHome(): JSX.Element {
         <p className="service-eyebrow">Project demo · parking experience</p>
         <h1>Parking App Home</h1>
         <p className="service-subtitle">
-          Explore the core product workflow with live parking lot and floor availability, then jump to
-          service dashboards for system-level diagnostics.
+          Explore the main user-facing application with live parking lot information or view
+          service dashboards for infrastructure diagnostics.
         </p>
       </header>
 
@@ -24,9 +24,8 @@ function ParkingHome(): JSX.Element {
             <div>
               <h2>Parking Application</h2>
               <p className="section-copy">
-                The Parking Explorer demonstrates the product-facing experience. The service dashboards display diagnostic
-                information relevant to each service. The non-database dashboards contain external URLs that
-                demonstrate their intended use.
+                The Parking Explorer is the end user experience. Service dashboards display diagnostic metrics.
+                The non-database dashboards contain external URLs for comprehensive information.
               </p>
             </div>
           </div>
@@ -46,18 +45,18 @@ function ParkingHome(): JSX.Element {
               <p>Check request handling, endpoint activity, uptime, and availability for the parking API.</p>
             </Link>
 
-            <Link to="/services/generator" className="service-card">
-              <div className="service-card-icon">⚡</div>
-              <span className="service-card-kicker">Update</span>
-              <h3>Event Generator</h3>
-              <p>Use a Maven published SDK to trigger a stream of Parking Lot events. The site updates in real time.</p>
-            </Link>
-
             <Link to="/services/database" className="service-card">
               <div className="service-card-icon">🗄️</div>
               <span className="service-card-kicker">Persistence</span>
               <h3>Database</h3>
               <p>Review the health of stored parking data for lots, floors, sections, vehicles, and spaces.</p>
+            </Link>
+
+            <Link to="/services/generator" className="service-card">
+              <div className="service-card-icon">⚡</div>
+              <span className="service-card-kicker">Update</span>
+              <h3>Event Generator</h3>
+              <p>Use a Maven published SDK to trigger a stream of Parking Lot events. The site updates in real time.</p>
             </Link>
           </div>
         </section>

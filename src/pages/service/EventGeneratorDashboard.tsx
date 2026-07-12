@@ -21,7 +21,7 @@ function EventGenerator(): JSX.Element {
         <p className="service-eyebrow">Settings & diagnostics</p>
         <h1>Event Generator Dashboard</h1>
         <p className="service-subtitle">
-          No diagnostics for the Event Generator service. Visit GitHub to clone and run the event generator.
+          No diagnostics for the Event Generator service. Visit GitHub to clone and run the event generator using a published SDK of the API.
         </p>
       </header>
       <main className="service-container">
@@ -34,7 +34,7 @@ function EventGenerator(): JSX.Element {
         </div>
       </main>
       <footer>
-        <p>&copy; 2026 LAS Parking Operations Dashboard.</p>
+          <p>&copy; 2026 Isaac - Parking App Demo.</p>
       </footer>
     </>
   );
