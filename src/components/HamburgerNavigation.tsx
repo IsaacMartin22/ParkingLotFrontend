@@ -67,6 +67,7 @@ function HamburgerNavigation() {
       <button
         type="button"
         className="hamburger-toggle"
+        data-analytics-id="hamburger-menu-toggle"
         aria-expanded={isOpen}
         aria-controls="site-navigation-menu"
         aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
@@ -84,6 +85,7 @@ function HamburgerNavigation() {
         <button
           type="button"
           className="hamburger-overlay"
+          data-analytics-id="close-navigation-overlay"
           aria-label="Close navigation menu"
           onClick={() => setIsOpen(false)}
         />
@@ -98,6 +100,7 @@ function HamburgerNavigation() {
                 <li key={item.to}>
                   <NavLink
                     to={item.to}
+                    data-analytics-id={"hamburger-nav-"+item.label.toLowerCase()}
                     className={({ isActive }) => `hamburger-menu-link${isActive ? ' is-active' : ''}`}
                     onClick={() => setIsOpen(false)}
                   >
@@ -115,5 +118,4 @@ function HamburgerNavigation() {
 }
 
 export default HamburgerNavigation;
-
 

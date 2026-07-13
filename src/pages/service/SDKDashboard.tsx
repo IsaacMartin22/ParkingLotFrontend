@@ -8,8 +8,9 @@ function SDK(): JSX.Element {
     <>
       <header className="service-header">
         <div className="service-header-nav">
-          <Link to="/parking" className="back-link">← Parking Home</Link>
+          <Link to="/parking" className="back-link" data-analytics-id={"back-to-parking-home-sdk"}>← Parking Home</Link>
           <a
+              data-analytics-id={"sdk-github-link"}
                 href={SDK_GITHUB}
               className="header-action-link"
               target="_blank"

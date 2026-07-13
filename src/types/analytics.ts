@@ -40,6 +40,7 @@ export interface AnalyticsRequest<TPayload extends AnalyticsPayload = AnalyticsP
   currentUrl: string;
   browser: string;
   operatingSystem: string;
+  sessionId: string;
   ipAddress: string;
   timestamp: string;
   payload: TPayload;

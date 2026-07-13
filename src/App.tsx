@@ -13,7 +13,7 @@ import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
 import ParkingHome from "./pages/ParkingHome";
 import PortfolioHome from './pages/PortfolioHome';
 import Blog from "./pages/Blog";
-import type { AnalyticsRequest, PageViewPayload } from './types/analytics';
+import type { AnalyticsRequest, ClickPayload, PageViewPayload } from './types/analytics';
 import SDK from "./pages/service/SDKDashboard";
 
 const queryClient = new QueryClient();
@@ -29,7 +29,7 @@ function setFavicon(faviconUrl: string): void {
   favicon.href = faviconUrl;
 }
 
-function buildPageViewAnalyticsRequest(referrerUrl: string): AnalyticsRequest<PageViewPayload> {
+function buildPageViewAnalyticsRequest(referrerUrl: string): Omit<AnalyticsRequest<PageViewPayload>, 'sessionId'> {
   return {
     eventType: 'PAGE_VIEW',
     currentUrl: window.location.href,
@@ -43,8 +43,31 @@ function buildPageViewAnalyticsRequest(referrerUrl: string): AnalyticsRequest<Pa
   };
 }
 
+function buildClickAnalyticsRequest(payload: ClickPayload): Omit<AnalyticsRequest<ClickPayload>, 'sessionId'> {
+  return {
+    eventType: 'CLICK',
+    currentUrl: window.location.href,
+    browser: window.navigator.userAgent,
+    operatingSystem: window.navigator.platform,
+    ipAddress: 'unknown',
+    timestamp: new Date().toISOString(),
+    payload,
+  };
+}
+
 function isStaticRouteRewrite(locationSearch: string): boolean {
   return locationSearch.startsWith('?/');
+}
+
+function getClickButtonId(target: EventTarget | null): string | null {
+  if (!(target instanceof HTMLElement)) {
+    return null;
+  }
+
+  const htmlElement = target.closest<HTMLElement>(
+    '[data-analytics-id]'
+  );
+  return htmlElement?.dataset.analyticsId?.trim();
 }
 
 function AppShell(): JSX.Element {
@@ -80,6 +103,26 @@ function AppShell(): JSX.Element {
     lastPageViewKeyRef.current = pageViewKey;
     postAnalyticsRequest(buildPageViewAnalyticsRequest(document.referrer));
   }, [location.pathname, location.search, location.hash, postAnalyticsRequest]);
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      const buttonId = getClickButtonId(event.target);
+      if (!buttonId) {
+        return;
+      }
+
+      postAnalyticsRequest(
+        buildClickAnalyticsRequest({
+          buttonId,
+        })
+      );
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, [postAnalyticsRequest]);
 
   return (
     <div className={`App app-shell ${isParkingExperience ? 'app-shell--parking' : 'app-shell--portfolio'}`}>

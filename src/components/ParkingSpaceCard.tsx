@@ -59,6 +59,7 @@ export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: Parki
 
       <div className="space-action-buttons">
         <button
+          data-analytics-id={"add-car-"+parkingSpace.id}
           onClick={handleAddCar}
           disabled={isOccupied || isLoading}
           aria-label="Add car"
@@ -68,6 +69,7 @@ export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: Parki
           +
         </button>
         <button
+          data-analytics-id={"remove-car-"+parkingSpace.id}
           onClick={handleRemoveCar}
           disabled={!isOccupied || isLoading}
           aria-label="Remove car"

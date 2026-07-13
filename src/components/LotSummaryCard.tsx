@@ -11,7 +11,7 @@ export default function LotSummaryCard({ lot }: LotSummaryCardProps) {
   const { capacity, occupied, available, percentFull } = getCapacityInfo(lot.totalCapacity, lot.totalFreeSpaces);
 
   return (
-    <Link to={`/parking-lots/${lot.id}`} className="parking-card lot-link lot-summary-card">
+    <Link to={`/parking-lots/${lot.id}`} className="parking-card lot-link lot-summary-card" data-analytics-id={"lot-summary-card-"+lot.name.toLowerCase()}>
       <div className="parking-card-header">
         <h4>{lot.name}</h4>
         <span className="parking-status">{lot.type}</span>

@@ -62,10 +62,11 @@ function PortfolioHome(): JSX.Element {
             is open source and available on my GitHub profile.
           </p>
           <div className="intro-actions">
-            <Link to="/parking" className="intro-primary-link">Explore Parking Lots</Link>
-            <Link to="/analytics" className="intro-secondary-link">View Site Analytics</Link>
-            <Link to="/blog" className="intro-secondary-link">Development Blog</Link>
+            <Link to="/parking" className="intro-primary-link" data-analytics-id={"portfolio-parking-link"}>Explore Parking Lots</Link>
+            <Link to="/analytics" className="intro-secondary-link" data-analytics-id={"portfolio-analytics-link"}>View Site Analytics</Link>
+            <Link to="/blog" className="intro-secondary-link" data-analytics-id={"portfolio-blog-link"}>Development Blog</Link>
             <a
+              data-analytics-id={"portfolio-github-link"}
               href="https://github.com/IsaacMartin22"
               className="intro-secondary-link"
               target="_blank"

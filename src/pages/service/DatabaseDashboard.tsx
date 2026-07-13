@@ -95,7 +95,7 @@ function DatabaseDashboard(): JSX.Element {
     <>
       <header className="service-header">
         <div className="service-header-nav">
-            <Link to="/parking" className="back-link">← Parking Home</Link>
+            <Link to="/parking" className="back-link" data-analytics-id="back-to-parking-home-database">← Parking Home</Link>
         </div>
         <p className="service-eyebrow">Settings & diagnostics</p>
         <h1>Database Dashboard</h1>

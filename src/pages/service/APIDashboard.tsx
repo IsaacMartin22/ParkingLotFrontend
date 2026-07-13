@@ -72,8 +72,9 @@ function APIDashboard(): JSX.Element {
       <>
         <header className="service-header">
           <div className="service-header-nav">
-            <Link to="/parking" className="back-link">← Parking Home</Link>
+            <Link to="/parking" className="back-link" data-analytics-id={"back-to-parking-home-api"}>← Parking Home</Link>
             <a
+                data-analytics-id={"api-documentation"}
                 href={API_WEBPAGE}
                 className="header-action-link"
                 target="_blank"
