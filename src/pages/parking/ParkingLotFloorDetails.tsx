@@ -5,8 +5,10 @@ import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import {ParkingSpaceResponse, Floor} from "../../types/parking";
 import useFloorForParkingLot from "../../network/useFloorForParkingLot";
+import usePostAnalyticsRequest from "../../network/usePostAnalyticsRequest";
 import ParkingSpaceCard from "../../components/ParkingSpaceCard";
 import { API_URL } from "../../types/constants";
+import type { AnalyticsRequest, ClientSSEReceivedPayload } from "../../types/analytics";
 
 interface RouteParams {
   lotId: string;
@@ -59,11 +61,30 @@ function updateFloorFromSseEvent(currentFloor: Floor, event: ParkingSpaceSseEven
   };
 }
 
+function buildClientSseReceivedAnalyticsRequest(
+  spaceId: number,
+  add: boolean
+): AnalyticsRequest<ClientSSEReceivedPayload> {
+  return {
+    eventType: 'CLIENT_SSE_RECEIVED',
+    currentUrl: window.location.href,
+    browser: window.navigator.userAgent,
+    operatingSystem: window.navigator.platform,
+    ipAddress: 'unknown',
+    timestamp: new Date().toISOString(),
+    payload: {
+      spaceId,
+      add,
+    },
+  };
+}
+
 export default function ParkingLotFloors() {
   // @ts-ignore
   const { lotId, floorId } = useParams<RouteParams>();
   const queryClient = useQueryClient();
   const { data: floor, isLoading: loading, isError } = useFloorForParkingLot(lotId, floorId);
+  const postAnalyticsRequest = usePostAnalyticsRequest();
 
   useEffect(() => {
     if (!lotId || !floorId) {
@@ -79,6 +100,8 @@ export default function ParkingLotFloors() {
           ...parsedEvent,
           action: parsedEvent.action,
         };
+
+        postAnalyticsRequest.mutate(buildClientSseReceivedAnalyticsRequest(event.spaceId, event.action === "UPDATE"));
 
         queryClient.setQueryData<Floor | undefined>(
           ['parkingLotFloor', lotId, floorId],
@@ -96,8 +119,6 @@ export default function ParkingLotFloors() {
     eventSource.addEventListener('ADD', handleParkingSpaceEvent);
     eventSource.addEventListener('UPDATE', handleParkingSpaceEvent);
     eventSource.addEventListener('REMOVE', handleParkingSpaceEvent);
-    eventSource.addEventListener('OCCUPY', handleParkingSpaceEvent);
-    eventSource.addEventListener('VACATE', handleParkingSpaceEvent);
     eventSource.addEventListener('parking-space-added', handleParkingSpaceEvent);
     eventSource.addEventListener('parking-space-updated', handleParkingSpaceEvent);
     eventSource.addEventListener('parking-space-removed', handleParkingSpaceEvent);
@@ -112,7 +133,7 @@ export default function ParkingLotFloors() {
     return () => {
       eventSource.close();
     };
-  }, [floorId, lotId, queryClient]);
+  }, [floorId, lotId, postAnalyticsRequest, queryClient]);
 
   if (loading) {
     return (

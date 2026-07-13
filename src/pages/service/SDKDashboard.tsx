@@ -1,35 +1,35 @@
 import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/ServicePageStyles.css';
-import {EVENT_GENERATOR_GITHUB} from "../../types/constants";
+import { SDK_GITHUB } from "../../types/constants";
 
-function EventGenerator(): JSX.Element {
+function SDK(): JSX.Element {
   return (
     <>
       <header className="service-header">
         <div className="service-header-nav">
           <Link to="/parking" className="back-link">← Parking Home</Link>
           <a
-                href={EVENT_GENERATOR_GITHUB}
+                href={SDK_GITHUB}
               className="header-action-link"
               target="_blank"
               rel="noreferrer"
           >
-            Clone and Run ↗
+            Clone the SDK ↗
           </a>
         </div>
         <p className="service-eyebrow">Settings & diagnostics</p>
-        <h1>Event Generator Dashboard</h1>
+        <h1>SDK Dashboard</h1>
         <p className="service-subtitle">
-          No diagnostics for the Event Generator service. Visit GitHub to clone and run the event generator using a published SDK of the API.
+          No diagnostics for SDK. Visit GitHub to clone and use the published SDK for the API.
         </p>
       </header>
       <main className="service-container">
         <div className="service-details">
           <h3>Overview</h3>
           <p>
-            This service isn't hosted, there are no diagnostics. It is intended to be cloned and run locally.
-            Visit GitHub to clone and run the event generator.
+            SDKs are not hosted, there are no diagnostics. It is intended to be cloned and run locally.
+            Visit GitHub to clone and use the SDK.
           </p>
         </div>
       </main>
@@ -40,4 +40,4 @@ function EventGenerator(): JSX.Element {
   );
 }
 
-export default EventGenerator;
+export default SDK;

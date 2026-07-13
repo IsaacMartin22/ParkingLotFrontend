@@ -27,7 +27,7 @@ const navigationSections: NavigationSection[] = [
       { label: 'App', to: '/parking', description: 'Open the parking experience home page' },
       { label: 'API', to: '/services/api', description: 'Inspect API service health' },
       { label: 'Database', to: '/services/database', description: 'Inspect database service health' },
-      { label: 'Generator', to: '/services/generator', description: 'Clone and run the Event Generator' },
+      { label: 'SDK', to: '/services/sdk', description: 'Clone and use the API SDK' },
     ],
   },
 ];

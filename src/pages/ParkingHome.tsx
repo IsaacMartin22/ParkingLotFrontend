@@ -42,21 +42,21 @@ function ParkingHome(): JSX.Element {
               <div className="service-card-icon">🛫</div>
               <span className="service-card-kicker">Traffic</span>
               <h3>API Service</h3>
-              <p>Check request handling, endpoint activity, uptime, and availability for the parking API.</p>
+              <p>Check endpoint activity, uptime, and performance for the parking API.</p>
             </Link>
 
             <Link to="/services/database" className="service-card">
               <div className="service-card-icon">🗄️</div>
               <span className="service-card-kicker">Persistence</span>
               <h3>Database</h3>
-              <p>Review the health of stored parking data for lots, floors, sections, vehicles, and spaces.</p>
+              <p>Review the health of stored parking data for lots, floors, sections, and spaces.</p>
             </Link>
 
-            <Link to="/services/generator" className="service-card">
+            <Link to="/services/sdk" className="service-card">
               <div className="service-card-icon">⚡</div>
               <span className="service-card-kicker">Update</span>
-              <h3>Event Generator</h3>
-              <p>Use a Maven published SDK to trigger a stream of Parking Lot events. The site updates in real time.</p>
+              <h3>SDK</h3>
+              <p>Use a Maven published SDK to programatically interact with the API.</p>
             </Link>
           </div>
         </section>

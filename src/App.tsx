@@ -1,12 +1,11 @@
-import React, {JSX, useEffect} from 'react';
+import React, {JSX, useEffect, useRef} from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './styles/HeaderFooter.css';
 import HamburgerNavigation from './components/HamburgerNavigation';
-import usePingAPI from './network/usePingAPI';
+import usePostAnalyticsRequest from './network/usePostAnalyticsRequest';
 import APIDashboard from './pages/service/APIDashboard';
 import DatabaseDashboard from './pages/service/DatabaseDashboard';
-import EventGeneratorDashboard from './pages/service/EventGeneratorDashboard';
 import ParkingLotsOverview from './pages/parking/ParkingLotsOverview';
 import ParkingLotDetails from './pages/parking/ParkingLotDetails';
 import NotFound from './pages/NotFound';
@@ -14,15 +13,10 @@ import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
 import ParkingHome from "./pages/ParkingHome";
 import PortfolioHome from './pages/PortfolioHome';
 import Blog from "./pages/Blog";
-
+import type { AnalyticsRequest, PageViewPayload } from './types/analytics';
+import SDK from "./pages/service/SDKDashboard";
 
 const queryClient = new QueryClient();
-
-function PageNavigationPingTracker(): null {
-  usePingAPI();
-
-  return null;
-}
 
 function setFavicon(faviconUrl: string): void {
   let favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
@@ -35,8 +29,28 @@ function setFavicon(faviconUrl: string): void {
   favicon.href = faviconUrl;
 }
 
+function buildPageViewAnalyticsRequest(referrerUrl: string): AnalyticsRequest<PageViewPayload> {
+  return {
+    eventType: 'PAGE_VIEW',
+    currentUrl: window.location.href,
+    browser: window.navigator.userAgent,
+    operatingSystem: window.navigator.platform,
+    ipAddress: 'unknown',
+    timestamp: new Date().toISOString(),
+    payload: {
+      referrerUrl,
+    },
+  };
+}
+
+function isStaticRouteRewrite(locationSearch: string): boolean {
+  return locationSearch.startsWith('?/');
+}
+
 function AppShell(): JSX.Element {
   const location = useLocation();
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+  const lastPageViewKeyRef = useRef<string | null>(null);
   const isParkingExperience =
     location.pathname.startsWith('/parking') ||
     location.pathname.startsWith('/parking-lots') ||
@@ -52,9 +66,23 @@ function AppShell(): JSX.Element {
     setFavicon(portfolioFaviconUrl);
   }, [isParkingExperience, portfolioFaviconUrl]);
 
+  useEffect(() => {
+    if (isStaticRouteRewrite(location.search)) {
+      return;
+    }
+
+    const pageViewKey = `${location.pathname}${location.search}${location.hash}`;
+
+    if (lastPageViewKeyRef.current === pageViewKey) {
+      return;
+    }
+
+    lastPageViewKeyRef.current = pageViewKey;
+    postAnalyticsRequest(buildPageViewAnalyticsRequest(document.referrer));
+  }, [location.pathname, location.search, location.hash, postAnalyticsRequest]);
+
   return (
     <div className={`App app-shell ${isParkingExperience ? 'app-shell--parking' : 'app-shell--portfolio'}`}>
-      <PageNavigationPingTracker />
       <HamburgerNavigation />
       <Routes>
         <Route path="/" element={<PortfolioHome />} />
@@ -62,7 +90,7 @@ function AppShell(): JSX.Element {
         <Route path="/parking" element={<ParkingHome />} />
         <Route path="/services/api" element={<APIDashboard />} />
         <Route path="/services/database" element={<DatabaseDashboard />} />
-        <Route path="/services/generator" element={<EventGeneratorDashboard />} />
+        <Route path="/services/sdk" element={<SDK />} />
         <Route path="/parking-lots" element={<ParkingLotsOverview />} />
         <Route path="/parking-lots/:lotId/floors/:floorId" element={<ParkingLotFloorDetails />} />
         <Route path="/parking-lots/:lotId" element={<ParkingLotDetails />} />

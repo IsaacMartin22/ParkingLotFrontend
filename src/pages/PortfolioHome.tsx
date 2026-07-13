@@ -1,7 +1,7 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/IntroHome.css';
-import { API_GITHUB, EVENT_GENERATOR_GITHUB, FRONTEND_GITHUB } from "../types/constants";
+import { API_GITHUB, SDK_GITHUB, FRONTEND_GITHUB } from "../types/constants";
 
 const technologies = [
   'React',
@@ -11,6 +11,7 @@ const technologies = [
   'PostgreSQL',
   'Buildkite',
   'Docker',
+  'Sumologic',
   'Maven',
   'Java SDK',
   'Render',
@@ -39,10 +40,10 @@ const systemContributions = [
     link: API_GITHUB,
   },
   {
-    title: 'Event generation',
+    title: 'SDK',
     description:
-      'Barebones Java application that wraps an SDK for the API. Can be cloned and run to simulate parking lot events.',
-    link: EVENT_GENERATOR_GITHUB,
+      'Barebones Java application wrapping an SDK for the API. Used to programmatically interact with the API.',
+    link: SDK_GITHUB,
   },
 ];
 
@@ -62,7 +63,8 @@ function PortfolioHome(): JSX.Element {
           </p>
           <div className="intro-actions">
             <Link to="/parking" className="intro-primary-link">Explore Parking Lots</Link>
-            <Link to="/blog" className="intro-secondary-link">Read my Development Blog</Link>
+            <Link to="/analytics" className="intro-secondary-link">View Site Analytics</Link>
+            <Link to="/blog" className="intro-secondary-link">Development Blog</Link>
             <a
               href="https://github.com/IsaacMartin22"
               className="intro-secondary-link"

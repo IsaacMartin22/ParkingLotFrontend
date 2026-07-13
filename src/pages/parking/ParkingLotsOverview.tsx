@@ -27,7 +27,7 @@ function ParkingLotsOverview() {
       <main className="service-container">
         <div className="service-details parking-container parking-content--lots">
           <h3>Parking Lots Overview</h3>
-          {loading && <p>Loading parking lot data... Please wait. A request to wake up the API service was initiated on site load but it takes a minute to wake up from inactivity.</p>}
+          {loading && <p>Loading parking lot data...</p>}
           {isError && <p className="error">Error: {'Error fetching parking lot data'}</p>}
 
           {!loading && !isError && (
