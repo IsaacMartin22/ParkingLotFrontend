@@ -16,7 +16,8 @@ import Blog from "./pages/Blog";
 import type { AnalyticsRequest, ClickPayload, PageViewPayload } from './types/analytics';
 import SDK from "./pages/service/SDKDashboard";
 import AnalyticsDashboard from './pages/service/AnalyticsDashboard';
-import DeploymentDashboard from './pages/service/DeploymentDashboard';
+import BuildsDashboard from './pages/service/BuildsDashboard';
+import DeploymentsDashboard from "./pages/service/DeploymentsDashboard";
 
 const queryClient = new QueryClient();
 
@@ -136,7 +137,8 @@ function AppShell(): JSX.Element {
         <Route path="/database" element={<DatabaseDashboard />} />
         <Route path="/sdk" element={<SDK />} />
         <Route path="/analytics" element={<AnalyticsDashboard />} />
-        <Route path="/deployments" element={<DeploymentDashboard />} />
+        <Route path="/builds" element={<BuildsDashboard />} />
+        <Route path="/deployments" element={<DeploymentsDashboard />} />
         <Route path="/parking-lots" element={<ParkingLotsOverview />} />
         <Route path="/parking-lots/:lotId/floors/:floorId" element={<ParkingLotFloorDetails />} />
         <Route path="/parking-lots/:lotId" element={<ParkingLotDetails />} />

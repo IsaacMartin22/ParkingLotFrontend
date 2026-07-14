@@ -3,6 +3,10 @@ import { API_URL } from '../types/constants';
 import { AnalyticsRequest } from '../types/analytics';
 
 async function postAnalyticsRequest(request: AnalyticsRequest): Promise<void> {
+  if (request.currentUrl?.includes('localhost')) {
+    return;
+  }
+
   const res = await fetch(`${API_URL}/analytics`, {
     method: 'POST',
     headers: {

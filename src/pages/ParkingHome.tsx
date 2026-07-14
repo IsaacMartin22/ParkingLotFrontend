@@ -63,14 +63,21 @@ function ParkingHome(): JSX.Element {
               <div className="service-card-icon">🧩</div>
               <span className="service-card-kicker">Automate</span>
               <h3>SDK</h3>
-              <p>Use a Maven published SDK to programatically interact with the API.</p>
+              <p>Use a Maven published SDK to programmatically interact with the API.</p>
+            </Link>
+
+            <Link to="/builds" className="service-card" data-analytics-id="builds-link">
+              <div className="service-card-icon">🧱</div>
+              <span className="service-card-kicker">CI</span>
+              <h3>Builds</h3>
+              <p>View recently triggered CI pipelines and build information.</p>
             </Link>
 
             <Link to="/deployments" className="service-card" data-analytics-id="deployments-link">
               <div className="service-card-icon">🚀</div>
               <span className="service-card-kicker">Release</span>
               <h3>Deployments</h3>
-              <p>Track recent build and deployment status and activity.</p>
+              <p>Track recent deployment statuses for services.</p>
             </Link>
           </div>
         </section>

@@ -414,22 +414,22 @@
   font-size: 0.8rem;
 }
 
-.deployment-dashboard-section {
+.build-dashboard-section {
   margin-top: 0;
 }
 
-.deployment-error-message {
+.build-error-message {
   color: #9f1239;
   font-weight: 700;
 }
 
-.deployment-pipeline-grid {
+.build-pipeline-grid {
   display: grid;
   gap: 16px;
   margin-top: 16px;
 }
 
-.deployment-pipeline-card {
+.build-pipeline-card {
   border: 1px solid var(--las-border);
   border-radius: 16px;
   background: rgba(248, 251, 255, 0.98);
@@ -437,7 +437,7 @@
   overflow: hidden;
 }
 
-.deployment-pipeline-card-header {
+.build-pipeline-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -447,18 +447,18 @@
   border-bottom: 1px solid var(--las-border);
 }
 
-.deployment-pipeline-card-header h4 {
+.build-pipeline-card-header h4 {
   margin: 0;
   color: var(--las-navy);
 }
 
-.deployment-pipeline-card-header p {
+.build-pipeline-card-header p {
   margin: 4px 0 0;
   color: var(--las-muted);
   font-size: 0.84rem;
 }
 
-.deployment-recent-count {
+.build-recent-count {
   display: inline-flex;
   align-items: center;
   padding: 6px 12px;
@@ -472,17 +472,17 @@
   text-transform: uppercase;
 }
 
-.deployment-build-table-wrapper {
+.build-table-wrapper {
   overflow-x: auto;
 }
 
-.deployment-build-table {
+.build-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.deployment-build-table th,
-.deployment-build-table td {
+.build-table th,
+.build-table td {
   border-bottom: 1px solid var(--las-border);
   text-align: left;
   padding: 10px 12px;
@@ -490,7 +490,7 @@
   font-size: 0.9rem;
 }
 
-.deployment-build-table th {
+.build-table th {
   color: var(--las-navy);
   font-size: 0.78rem;
   font-weight: 800;
@@ -499,8 +499,39 @@
   background: rgba(15, 53, 87, 0.06);
 }
 
-.deployment-build-table tbody tr:last-child td {
+.build-table tbody tr:last-child td {
   border-bottom: none;
+}
+
+.build-state-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.build-state-badge--success {
+  color: #14532d;
+  background: rgba(22, 163, 74, 0.14);
+  border: 1px solid rgba(22, 163, 74, 0.45);
+}
+
+.build-state-badge--failure {
+  color: #9f1239;
+  background: rgba(225, 29, 72, 0.14);
+  border: 1px solid rgba(225, 29, 72, 0.45);
+}
+
+.build-state-badge--blocked,
+.build-state-badge--in-progress,
+.build-state-badge--unknown {
+  color: #7c2d12;
+  background: rgba(249, 115, 22, 0.14);
+  border: 1px solid rgba(249, 115, 22, 0.45);
 }
 
 .deployment-state-badge {
@@ -526,12 +557,22 @@
   border: 1px solid rgba(225, 29, 72, 0.45);
 }
 
-.deployment-state-badge--blocked,
-.deployment-state-badge--in-progress,
+.deployment-state-badge--blocked {
+  color: #92400e;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+}
+
+.deployment-state-badge--in-progress {
+  color: #075985;
+  background: rgba(14, 165, 233, 0.14);
+  border: 1px solid rgba(14, 165, 233, 0.45);
+}
+
 .deployment-state-badge--unknown {
-  color: #7c2d12;
-  background: rgba(249, 115, 22, 0.14);
-  border: 1px solid rgba(249, 115, 22, 0.45);
+  color: #334155;
+  background: rgba(100, 116, 139, 0.14);
+  border: 1px solid rgba(100, 116, 139, 0.45);
 }
 
 @media (max-width: 768px) {
@@ -584,7 +625,7 @@
     grid-template-columns: 1fr;
   }
 
-  .deployment-pipeline-card-header {
+  .build-pipeline-card-header {
     align-items: flex-start;
   }
 }

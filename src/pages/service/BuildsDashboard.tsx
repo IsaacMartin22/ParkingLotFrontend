@@ -177,7 +177,7 @@ function buildPipelineGroups(buildInfo: BuildkiteBuildResponse[]): PipelineBuild
     .slice(0, 3);
 }
 
-function DeploymentDashboard(): JSX.Element {
+function BuildsDashboard(): JSX.Element {
   const { data: buildInfo = [], isLoading, isError, error } = useBuildkiteInfo();
   const pipelineGroups = buildPipelineGroups(buildInfo);
 
@@ -185,23 +185,23 @@ function DeploymentDashboard(): JSX.Element {
     <>
       <header className="service-header">
         <div className="service-header-nav">
-          <Link to="/parking" className="back-link" data-analytics-id="back-to-parking-home-deployments">
+          <Link to="/parking" className="back-link" data-analytics-id="back-to-parking-home-builds">
             ← Parking Home
           </Link>
         </div>
         <p className="service-eyebrow">Settings & diagnostics</p>
-        <h1>Deployments Dashboard</h1>
+        <h1>Builds Dashboard</h1>
         <p className="service-subtitle">
           30 most recent builds for pipelines, including outcomes, duration, and timestamps.
         </p>
       </header>
 
       <main className="service-container">
-        <section className="service-details deployment-dashboard-section">
+        <section className="service-details build-dashboard-section">
           <h3>Recent Builds by Pipeline</h3>
           {isLoading && <p>Loading recent pipeline builds...</p>}
           {isError && (
-            <p className="deployment-error-message">
+            <p className="build-error-message">
               {error instanceof Error ? error.message : 'Failed to load Buildkite build information.'}
             </p>
           )}
@@ -210,19 +210,19 @@ function DeploymentDashboard(): JSX.Element {
           )}
 
           {!isLoading && !isError && pipelineGroups.length > 0 && (
-            <div className="deployment-pipeline-grid">
+            <div className="build-pipeline-grid">
               {pipelineGroups.map((pipelineGroup) => (
-                <article className="deployment-pipeline-card" key={pipelineGroup.key}>
-                  <div className="deployment-pipeline-card-header">
+                <article className="build-pipeline-card" key={pipelineGroup.key}>
+                  <div className="build-pipeline-card-header">
                     <div>
                       <h4>{pipelineGroup.name}</h4>
                       <p>Pipeline slug: {pipelineGroup.slug}</p>
                     </div>
-                    <span className="deployment-recent-count">{pipelineGroup.builds.length} recent builds</span>
+                    <span className="build-recent-count">{pipelineGroup.builds.length} recent builds</span>
                   </div>
 
-                  <div className="deployment-build-table-wrapper">
-                    <table className="deployment-build-table">
+                  <div className="build-table-wrapper">
+                    <table className="build-table">
                       <thead>
                         <tr>
                           <th>Build</th>
@@ -241,7 +241,7 @@ function DeploymentDashboard(): JSX.Element {
                             <tr key={build.id}>
                               <td>#{build.number ?? 'N/A'}</td>
                               <td>
-                                <span className={`deployment-state-badge deployment-state-badge--${buildStatus.status}`}>
+                                <span className={`build-state-badge build-state-badge--${buildStatus.status}`}>
                                   {buildStatus.label}
                                 </span>
                               </td>
@@ -286,4 +286,4 @@ function DeploymentDashboard(): JSX.Element {
   );
 }
 
-export default DeploymentDashboard;
+export default BuildsDashboard;
