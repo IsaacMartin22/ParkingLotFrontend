@@ -7,16 +7,16 @@ export type BuildkitePipeline = {
 export type BuildkiteBuildResponse = {
   id: string;
   number: number | null;
-  state: string;
+  state: string | null;
   blocked: boolean;
-  cancelReason: string | null;
-  message: string;
-  commit: string;
-  branch: string;
-  source: string;
+  cancel_reason: string | null;
+  message: string | null;
+  commit: string | null;
+  branch: string | null;
+  source: string | null;
   pipeline: BuildkitePipeline | null;
-  createdAt: string | null;
-  scheduledAt: string | null;
-  startedAt: string | null;
-  finishedAt: string | null;
+  created_at: string | null;
+  scheduled_at: string | null;
+  started_at: string | null;
+  finished_at: string | null;
 };

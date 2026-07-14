@@ -20,37 +20,43 @@ function toNullableString(value: unknown): string | null {
   return typeof value === 'string' ? value : null;
 }
 
-function validateBuildkiteInfo(response: unknown): BuildkiteBuildResponse {
-  if (!response || typeof response !== 'object') {
+function validateBuildkiteInfo(response: unknown): BuildkiteBuildResponse[] {
+  if (!Array.isArray(response)) {
     throw new Error(`Invalid buildkite info data: ${JSON.stringify(response)}`);
   }
 
-  const parsed = response as Partial<BuildkiteBuildResponse>;
+  return response.map((item) => {
+    if (!item || typeof item !== 'object') {
+      throw new Error(`Invalid buildkite build item: ${JSON.stringify(item)}`);
+    }
 
-  if (typeof parsed.id !== 'string' || typeof parsed.state !== 'string') {
-    throw new Error(`Invalid buildkite info data: ${JSON.stringify(response)}`);
-  }
+    const parsed = item as Partial<BuildkiteBuildResponse>;
 
-  return {
-    id: parsed.id,
-    number: typeof parsed.number === 'number' && Number.isFinite(parsed.number) ? parsed.number : null,
-    state: parsed.state,
-    blocked: Boolean(parsed.blocked),
-    cancelReason: toNullableString(parsed.cancelReason),
-    message: typeof parsed.message === 'string' ? parsed.message : '',
-    commit: typeof parsed.commit === 'string' ? parsed.commit : '',
-    branch: typeof parsed.branch === 'string' ? parsed.branch : '',
-    source: typeof parsed.source === 'string' ? parsed.source : '',
-    pipeline: isBuildkitePipeline(parsed.pipeline) ? parsed.pipeline : null,
-    createdAt: toNullableString(parsed.createdAt),
-    scheduledAt: toNullableString(parsed.scheduledAt),
-    startedAt: toNullableString(parsed.startedAt),
-    finishedAt: toNullableString(parsed.finishedAt),
-  };
+    if (typeof parsed.id !== 'string') {
+      throw new Error(`Invalid buildkite build item id: ${JSON.stringify(parsed)}`);
+    }
+
+    return {
+      id: parsed.id,
+      number: typeof parsed.number === 'number' && Number.isFinite(parsed.number) ? parsed.number : null,
+      state: toNullableString(parsed.state),
+      blocked: Boolean(parsed.blocked),
+      cancel_reason: toNullableString(parsed.cancel_reason),
+      message: toNullableString(parsed.message),
+      commit: toNullableString(parsed.commit),
+      branch: toNullableString(parsed.branch),
+      source: toNullableString(parsed.source),
+      pipeline: isBuildkitePipeline(parsed.pipeline) ? parsed.pipeline : null,
+      created_at: toNullableString(parsed.created_at),
+      scheduled_at: toNullableString(parsed.scheduled_at),
+      started_at: toNullableString(parsed.started_at),
+      finished_at: toNullableString(parsed.finished_at),
+    };
+  });
 }
 
-async function fetchBuildkiteInfo(): Promise<BuildkiteBuildResponse> {
-  const res = await fetch(`${API_URL}/diagnostics/buildkite`);
+async function fetchBuildkiteInfo(): Promise<BuildkiteBuildResponse[]> {
+  const res = await fetch(`${API_URL}/integrations/bk`);
   if (!res.ok) throw new Error(`API responded with ${res.status}`);
 
   const data: unknown = await res.json();

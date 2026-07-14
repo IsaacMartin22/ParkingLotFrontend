@@ -414,6 +414,126 @@
   font-size: 0.8rem;
 }
 
+.deployment-dashboard-section {
+  margin-top: 0;
+}
+
+.deployment-error-message {
+  color: #9f1239;
+  font-weight: 700;
+}
+
+.deployment-pipeline-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.deployment-pipeline-card {
+  border: 1px solid var(--las-border);
+  border-radius: 16px;
+  background: rgba(248, 251, 255, 0.98);
+  box-shadow: 0 10px 24px rgba(7, 26, 47, 0.08);
+  overflow: hidden;
+}
+
+.deployment-pipeline-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--las-border);
+}
+
+.deployment-pipeline-card-header h4 {
+  margin: 0;
+  color: var(--las-navy);
+}
+
+.deployment-pipeline-card-header p {
+  margin: 4px 0 0;
+  color: var(--las-muted);
+  font-size: 0.84rem;
+}
+
+.deployment-recent-count {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(72, 183, 216, 0.12);
+  border: 1px solid rgba(72, 183, 216, 0.36);
+  color: var(--las-navy);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.deployment-build-table-wrapper {
+  overflow-x: auto;
+}
+
+.deployment-build-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.deployment-build-table th,
+.deployment-build-table td {
+  border-bottom: 1px solid var(--las-border);
+  text-align: left;
+  padding: 10px 12px;
+  color: var(--las-asphalt);
+  font-size: 0.9rem;
+}
+
+.deployment-build-table th {
+  color: var(--las-navy);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(15, 53, 87, 0.06);
+}
+
+.deployment-build-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.deployment-state-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.deployment-state-badge--success {
+  color: #14532d;
+  background: rgba(22, 163, 74, 0.14);
+  border: 1px solid rgba(22, 163, 74, 0.45);
+}
+
+.deployment-state-badge--failure {
+  color: #9f1239;
+  background: rgba(225, 29, 72, 0.14);
+  border: 1px solid rgba(225, 29, 72, 0.45);
+}
+
+.deployment-state-badge--blocked,
+.deployment-state-badge--in-progress,
+.deployment-state-badge--unknown {
+  color: #7c2d12;
+  background: rgba(249, 115, 22, 0.14);
+  border: 1px solid rgba(249, 115, 22, 0.45);
+}
+
 @media (max-width: 768px) {
   .app-shell--parking .service-header,
   .app-shell--parking .service-container {
@@ -462,5 +582,9 @@
 
   .analytics-summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .deployment-pipeline-card-header {
+    align-items: flex-start;
   }
 }
