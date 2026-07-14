@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import {Floor} from '../types/parking';
 import {toNumber} from "../formattingUtils";
 import {API_URL} from "../types/constants";
+import usePostAnalyticsRequest from './usePostAnalyticsRequest';
+import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
 function normalizeSection(section: any, index: number) {
   const id = toNumber(section?.id ?? section?.sectionId) ?? index + 1;
@@ -47,9 +49,18 @@ async function fetchParkingLotFloor(parkingLotId: string, floorId: string): Prom
 }
 
 export default function useFloorForParkingLot(parkingLotId: string, floorId: string) {
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+
+  async function fetchParkingLotFloorWithAnalytics(): Promise<Floor> {
+    const startedAt = Date.now();
+    const result = await fetchParkingLotFloor(parkingLotId, floorId);
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    return result;
+  }
+
   return useQuery(
     ['parkingLotFloor', parkingLotId, floorId],
-    () => fetchParkingLotFloor(parkingLotId, floorId),
+    fetchParkingLotFloorWithAnalytics,
     {
       enabled: parkingLotId !== undefined && parkingLotId !== null && floorId !== undefined && floorId !== null,
       staleTime: 30_000,

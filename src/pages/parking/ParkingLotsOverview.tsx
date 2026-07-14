@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import useListParkingLots from '../../network/useListParkingLots';
+import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import LotSummaryCard from "../../components/LotSummaryCard";
 
 function ParkingLotsOverview() {
-  const { data: lots = [], isLoading: loading, isError } = useListParkingLots();
+  const { data: lots = [], isLoading: loading, isError, error } = useListParkingLots();
+  useAnalyticsErrorReporter(error, 'Error fetching parking lot data');
 
   return (
     <>
@@ -48,4 +50,3 @@ function ParkingLotsOverview() {
 }
 
 export default ParkingLotsOverview;
-

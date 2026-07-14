@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { BuildkiteBuildResponse, BuildkitePipeline } from '../types/buildkiteInfo';
 import { API_URL } from '../types/constants';
+import usePostAnalyticsRequest from './usePostAnalyticsRequest';
+import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
 function isBuildkitePipeline(value: unknown): value is BuildkitePipeline {
   if (!value || typeof value !== 'object') {
@@ -64,7 +66,16 @@ async function fetchBuildkiteInfo(): Promise<BuildkiteBuildResponse[]> {
 }
 
 export default function useBuildkiteInfo() {
-  return useQuery(['buildkiteInfo'], fetchBuildkiteInfo, {
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+
+  async function fetchBuildkiteInfoWithAnalytics(): Promise<BuildkiteBuildResponse[]> {
+    const startedAt = Date.now();
+    const result = await fetchBuildkiteInfo();
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    return result;
+  }
+
+  return useQuery(['buildkiteInfo'], fetchBuildkiteInfoWithAnalytics, {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

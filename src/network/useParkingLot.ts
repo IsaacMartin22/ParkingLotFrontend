@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { ParkingLotResponse } from '../types/parking';
 import {API_URL} from "../types/constants";
+import usePostAnalyticsRequest from './usePostAnalyticsRequest';
+import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
 function validateLot(lot: ParkingLotResponse): ParkingLotResponse {
   if (!lot.id || !lot.name || !lot.totalCapacity || lot.totalFreeSpaces === undefined || !lot.floorIds) {
@@ -19,9 +21,18 @@ async function fetchParkingLot(parkingLotId: string): Promise<ParkingLotResponse
 }
 
 export default function useParkingLot(parkingLotId?: string) {
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+
+  async function fetchParkingLotWithAnalytics(): Promise<ParkingLotResponse> {
+    const startedAt = Date.now();
+    const result = await fetchParkingLot(parkingLotId);
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    return result;
+  }
+
   return useQuery(
     ['parkingLot', parkingLotId],
-    () => fetchParkingLot(parkingLotId),
+    fetchParkingLotWithAnalytics,
     {
       enabled: parkingLotId !== undefined && parkingLotId !== null,
       staleTime: 30_000,

@@ -343,12 +343,24 @@
   font-weight: 700;
 }
 
-.analytics-table-wrapper {
+.analytics-dashboard-container {
+  width: 100%;
+  max-width: none;
+}
+
+.analytics-dashboard-section {
+  width: 100%;
+}
+
+.analytics-table-scroll {
   overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .analytics-table {
-  width: 100%;
+  min-width: 1450px;
+  width: max-content;
   border-collapse: collapse;
   margin-top: 8px;
 }
@@ -407,11 +419,15 @@
 }
 
 .analytics-payload-cell {
-  max-width: 360px;
-  white-space: pre-wrap;
-  word-break: break-word;
+  min-width: 420px;
+  white-space: nowrap;
+  word-break: normal;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.8rem;
+}
+
+.analytics-nowrap-cell {
+  white-space: nowrap;
 }
 
 .build-dashboard-section {
@@ -623,6 +639,10 @@
 
   .analytics-summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .analytics-table {
+    min-width: 1100px;
   }
 
   .build-pipeline-card-header {

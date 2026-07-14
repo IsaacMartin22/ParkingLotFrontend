@@ -6,9 +6,10 @@ import '../../styles/ParkingLots.css';
 import {ParkingSpaceResponse, Floor} from "../../types/parking";
 import useFloorForParkingLot from "../../network/useFloorForParkingLot";
 import usePostAnalyticsRequest from "../../network/usePostAnalyticsRequest";
+import useAnalyticsErrorReporter from "../../network/useAnalyticsErrorReporter";
+import { buildErrorAnalyticsRequest } from "../../network/analyticsError";
 import ParkingSpaceCard from "../../components/ParkingSpaceCard";
 import { API_URL } from "../../types/constants";
-import type { AnalyticsRequest, ClientSSEReceivedPayload } from "../../types/analytics";
 
 interface RouteParams {
   lotId: string;
@@ -61,29 +62,12 @@ function updateFloorFromSseEvent(currentFloor: Floor, event: ParkingSpaceSseEven
   };
 }
 
-function buildClientSseReceivedAnalyticsRequest(
-  spaceId: number,
-  add: boolean
-): Omit<AnalyticsRequest<ClientSSEReceivedPayload>, 'sessionId'> {
-  return {
-    eventType: 'CLIENT_SSE_RECEIVED',
-    currentUrl: window.location.href,
-    browser: window.navigator.userAgent,
-    operatingSystem: window.navigator.platform,
-    ipAddress: 'unknown',
-    timestamp: new Date().toISOString(),
-    payload: {
-      spaceId,
-      add,
-    },
-  };
-}
-
 export default function ParkingLotFloors() {
   // @ts-ignore
   const { lotId, floorId } = useParams<RouteParams>();
   const queryClient = useQueryClient();
-  const { data: floor, isLoading: loading, isError } = useFloorForParkingLot(lotId, floorId);
+  const { data: floor, isLoading: loading, isError, error } = useFloorForParkingLot(lotId, floorId);
+  useAnalyticsErrorReporter(error, 'Error loading parking lot floor.');
   const postAnalyticsRequest = usePostAnalyticsRequest();
 
   useEffect(() => {
@@ -101,8 +85,6 @@ export default function ParkingLotFloors() {
           action: parsedEvent.action,
         };
 
-        postAnalyticsRequest.mutate(buildClientSseReceivedAnalyticsRequest(event.spaceId, event.action === "UPDATE"));
-
         queryClient.setQueryData<Floor | undefined>(
           ['parkingLotFloor', lotId, floorId],
           (currentFloor) => updateFloorFromSseEvent(currentFloor, event)
@@ -110,6 +92,8 @@ export default function ParkingLotFloors() {
 
         queryClient.invalidateQueries(['parkingLot', lotId]);
       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unable to process parking floor SSE event';
+        postAnalyticsRequest.mutate(buildErrorAnalyticsRequest(errorMessage));
         console.error('Unable to process parking floor SSE event', error);
       }
     };

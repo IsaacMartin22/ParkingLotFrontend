@@ -2,17 +2,13 @@ export type AnalyticsEventType =
   | 'CLICK'
   | 'ERROR'
   | 'NETWORK_SUCCESS'
-  | 'NETWORK_FAILURE'
-  | 'PAGE_VIEW'
-  | 'CLIENT_SSE_RECEIVED';
+  | 'PAGE_VIEW';
 
 export const ANALYTICS_EVENT_TYPES: readonly AnalyticsEventType[] = [
   'CLICK',
   'ERROR',
   'NETWORK_SUCCESS',
-  'NETWORK_FAILURE',
   'PAGE_VIEW',
-  'CLIENT_SSE_RECEIVED',
 ];
 
 export interface ClickPayload {
@@ -23,26 +19,19 @@ export interface ErrorPayload {
   errorMessage: string;
 }
 
-export interface NetworkSuccessPayload {}
-
-export interface NetworkFailurePayload {}
+export interface NetworkSuccessPayload {
+  durationMillis: number;
+}
 
 export interface PageViewPayload {
   referrerUrl: string;
-}
-
-export interface ClientSSEReceivedPayload {
-  spaceId: number;
-  add: boolean;
 }
 
 export type AnalyticsPayload =
   | ClickPayload
   | ErrorPayload
   | NetworkSuccessPayload
-  | NetworkFailurePayload
-  | PageViewPayload
-  | ClientSSEReceivedPayload;
+  | PageViewPayload;
 
 export interface AnalyticsRequest<TPayload extends AnalyticsPayload = AnalyticsPayload> {
   eventType: AnalyticsEventType;

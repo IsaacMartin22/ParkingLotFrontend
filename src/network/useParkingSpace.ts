@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { API_URL } from '../types/constants';
 import { CAR_COLORS, CAR_MAKES, CAR_MAKES_AND_MODELS, CarMake } from '../types/carSpec';
+import usePostAnalyticsRequest from './usePostAnalyticsRequest';
+import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
 function randomFrom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -46,10 +48,21 @@ async function removeCarFromSpace(spaceId: number): Promise<void> {
 }
 
 export function useAddCar() {
-  return useMutation((spaceId: number) => addCarToSpace(spaceId));
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+
+  return useMutation(async (spaceId: number) => {
+    const startedAt = Date.now();
+    await addCarToSpace(spaceId);
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+  });
 }
 
 export function useRemoveCar() {
-  return useMutation((spaceId: number) => removeCarFromSpace(spaceId));
-}
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
 
+  return useMutation(async (spaceId: number) => {
+    const startedAt = Date.now();
+    await removeCarFromSpace(spaceId);
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+  });
+}

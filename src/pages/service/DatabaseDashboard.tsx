@@ -2,6 +2,7 @@ import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../../components/ServiceDiagnostics';
 import useDatabaseDiagnostics from '../../network/useDatabaseDiagnostics';
+import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import { formatDuration } from '../../formattingUtils';
 import '../../styles/ServicePageStyles.css';
 
@@ -19,6 +20,7 @@ function formatBytes(bytes: number): string {
 
 function DatabaseDashboard(): JSX.Element {
   const { data: diagnostics, isLoading, isError, error } = useDatabaseDiagnostics();
+  useAnalyticsErrorReporter(error, 'Failed to load database diagnostics');
   const longRunningQueries = diagnostics?.longRunningQueries ?? [];
   const queryCount = longRunningQueries.length;
 

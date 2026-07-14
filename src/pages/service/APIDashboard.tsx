@@ -2,12 +2,14 @@ import React, {JSX} from 'react';
 import { Link } from 'react-router-dom';
 import ServiceDiagnostics from '../../components/ServiceDiagnostics';
 import useAPIDiagnostics from '../../network/useAPIDiagnostics';
+import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import '../../styles/ServicePageStyles.css';
 import {formatTimestamp, formatDuration} from "../../formattingUtils";
 import { API_WEBPAGE } from '../../types/constants';
 
 function APIDashboard(): JSX.Element {
   const { data: diagnostics, isLoading, isError, error } = useAPIDiagnostics();
+  useAnalyticsErrorReporter(error, 'Failed to load API diagnostics');
 
   const failedRequests = diagnostics?.failedRequests ?? 0;
   const totalRequests = diagnostics?.totalRequests ?? 0;

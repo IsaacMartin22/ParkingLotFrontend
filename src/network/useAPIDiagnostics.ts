@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { APIDiagnostics } from '../types/apiDiagnostics';
 import {API_URL} from "../types/constants";
+import usePostAnalyticsRequest from './usePostAnalyticsRequest';
+import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
 function validateAPIDiagnostics(diagnostics: unknown): APIDiagnostics {
   if (!diagnostics || typeof diagnostics !== 'object') {
@@ -24,7 +26,16 @@ async function fetchAPIDiagnostics(): Promise<APIDiagnostics> {
 }
 
 export default function useAPIDiagnostics() {
-  return useQuery(['apiDiagnostics'], fetchAPIDiagnostics, {
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+
+  async function fetchAPIDiagnosticsWithAnalytics(): Promise<APIDiagnostics> {
+    const startedAt = Date.now();
+    const result = await fetchAPIDiagnostics();
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    return result;
+  }
+
+  return useQuery(['apiDiagnostics'], fetchAPIDiagnosticsWithAnalytics, {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

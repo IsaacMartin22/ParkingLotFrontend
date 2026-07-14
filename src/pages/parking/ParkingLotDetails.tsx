@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import useParkingLot from "../../network/useParkingLot";
+import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import FloorSummary from "../../components/FloorSummary";
 
 interface RouteParams {
@@ -12,7 +13,8 @@ interface RouteParams {
 export default function ParkingLotDetails() {
   // @ts-ignore
   const { lotId } = useParams<RouteParams>();
-  const { data: lot, isLoading: loading, isError } = useParkingLot(lotId);
+  const { data: lot, isLoading: loading, isError, error } = useParkingLot(lotId);
+  useAnalyticsErrorReporter(error, 'Unknown error');
 
   if (loading) return <p>Loading...</p>;
   if (isError) return <p className="error">Error: {'Unknown error'}</p>;
@@ -78,4 +80,3 @@ export default function ParkingLotDetails() {
     </>
   );
 }
-

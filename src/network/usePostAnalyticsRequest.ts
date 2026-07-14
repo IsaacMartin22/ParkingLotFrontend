@@ -4,7 +4,7 @@ import { AnalyticsRequest } from '../types/analytics';
 
 async function postAnalyticsRequest(request: AnalyticsRequest): Promise<void> {
   if (request.currentUrl?.includes('localhost')) {
-    return;
+    //return;
   }
 
   const res = await fetch(`${API_URL}/analytics`, {

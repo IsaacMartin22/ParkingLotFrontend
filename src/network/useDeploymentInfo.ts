@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { API_URL } from '../types/constants';
 import { Commit, Deploy, DeploymentResponse } from '../types/deploymentInfo';
+import usePostAnalyticsRequest from './usePostAnalyticsRequest';
+import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
 function isCommit(value: unknown): value is Commit {
   if (!value || typeof value !== 'object') {
@@ -67,7 +69,16 @@ async function fetchDeploymentInfo(): Promise<DeploymentResponse[]> {
 }
 
 export default function useDeploymentInfo() {
-  return useQuery(['deploymentInfo'], fetchDeploymentInfo, {
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+
+  async function fetchDeploymentInfoWithAnalytics(): Promise<DeploymentResponse[]> {
+    const startedAt = Date.now();
+    const result = await fetchDeploymentInfo();
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    return result;
+  }
+
+  return useQuery(['deploymentInfo'], fetchDeploymentInfoWithAnalytics, {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

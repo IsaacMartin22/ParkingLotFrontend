@@ -1,7 +1,7 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import useDeploymentInfo from '../../network/useDeploymentInfo';
-import { DeploymentResponse } from '../../types/deploymentInfo';
+import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import '../../styles/ServicePageStyles.css';
 
 type DeploymentTone = 'success' | 'failure' | 'in-progress' | 'blocked' | 'unknown';
@@ -10,33 +10,6 @@ type DeploymentStatusInfo = {
   label: string;
   tone: DeploymentTone;
 };
-
-type DeploymentGroup = {
-  key: string;
-  name: string;
-  slug: string;
-  deployments: DeploymentResponse[];
-  latestActivity: number;
-};
-
-function getDeploymentTimestamp(deployment: DeploymentResponse): number {
-  const candidateTimestamps = [
-    deployment.deploy.updatedAt,
-    deployment.deploy.finishedAt,
-    deployment.deploy.startedAt,
-    deployment.deploy.createdAt,
-    deployment.deploy.commit.createdAt,
-  ];
-
-  for (const timestamp of candidateTimestamps) {
-    const parsedTimestamp = new Date(timestamp).getTime();
-    if (!Number.isNaN(parsedTimestamp)) {
-      return parsedTimestamp;
-    }
-  }
-
-  return 0;
-}
 
 function getDeploymentStatus(status: string): DeploymentStatusInfo {
   switch (status) {
@@ -122,6 +95,7 @@ function formatDateTime(value: string): string {
 
 function DeploymentsDashboard(): JSX.Element {
   const { data: deploymentInfo = [], isLoading, isError, error } = useDeploymentInfo();
+  useAnalyticsErrorReporter(error, 'Failed to load deployment information.');
 
   return (
     <>
@@ -134,13 +108,13 @@ function DeploymentsDashboard(): JSX.Element {
         <p className="service-eyebrow">Settings & diagnostics</p>
         <h1>Deployments Dashboard</h1>
         <p className="service-subtitle">
-          30 most recent deployments for pipeline groups, including status, duration, and timestamps.
+          30 most recent deployments, including status, duration, and timestamps.
         </p>
       </header>
 
       <main className="service-container">
         <section className="service-details build-dashboard-section">
-          <h3>Parking lot API service</h3>
+          <h3>Recent Deployments</h3>
           {isLoading && <p>Loading recent deployment information...</p>}
           {isError && (
             <p className="build-error-message">
@@ -151,62 +125,60 @@ function DeploymentsDashboard(): JSX.Element {
             <p>No deployment information is currently available.</p>
           )}
           {!isLoading && !isError && deploymentInfo.length > 0 && (
-              <div className="build-pipeline-grid">
-                <article className="build-pipeline-card">
-                  <div className="build-table-wrapper">
-                    <table className="build-table">
-                      <thead>
-                        <tr>
-                          <th>Status</th>
-                          <th>Duration</th>
-                          <th>Commit</th>
-                          <th>Created</th>
-                          <th>Started</th>
-                          <th>Finished</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {deploymentInfo.map((deploymentResponse) => {
-                          const deployment = deploymentResponse.deploy;
-                          const deploymentStatus = getDeploymentStatus(deployment.status);
+            <div className="build-pipeline-grid">
+              <article className="build-pipeline-card">
+                <div className="build-table-wrapper">
+                  <table className="build-table">
+                    <thead>
+                      <tr>
+                        <th>Status</th>
+                        <th>Duration</th>
+                        <th>Commit</th>
+                        <th>Created</th>
+                        <th>Started</th>
+                        <th>Finished</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {deploymentInfo.map((deploymentResponse) => {
+                        const deployment = deploymentResponse.deploy;
+                        const deploymentStatus = getDeploymentStatus(deployment.status);
 
-                          return (
-                            <tr key={deployment.id}>
-                              <td>
-                                <span className={`deployment-state-badge deployment-state-badge--${deploymentStatus.tone}`}>
-                                  {deploymentStatus.label}
-                                </span>
-                              </td>
-                              <td>{getDeploymentDuration(deployment.startedAt, deployment.finishedAt)}</td>
-                              <td>
-                                <div>{deployment.commit.message}</div>
-                                <div>Commit: {deployment.commit.id}</div>
-                              </td>
-                              <td>{formatDateTime(deployment.createdAt)}</td>
-                              <td>{formatDateTime(deployment.startedAt)}</td>
-                              <td>{formatDateTime(deployment.finishedAt)}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </article>
-              </div>
-
+                        return (
+                          <tr key={deployment.id}>
+                            <td>
+                              <span className={`deployment-state-badge deployment-state-badge--${deploymentStatus.tone}`}>
+                                {deploymentStatus.label}
+                              </span>
+                            </td>
+                            <td>{getDeploymentDuration(deployment.startedAt, deployment.finishedAt)}</td>
+                            <td>
+                              <div>{deployment.commit.message}</div>
+                              <div>Commit: {deployment.commit.id}</div>
+                            </td>
+                            <td>{formatDateTime(deployment.createdAt)}</td>
+                            <td>{formatDateTime(deployment.startedAt)}</td>
+                            <td>{formatDateTime(deployment.finishedAt)}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+            </div>
           )}
         </section>
 
         <section className="service-details">
           <h3>Data Source</h3>
           <p>
-            This dashboard is powered by the deployment feed and grouped by deployment activity. It displays the 20 most recent
-            deployment records.
+            This dashboard is powered by the deployment feed and displays the 30 most recent deployment records.
           </p>
           <div className="database-snapshot-grid">
             <div>
               <span className="service-card-kicker">Deployments Shown</span>
-              <p>{deploymentInfo.length}/20</p>
+              <p>{deploymentInfo.length}/30</p>
             </div>
             <div>
               <span className="service-card-kicker">Total Deployments Received</span>

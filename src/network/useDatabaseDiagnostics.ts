@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { API_URL } from '../types/constants';
 import { DatabaseDiagnostics, LongRunningQuery } from '../types/databaseDiagnostics';
+import usePostAnalyticsRequest from './usePostAnalyticsRequest';
+import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
 function isLongRunningQuery(value: unknown): value is LongRunningQuery {
   if (!value || typeof value !== 'object') {
@@ -45,7 +47,16 @@ async function fetchDatabaseDiagnostics(): Promise<DatabaseDiagnostics> {
 }
 
 export default function useDatabaseDiagnostics() {
-  return useQuery(['databaseDiagnostics'], fetchDatabaseDiagnostics, {
+  const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+
+  async function fetchDatabaseDiagnosticsWithAnalytics(): Promise<DatabaseDiagnostics> {
+    const startedAt = Date.now();
+    const result = await fetchDatabaseDiagnostics();
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    return result;
+  }
+
+  return useQuery(['databaseDiagnostics'], fetchDatabaseDiagnosticsWithAnalytics, {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

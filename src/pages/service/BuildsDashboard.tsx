@@ -1,6 +1,7 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import useBuildkiteInfo from '../../network/useBuildkiteInfo';
+import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import { BuildkiteBuildResponse } from '../../types/buildkiteInfo';
 import '../../styles/ServicePageStyles.css';
 
@@ -179,6 +180,7 @@ function buildPipelineGroups(buildInfo: BuildkiteBuildResponse[]): PipelineBuild
 
 function BuildsDashboard(): JSX.Element {
   const { data: buildInfo = [], isLoading, isError, error } = useBuildkiteInfo();
+  useAnalyticsErrorReporter(error, 'Failed to load Buildkite build information.');
   const pipelineGroups = buildPipelineGroups(buildInfo);
 
   return (

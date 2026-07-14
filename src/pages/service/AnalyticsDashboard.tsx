@@ -1,6 +1,7 @@
 import React, { JSX, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAnalyticsEvents, { AnalyticsEventRecord } from '../../network/useAnalyticsEvents';
+import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import { ANALYTICS_EVENT_TYPES, AnalyticsEventType } from '../../types/analytics';
 import '../../styles/ServicePageStyles.css';
 
@@ -90,6 +91,7 @@ function AnalyticsDashboard(): JSX.Element {
   const [visibleColumns, setVisibleColumns] =
     useState<Record<ColumnKey, boolean>>(defaultVisibleColumns);
   const { data: analyticsEvents = [], isLoading, isError, error } = useAnalyticsEvents();
+  useAnalyticsErrorReporter(error, 'Failed to load analytics events');
 
   const filteredEvents = useMemo(() => {
     return analyticsEvents.filter((event) => {
@@ -173,8 +175,8 @@ function AnalyticsDashboard(): JSX.Element {
           Review client analytics activity and filter events by event type.
         </p>
       </header>
-      <main className="service-container">
-        <section className="service-details">
+      <main className="service-container analytics-dashboard-container">
+        <section className="service-details analytics-dashboard-section">
           <div className="analytics-controls-grid">
             <div className="analytics-control-group">
               <label htmlFor="analytics-event-type-filter">Filter by event type</label>
@@ -280,7 +282,7 @@ function AnalyticsDashboard(): JSX.Element {
           )}
 
           {!isLoading && !isError && sortedFilteredEvents.length > 0 && (
-            <div className="analytics-table-wrapper">
+            <div className="analytics-table-scroll">
               <table className="analytics-table">
                 <thead>
                   <tr>
@@ -315,13 +317,7 @@ function AnalyticsDashboard(): JSX.Element {
                         const cellClassName =
                           column.key === 'payload'
                             ? 'analytics-payload-cell'
-                            : column.key === 'currentUrl' ||
-                                column.key === 'id' ||
-                                column.key === 'sessionId' ||
-                                column.key === 'browser' ||
-                                column.key === 'operatingSystem'
-                              ? 'analytics-truncate-cell'
-                              : undefined;
+                            : 'analytics-nowrap-cell';
 
                         return (
                           <td key={`${event.id}-${column.key}`} className={cellClassName}>
