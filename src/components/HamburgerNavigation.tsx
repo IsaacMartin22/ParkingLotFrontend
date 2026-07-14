@@ -25,9 +25,11 @@ const navigationSections: NavigationSection[] = [
     heading: 'Parking App',
     items: [
       { label: 'App', to: '/parking', description: 'Open the parking experience home page' },
-      { label: 'API', to: '/services/api', description: 'Inspect API service health' },
-      { label: 'Database', to: '/services/database', description: 'Inspect database service health' },
-      { label: 'SDK', to: '/services/sdk', description: 'Clone and use the API SDK' },
+      { label: 'API', to: '/api', description: 'Inspect API service health' },
+      { label: 'Database', to: '/database', description: 'Inspect database service health' },
+      { label: 'Analytics', to: '/analytics', description: 'Review client analytics events' },
+      { label: 'Deployments', to: '/deployments', description: 'Review build and deployment health' },
+      { label: 'SDK', to: '/sdk', description: 'Clone and use the API SDK' },
     ],
   },
 ];
@@ -118,4 +120,3 @@ function HamburgerNavigation() {
 }
 
 export default HamburgerNavigation;
-

@@ -38,25 +38,39 @@ function ParkingHome(): JSX.Element {
               <p>View real-time section and space availability for lots and floors.</p>
             </Link>
 
-            <Link to="/services/api" className="service-card" data-analytics-id={"parking-api-service-link"}>
+            <Link to="/api" className="service-card" data-analytics-id={"api-link"}>
               <div className="service-card-icon">🛫</div>
               <span className="service-card-kicker">Traffic</span>
               <h3>API Service</h3>
               <p>Check endpoint activity, uptime, and performance for the parking API.</p>
             </Link>
 
-            <Link to="/services/database" className="service-card" data-analytics-id={"parking-database-service-link"}>
+            <Link to="/database" className="service-card" data-analytics-id={"database-link"}>
               <div className="service-card-icon">🗄️</div>
               <span className="service-card-kicker">Persistence</span>
               <h3>Database</h3>
               <p>Review the health of stored parking data for lots, floors, sections, and spaces.</p>
             </Link>
 
-            <Link to="/services/sdk" className="service-card" data-analytics-id={"parking-sdk-link"}>
+            <Link to="/analytics" className="service-card" data-analytics-id="analytics-link">
+              <div className="service-card-icon">📊</div>
+              <span className="service-card-kicker">Insights</span>
+              <h3>Analytics</h3>
+              <p>Inspect site analytic events.</p>
+            </Link>
+
+            <Link to="/sdk" className="service-card" data-analytics-id={"sdk-link"}>
               <div className="service-card-icon">⚡</div>
               <span className="service-card-kicker">Update</span>
               <h3>SDK</h3>
               <p>Use a Maven published SDK to programatically interact with the API.</p>
+            </Link>
+
+            <Link to="/deployments" className="service-card" data-analytics-id="deployments-link">
+              <div className="service-card-icon">🚀</div>
+              <span className="service-card-kicker">Release</span>
+              <h3>Deployment</h3>
+              <p>Track build status now and add deployment rollout diagnostics when ready.</p>
             </Link>
           </div>
         </section>

@@ -6,6 +6,15 @@ export type AnalyticsEventType =
   | 'PAGE_VIEW'
   | 'CLIENT_SSE_RECEIVED';
 
+export const ANALYTICS_EVENT_TYPES: readonly AnalyticsEventType[] = [
+  'CLICK',
+  'ERROR',
+  'NETWORK_SUCCESS',
+  'NETWORK_FAILURE',
+  'PAGE_VIEW',
+  'CLIENT_SSE_RECEIVED',
+];
+
 export interface ClickPayload {
   buttonId: string;
 }

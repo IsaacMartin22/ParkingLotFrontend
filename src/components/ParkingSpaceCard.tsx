@@ -20,17 +20,18 @@ export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: Parki
   const colorHex = parkingSpace?.color ? CAR_COLOR_HEX[parkingSpace.color] || '#64748b' : '#cbd5e1';
   const isOccupied = parkingSpace.occupied;
   const vehicleName = `${parkingSpace.manufacturingYear || ''} ${parkingSpace.make || ''} ${parkingSpace.model || ''}`.trim();
+  const cardStyle: React.CSSProperties & { '--space-car-color': string } = {
+    '--space-car-color': colorHex,
+    backgroundColor: isOccupied ? `${colorHex}1f` : '#f8fafc',
+  };
 
   const handleAddCar = () => addCar.mutate(parkingSpace.id);
   const handleRemoveCar = () => removeCar.mutate(parkingSpace.id);
 
   return (
     <div
-      className={`section-card ${isOccupied ? 'section-card-occupied' : 'section-card-free'}`}
-      style={{
-        borderColor: colorHex,
-        backgroundColor: isOccupied ? `${colorHex}22` : '#f8fafc',
-      }}
+      className={`section-card space-card ${isOccupied ? 'section-card-occupied' : 'section-card-free'}`}
+      style={cardStyle}
     >
       <div className="space-card-header">
         <strong className="space-card-number">Space {parkingSpace.number}</strong>
@@ -45,7 +46,7 @@ export default function ParkingSpaceCard({ parkingSpace }: { parkingSpace: Parki
           <dl className="space-card-meta">
             <div>
               <dt>Color</dt>
-              <dd>{parkingSpace.color || 'Unknown'}</dd>
+              <dd className="space-card-color-value">{parkingSpace.color || 'Unknown'}</dd>
             </div>
             <div>
               <dt>Plate</dt>
