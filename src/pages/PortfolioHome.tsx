@@ -21,7 +21,6 @@ const technologies = [
 const libraries = [
   'TanStack Query',
   'Lombok',
-  'Micrometer',
   'Jest',
   'Flyway',
 ];
@@ -57,12 +56,11 @@ function PortfolioHome(): JSX.Element {
           <p className="intro-copy">
             This site hosts my development portfolio which includes the frontend of a parking
             lot application themed for the LAS airport, which is where I live. It also
-            hosts diagnostic pages for services the parking app relies on. The services can be
-            accessed from the diagnostics pages on this site. All my code for the project
-            is open source and available on my GitHub profile.
+            hosts dashboard pages for functionality relevant to this site or the parking app.
+            All my code for the project is open source and available on my GitHub profile.
           </p>
           <div className="intro-actions">
-            <Link to="/parking" className="intro-primary-link" data-analytics-id={"portfolio-parking-link"}>Explore Parking Lots</Link>
+            <Link to="/dashboards" className="intro-primary-link" data-analytics-id={"portfolio-parking-link"}>Dashboard Home</Link>
             <Link to="/blog" className="intro-secondary-link" data-analytics-id={"portfolio-blog-link"}>Development Blog</Link>
             <a
               data-analytics-id={"portfolio-github-link"}
@@ -78,25 +76,9 @@ function PortfolioHome(): JSX.Element {
       </header>
 
       <main className="container intro-main">
-        <section className="intro-panel" aria-label="About Isaac">
-          <h2>Problem Statement</h2>
-          <p>
-            While visiting the LAS airport, I noticed a handmade wooden "Parking Lot Full" sign displayed
-            at a parking lot entrance. Despite the sign, several parking spaces were still available. Cars
-            park and leave rapidly in airports so such signs quickly become outdated.
-          </p>
-          <p>
-            A simple auto-updating website would be a better solution for LAS. Employees wouldn't have to
-            manually place the sign and the information would be reliable, which is a win-win for customers and
-            the airport. Updates are also instantaneously reflected on the website. Because I have the skills I decided
-            to take on this project. My blog on this site documents my process. This site should serve as a more
-            practical resume for hiring managers assessing my competency as a developer.
-          </p>
-        </section>
-
         <section className="intro-grid intro-support-grid" aria-label="Project references and technologies">
           <article className="intro-card">
-            <h3>System architecture</h3>
+            <h3>Repositories</h3>
             <div className="intro-architecture-list">
               {systemContributions.map((contribution) => (
                 <div key={contribution.title} className="intro-architecture-item">

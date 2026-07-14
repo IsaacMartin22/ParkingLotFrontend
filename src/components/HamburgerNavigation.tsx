@@ -17,14 +17,15 @@ const navigationSections: NavigationSection[] = [
   {
     heading: 'Portfolio',
     items: [
-      { label: 'ParkingHome', to: '/', description: 'Open the portfolio introduction page' },
+      { label: 'Home', to: '/', description: 'Open the portfolio introduction page' },
+      { label: 'Dashboard Home', to: '/dashboards', description: 'Select the site Dashboards' },
+      { label: 'Dev Notes', to: '/dev-notes', description: 'Read developer notes about each dashboards' },
       { label: 'Blog', to: '/blog', description: 'Read the engineering journal' },
     ],
   },
   {
     heading: 'Parking App',
     items: [
-      { label: 'App', to: '/parking', description: 'Open the parking experience home page' },
       { label: 'API', to: '/api', description: 'Inspect API service health' },
       { label: 'Database', to: '/database', description: 'Inspect database service health' },
       { label: 'Analytics', to: '/analytics', description: 'Review client analytics events' },

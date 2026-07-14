@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import '../styles/HomeHeroStyles.css';
 import '../styles/ServicePageStyles.css';
 
-function ParkingHome(): JSX.Element {
+function DashboardHome(): JSX.Element {
   return (
     <div className="settings-dashboard">
       <header className="service-header">
         <div className="service-header-nav">
-          <Link to="/" className="back-link" data-analytics-id={"back-to-portfolio-from-parking"}>← Home</Link>
+          <Link to="/" className="back-link" data-analytics-id={"back-to-portfolio-from-dashboards"}>← Home</Link>
         </div>
         <p className="service-eyebrow">Project demo · parking experience</p>
-        <h1>Parking App Home</h1>
+        <h1>Dashboard Home</h1>
         <p className="service-subtitle">
           Explore the main user-facing application with live parking lot information or view
-          service dashboards for infrastructure diagnostics.
+          dashboards for infrastructure diagnostics.
         </p>
       </header>
 
@@ -22,7 +22,7 @@ function ParkingHome(): JSX.Element {
         <section className="service-details service-dashboard-panel">
           <div className="section-heading service-dashboard-heading">
             <div>
-              <h2>Parking Application</h2>
+              <h2>Dashboards</h2>
               <p className="section-copy">
                 The Parking Explorer is the end user experience. Service dashboards display diagnostic metrics.
                 The non-database dashboards contain external URLs for comprehensive information.
@@ -90,4 +90,4 @@ function ParkingHome(): JSX.Element {
   );
 }
 
-export default ParkingHome;
+export default DashboardHome;

@@ -4,20 +4,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './styles/HeaderFooter.css';
 import HamburgerNavigation from './components/HamburgerNavigation';
 import usePostAnalyticsRequest from './network/usePostAnalyticsRequest';
-import APIDashboard from './pages/service/APIDashboard';
-import DatabaseDashboard from './pages/service/DatabaseDashboard';
+import APIDashboard from './pages/dashboard/APIDashboard';
+import DatabaseDashboard from './pages/dashboard/DatabaseDashboard';
 import ParkingLotsOverview from './pages/parking/ParkingLotsOverview';
 import ParkingLotDetails from './pages/parking/ParkingLotDetails';
 import NotFound from './pages/NotFound';
 import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
-import ParkingHome from "./pages/ParkingHome";
+import DashboardHome from "./pages/DashboardHome";
 import PortfolioHome from './pages/PortfolioHome';
 import Blog from "./pages/Blog";
 import type { AnalyticsRequest, ClickPayload, PageViewPayload } from './types/analytics';
-import SDK from "./pages/service/SDKDashboard";
-import AnalyticsDashboard from './pages/service/AnalyticsDashboard';
-import BuildsDashboard from './pages/service/BuildsDashboard';
-import DeploymentsDashboard from "./pages/service/DeploymentsDashboard";
+import SDK from "./pages/dashboard/SDKDashboard";
+import AnalyticsDashboard from './pages/dashboard/AnalyticsDashboard';
+import BuildsDashboard from './pages/dashboard/BuildsDashboard';
+import DeploymentsDashboard from "./pages/dashboard/DeploymentsDashboard";
+import DevNotesDashboard from "./pages/dashboard/DevNotesDashboard";
 
 const queryClient = new QueryClient();
 
@@ -132,13 +133,14 @@ function AppShell(): JSX.Element {
       <Routes>
         <Route path="/" element={<PortfolioHome />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/parking" element={<ParkingHome />} />
+        <Route path="/dashboards" element={<DashboardHome />} />
         <Route path="/api" element={<APIDashboard />} />
         <Route path="/database" element={<DatabaseDashboard />} />
         <Route path="/sdk" element={<SDK />} />
         <Route path="/analytics" element={<AnalyticsDashboard />} />
         <Route path="/builds" element={<BuildsDashboard />} />
         <Route path="/deployments" element={<DeploymentsDashboard />} />
+        <Route path="/dev-notes" element={<DevNotesDashboard />} />
         <Route path="/parking-lots" element={<ParkingLotsOverview />} />
         <Route path="/parking-lots/:lotId/floors/:floorId" element={<ParkingLotFloorDetails />} />
         <Route path="/parking-lots/:lotId" element={<ParkingLotDetails />} />
