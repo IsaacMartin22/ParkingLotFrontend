@@ -49,19 +49,19 @@ function ParkingHome(): JSX.Element {
               <div className="service-card-icon">🗄️</div>
               <span className="service-card-kicker">Persistence</span>
               <h3>Database</h3>
-              <p>Review the health of stored parking data for lots, floors, sections, and spaces.</p>
+              <p>Review latency, retrieval metrics, connection info, and storage health.</p>
             </Link>
 
             <Link to="/analytics" className="service-card" data-analytics-id="analytics-link">
               <div className="service-card-icon">📊</div>
               <span className="service-card-kicker">Insights</span>
               <h3>Analytics</h3>
-              <p>Inspect site analytic events.</p>
+              <p>View an anonymized history of user interaction with this site.</p>
             </Link>
 
             <Link to="/sdk" className="service-card" data-analytics-id={"sdk-link"}>
-              <div className="service-card-icon">⚡</div>
-              <span className="service-card-kicker">Update</span>
+              <div className="service-card-icon">🧩</div>
+              <span className="service-card-kicker">Automate</span>
               <h3>SDK</h3>
               <p>Use a Maven published SDK to programatically interact with the API.</p>
             </Link>
@@ -69,8 +69,8 @@ function ParkingHome(): JSX.Element {
             <Link to="/deployments" className="service-card" data-analytics-id="deployments-link">
               <div className="service-card-icon">🚀</div>
               <span className="service-card-kicker">Release</span>
-              <h3>Deployment</h3>
-              <p>Track build status now and add deployment rollout diagnostics when ready.</p>
+              <h3>Deployments</h3>
+              <p>Track recent build and deployment status and activity.</p>
             </Link>
           </div>
         </section>

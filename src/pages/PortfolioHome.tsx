@@ -63,7 +63,6 @@ function PortfolioHome(): JSX.Element {
           </p>
           <div className="intro-actions">
             <Link to="/parking" className="intro-primary-link" data-analytics-id={"portfolio-parking-link"}>Explore Parking Lots</Link>
-            <Link to="/analytics" className="intro-secondary-link" data-analytics-id={"portfolio-analytics-link"}>View Site Analytics</Link>
             <Link to="/blog" className="intro-secondary-link" data-analytics-id={"portfolio-blog-link"}>Development Blog</Link>
             <a
               data-analytics-id={"portfolio-github-link"}
