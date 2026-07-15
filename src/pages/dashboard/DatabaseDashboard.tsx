@@ -111,26 +111,6 @@ function DatabaseDashboard(): JSX.Element {
         />
 
         <section className="service-details">
-          <h3>Long Running Queries</h3>
-          {longRunningQueries.length > 0 ? (
-            <div className="database-query-list">
-              {longRunningQueries.map((query, index) => (
-                <article key={`${query.timeRunningMillis}-${index}`} className="database-query-card">
-                  <p className="database-query-time">{formatDuration(query.timeRunningMillis)} running</p>
-                  <pre>{query.queryText}</pre>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <p>
-              {isLoading
-                ? 'Loading long-running query data...'
-                : 'No long-running queries were reported by the database.'}
-            </p>
-          )}
-        </section>
-
-        <section className="service-details">
           <h3>Database Overview</h3>
           <p>
             The database stores parking lot, floor, section, and occupancy data so the frontend can

@@ -65,10 +65,10 @@ function PortfolioHome(): JSX.Element {
           <p className="intro-eyebrow">Software Engineer Portfolio</p>
           <h1>Hi, I am Isaac.</h1>
           <p className="intro-copy">
-            This site hosts my development portfolio which includes the frontend of a parking
-            lot application themed for the LAS airport, which is where I live. It also
-            hosts dashboard pages for functionality relevant to this site or the parking app.
-            All my code for the project is open source and available on my GitHub profile.
+            This site hosts my development portfolio. It contains a sample parking lot app and
+            hosts dashboard pages for functionality relevant to this site. The developer notes
+            explains my thought process for each dashboard. All code for the project
+            is open source and available on my GitHub profile.
           </p>
           <div className="intro-actions">
             <Link to="/dashboards" className="intro-primary-link" data-analytics-id={"portfolio-parking-link"}>Dashboard Home</Link>
@@ -102,6 +102,16 @@ function PortfolioHome(): JSX.Element {
           </article>
 
           <article className="intro-card">
+            <h3>Experience</h3>
+            <p>
+              Fullstack software engineer with 5 years of experience working with SAAS Web apps and services.
+              Debugging, improving, and modifying software serving thousands of other businesses and millions of
+              end users. Billions of requests and events worth of traffic generated daily. Experience addressing
+              strain and implementing fairness models for distributed systems with global scale.
+            </p>
+
+            <br /> <br />
+
             <h3>Technologies</h3>
             <ul className="intro-tech-list">
               {technologies.map((technology) => (
@@ -109,16 +119,7 @@ function PortfolioHome(): JSX.Element {
               ))}
             </ul>
 
-            <br/>
-
-            <h3>Libraries</h3>
-            <ul className="intro-tech-list">
-              {libraries.map((library) => (
-                  <li key={library} className="intro-tech-pill">{library}</li>
-              ))}
-            </ul>
-
-            <br/>
+            <br/> <br />
 
             <h3>Infrastructure</h3>
             <ul className="intro-tech-list">
