@@ -1,8 +1,10 @@
 import React, { JSX } from 'react';
-import { Link } from 'react-router-dom';
+import AppFooter from '../../components/AppFooter';
+import ServiceHeader from '../../components/ServiceHeader';
 import useDeploymentInfo from '../../network/useDeploymentInfo';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import '../../styles/ServicePageStyles.css';
+import {RENDER_EXTERNAL} from "../../types/constants";
 
 type DeploymentTone = 'success' | 'failure' | 'in-progress' | 'blocked' | 'unknown';
 
@@ -99,23 +101,28 @@ function DeploymentsDashboard(): JSX.Element {
 
   return (
     <>
-      <header className="service-header">
-        <div className="service-header-nav">
-          <Link to="/parking" className="back-link" data-analytics-id="back-to-parking-home-deployments">
-            ← Parking Home
-          </Link>
-        </div>
-        <p className="service-eyebrow">Settings & diagnostics</p>
-        <h1>Deployments Dashboard</h1>
-        <p className="service-subtitle">
-          30 most recent deployments, including status, duration, and timestamps.
-        </p>
-      </header>
+      <ServiceHeader
+        backAnalyticsId="back-to-dashboards-deployments"
+        title="Deployments Dashboard"
+        subtitle="30 most recent deployments, including status, duration, and timestamps."
+        actionLink={{
+          analyticsId: 'render-external-link',
+          href: RENDER_EXTERNAL,
+          label: 'Render ↗',
+        }}
+      />
 
       <main className="service-container">
         <section className="service-details build-dashboard-section">
           <h3>Recent Deployments</h3>
-          {isLoading && <p>Loading recent deployment information...</p>}
+          {isLoading && (
+            <>
+              <p>Loading recent deployment information...</p>
+              <p>If this takes longer than 30 seconds check Render's status page <p/>
+                <a href="https://status.render.com/" target="_blank" rel="noreferrer">https://status.render.com/</a>
+              </p>
+            </>
+          )}
           {isError && (
             <p className="build-error-message">
               {error instanceof Error ? error.message : 'Failed to load deployment information.'}
@@ -187,9 +194,7 @@ function DeploymentsDashboard(): JSX.Element {
           </div>
         </section>
       </main>
-      <footer>
-        <p>&copy; 2026 Isaac - Parking App Demo.</p>
-      </footer>
+      <AppFooter />
     </>
   );
 }

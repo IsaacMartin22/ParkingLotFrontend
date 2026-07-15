@@ -1,5 +1,6 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
+import AppFooter from '../components/AppFooter';
 import '../styles/BlogStyles.css';
 
 function Blog(): JSX.Element {
@@ -269,9 +270,7 @@ function Blog(): JSX.Element {
         </section>
       </main>
 
-      <footer>
-        <p>&copy; 2026 Isaac - Software Engineering Portfolio.</p>
-      </footer>
+      <AppFooter />
     </div>
   );
 }

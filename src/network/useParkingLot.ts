@@ -22,16 +22,17 @@ async function fetchParkingLot(parkingLotId: string): Promise<ParkingLotResponse
 
 export default function useParkingLot(parkingLotId?: string) {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+  const requestName = 'parkingLot';
 
   async function fetchParkingLotWithAnalytics(): Promise<ParkingLotResponse> {
     const startedAt = Date.now();
     const result = await fetchParkingLot(parkingLotId);
-    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt, requestName));
     return result;
   }
 
   return useQuery(
-    ['parkingLot', parkingLotId],
+    [requestName, parkingLotId],
     fetchParkingLotWithAnalytics,
     {
       enabled: parkingLotId !== undefined && parkingLotId !== null,

@@ -1,5 +1,6 @@
 import React, { JSX } from 'react';
-import { Link } from 'react-router-dom';
+import AppFooter from '../../components/AppFooter';
+import ServiceHeader from '../../components/ServiceHeader';
 import ServiceDiagnostics from '../../components/ServiceDiagnostics';
 import useDatabaseDiagnostics from '../../network/useDatabaseDiagnostics';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
@@ -95,16 +96,11 @@ function DatabaseDashboard(): JSX.Element {
 
   return (
     <>
-      <header className="service-header">
-        <div className="service-header-nav">
-            <Link to="/parking" className="back-link" data-analytics-id="back-to-parking-home-database">← Parking Home</Link>
-        </div>
-        <p className="service-eyebrow">Settings & diagnostics</p>
-        <h1>Database Dashboard</h1>
-        <p className="service-subtitle">
-          Review persistence health, storage behavior, and database capacity behind the parking lot app.
-        </p>
-      </header>
+      <ServiceHeader
+        backAnalyticsId="back-to-dashboards-database"
+        title="Database Dashboard"
+        subtitle="Review persistence health, storage behavior, and database capacity behind the parking lot app."
+      />
       <main className="service-container">
         <ServiceDiagnostics
           serviceName="PostgreSQL Database"
@@ -155,9 +151,7 @@ function DatabaseDashboard(): JSX.Element {
           )}
         </section>
       </main>
-      <footer>
-          <p>&copy; 2026 Isaac - Parking App Demo.</p>
-      </footer>
+      <AppFooter />
     </>
   );
 }

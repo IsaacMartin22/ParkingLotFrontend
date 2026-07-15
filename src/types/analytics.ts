@@ -20,12 +20,11 @@ export interface ErrorPayload {
 }
 
 export interface NetworkSuccessPayload {
+  requestName: string;
   durationMillis: number;
 }
 
-export interface PageViewPayload {
-  referrerUrl: string;
-}
+export interface PageViewPayload {}
 
 export type AnalyticsPayload =
   | ClickPayload

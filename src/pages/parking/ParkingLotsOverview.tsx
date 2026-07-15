@@ -4,6 +4,7 @@ import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import useListParkingLots from '../../network/useListParkingLots';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
+import AppFooter from "../../components/AppFooter";
 import LotSummaryCard from "../../components/LotSummaryCard";
 
 function ParkingLotsOverview() {
@@ -14,7 +15,7 @@ function ParkingLotsOverview() {
     <>
       <header className="service-header parking-page--lots">
         <div className="service-header-nav">
-          <Link to="/parking" className="back-link" data-analytics-id="back-to-parking-home">← Parking Home</Link>
+          <Link to="/dashboards" className="back-link" data-analytics-id="back-to-dashboards">← Dashboards</Link>
         </div>
         <p className="parking-page-path">Hierarchy: Lots</p>
         <p className="service-eyebrow">Parking lot app</p>
@@ -42,9 +43,7 @@ function ParkingLotsOverview() {
           )}
         </div>
       </main>
-      <footer>
-          <p>&copy; 2026 Isaac - Parking App Demo.</p>
-      </footer>
+      <AppFooter />
     </>
   );
 }

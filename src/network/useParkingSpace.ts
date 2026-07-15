@@ -49,20 +49,22 @@ async function removeCarFromSpace(spaceId: number): Promise<void> {
 
 export function useAddCar() {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+  const requestName = 'addCar';
 
   return useMutation(async (spaceId: number) => {
     const startedAt = Date.now();
     await addCarToSpace(spaceId);
-    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt, requestName));
   });
 }
 
 export function useRemoveCar() {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+  const requestName = 'removeCar';
 
   return useMutation(async (spaceId: number) => {
     const startedAt = Date.now();
     await removeCarFromSpace(spaceId);
-    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt, requestName));
   });
 }

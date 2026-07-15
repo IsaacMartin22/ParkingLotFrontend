@@ -1,5 +1,6 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
+import AppFooter from '../../components/AppFooter';
 import '../../styles/BlogStyles.css';
 
 function DevNotesDashboard(): JSX.Element {
@@ -156,9 +157,7 @@ function DevNotesDashboard(): JSX.Element {
                 </section>
             </main>
 
-            <footer>
-                <p>&copy; 2026 Isaac - Software Engineering Portfolio.</p>
-            </footer>
+            <AppFooter />
         </div>
     );
 }

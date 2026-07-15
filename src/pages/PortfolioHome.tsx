@@ -1,7 +1,8 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
+import AppFooter from '../components/AppFooter';
 import '../styles/IntroHome.css';
-import { API_GITHUB, SDK_GITHUB, FRONTEND_GITHUB } from "../types/constants";
+import {API_GITHUB, SDK_GITHUB, FRONTEND_GITHUB, GITHUB_IO} from "../types/constants";
 
 const technologies = [
   'React',
@@ -9,13 +10,17 @@ const technologies = [
   'Java',
   'Spring Boot',
   'PostgreSQL',
-  'Buildkite',
-  'Docker',
-  'Sumologic',
-  'Maven',
   'Java SDK',
-  'Render',
   'Github Copilot'
+];
+
+const infrastructure = [
+  'Docker',
+  'Maven',
+  'Sumologic',
+  'Buildkite',
+  'Render',
+  'Trello',
 ];
 
 const libraries = [
@@ -44,6 +49,12 @@ const systemContributions = [
       'Barebones Java application wrapping an SDK for the API. Used to programmatically interact with the API.',
     link: SDK_GITHUB,
   },
+  {
+    title: 'Portfolio site',
+    description:
+        'Statically built version of the frontend app hosted and published on my user Github Page',
+    link: GITHUB_IO,
+  },
 ];
 
 function PortfolioHome(): JSX.Element {
@@ -61,7 +72,7 @@ function PortfolioHome(): JSX.Element {
           </p>
           <div className="intro-actions">
             <Link to="/dashboards" className="intro-primary-link" data-analytics-id={"portfolio-parking-link"}>Dashboard Home</Link>
-            <Link to="/blog" className="intro-secondary-link" data-analytics-id={"portfolio-blog-link"}>Development Blog</Link>
+            <Link to="/dev-notes" className="intro-secondary-link" data-analytics-id={"portfolio-dev-notes-link"}>Developer Notes</Link>
             <a
               data-analytics-id={"portfolio-github-link"}
               href="https://github.com/IsaacMartin22"
@@ -91,17 +102,14 @@ function PortfolioHome(): JSX.Element {
           </article>
 
           <article className="intro-card">
-            <h3>Powered by</h3>
-            <p>
-              A non-exhaustive list of technologies used in this project
-            </p>
+            <h3>Technologies</h3>
             <ul className="intro-tech-list">
               {technologies.map((technology) => (
                   <li key={technology} className="intro-tech-pill">{technology}</li>
               ))}
             </ul>
 
-            <br/><br/>
+            <br/>
 
             <h3>Libraries</h3>
             <ul className="intro-tech-list">
@@ -109,13 +117,20 @@ function PortfolioHome(): JSX.Element {
                   <li key={library} className="intro-tech-pill">{library}</li>
               ))}
             </ul>
+
+            <br/>
+
+            <h3>Infrastructure</h3>
+            <ul className="intro-tech-list">
+              {infrastructure.map((item) => (
+                  <li key={item} className="intro-tech-pill">{item}</li>
+              ))}
+            </ul>
           </article>
         </section>
       </main>
 
-      <footer>
-        <p>&copy; 2026 Isaac - Software Engineering Portfolio.</p>
-      </footer>
+      <AppFooter />
     </div>
   );
 }

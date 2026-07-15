@@ -1,9 +1,11 @@
 import React, { JSX } from 'react';
-import { Link } from 'react-router-dom';
+import AppFooter from '../../components/AppFooter';
+import ServiceHeader from '../../components/ServiceHeader';
 import useBuildkiteInfo from '../../network/useBuildkiteInfo';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import { BuildkiteBuildResponse } from '../../types/buildkiteInfo';
 import '../../styles/ServicePageStyles.css';
+import {BUILDKITE_EXTERNAL} from "../../types/constants";
 
 type BuildStatus = 'success' | 'failure' | 'in-progress' | 'blocked' | 'unknown';
 
@@ -15,7 +17,6 @@ type BuildStatusInfo = {
 type PipelineBuildGroup = {
   key: string;
   name: string;
-  slug: string;
   builds: BuildkiteBuildResponse[];
   latestActivity: number;
 };
@@ -132,15 +133,13 @@ function buildPipelineGroups(buildInfo: BuildkiteBuildResponse[]): PipelineBuild
     string,
     {
       name: string;
-      slug: string;
       builds: BuildkiteBuildResponse[];
     }
   >();
 
   buildInfo.forEach((build, index) => {
     const pipelineName = build.pipeline?.name ?? 'Unassigned Pipeline';
-    const pipelineSlug = build.pipeline?.slug ?? 'N/A';
-    const pipelineKey = build.pipeline?.slug ?? build.pipeline?.id ?? `${pipelineName}-${index}`;
+    const pipelineKey = build.pipeline?.id ?? `${pipelineName}-${index}`;
     const existingGroup = groupedBuilds.get(pipelineKey);
 
     if (existingGroup) {
@@ -150,7 +149,6 @@ function buildPipelineGroups(buildInfo: BuildkiteBuildResponse[]): PipelineBuild
 
     groupedBuilds.set(pipelineKey, {
       name: pipelineName,
-      slug: pipelineSlug,
       builds: [build],
     });
   });
@@ -169,7 +167,6 @@ function buildPipelineGroups(buildInfo: BuildkiteBuildResponse[]): PipelineBuild
       return {
         key,
         name: group.name,
-        slug: group.slug,
         builds: sortedBuilds,
         latestActivity: getBuildTimestamp(sortedBuilds[0] ?? group.builds[0]),
       };
@@ -185,23 +182,29 @@ function BuildsDashboard(): JSX.Element {
 
   return (
     <>
-      <header className="service-header">
-        <div className="service-header-nav">
-          <Link to="/parking" className="back-link" data-analytics-id="back-to-parking-home-builds">
-            ← Parking Home
-          </Link>
-        </div>
-        <p className="service-eyebrow">Settings & diagnostics</p>
-        <h1>Builds Dashboard</h1>
-        <p className="service-subtitle">
-          30 most recent builds for pipelines, including outcomes, duration, and timestamps.
-        </p>
-      </header>
+      <ServiceHeader
+        backAnalyticsId="back-to-dashboards-builds"
+        title="Builds Dashboard"
+        subtitle="30 most recent builds for pipelines, including outcomes, duration, and timestamps."
+        actionLink={{
+          analyticsId: 'buildkite-external-link',
+          href: BUILDKITE_EXTERNAL,
+          label: 'Buildkite ↗',
+        }}
+      />
 
       <main className="service-container">
         <section className="service-details build-dashboard-section">
           <h3>Recent Builds by Pipeline</h3>
-          {isLoading && <p>Loading recent pipeline builds...</p>}
+          {
+            isLoading && (
+                <>
+                  <p>Loading recent pipeline builds...</p>
+                  <p>If this takes longer than 30 seconds check Buildkite's status page <p/>
+                    <a href="https://www.buildkitestatus.com/" target="_blank" rel="noreferrer">https://www.buildkitestatus.com/</a>
+                  </p>
+                </>
+            )}
           {isError && (
             <p className="build-error-message">
               {error instanceof Error ? error.message : 'Failed to load Buildkite build information.'}
@@ -218,7 +221,6 @@ function BuildsDashboard(): JSX.Element {
                   <div className="build-pipeline-card-header">
                     <div>
                       <h4>{pipelineGroup.name}</h4>
-                      <p>Pipeline slug: {pipelineGroup.slug}</p>
                     </div>
                     <span className="build-recent-count">{pipelineGroup.builds.length} recent builds</span>
                   </div>
@@ -281,9 +283,7 @@ function BuildsDashboard(): JSX.Element {
           </div>
         </section>
       </main>
-      <footer>
-        <p>&copy; 2026 Isaac - Parking App Demo.</p>
-      </footer>
+      <AppFooter />
     </>
   );
 }

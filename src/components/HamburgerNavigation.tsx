@@ -18,9 +18,8 @@ const navigationSections: NavigationSection[] = [
     heading: 'Portfolio',
     items: [
       { label: 'Home', to: '/', description: 'Open the portfolio introduction page' },
-      { label: 'Dashboard Home', to: '/dashboards', description: 'Select the site Dashboards' },
-      { label: 'Dev Notes', to: '/dev-notes', description: 'Read developer notes about each dashboards' },
-      { label: 'Blog', to: '/blog', description: 'Read the engineering journal' },
+      { label: 'Dashboards Home', to: '/dashboards', description: 'Select the site Dashboards' },
+      { label: 'Dev Notes', to: '/dev-notes', description: 'Engineering anecdotes for each dashboard' },
     ],
   },
   {

@@ -67,15 +67,16 @@ async function fetchBuildkiteInfo(): Promise<BuildkiteBuildResponse[]> {
 
 export default function useBuildkiteInfo() {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+  const requestName = 'buildkiteInfo';
 
   async function fetchBuildkiteInfoWithAnalytics(): Promise<BuildkiteBuildResponse[]> {
     const startedAt = Date.now();
     const result = await fetchBuildkiteInfo();
-    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt, requestName));
     return result;
   }
 
-  return useQuery(['buildkiteInfo'], fetchBuildkiteInfoWithAnalytics, {
+  return useQuery([requestName], fetchBuildkiteInfoWithAnalytics, {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

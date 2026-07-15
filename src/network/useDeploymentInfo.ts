@@ -70,15 +70,16 @@ async function fetchDeploymentInfo(): Promise<DeploymentResponse[]> {
 
 export default function useDeploymentInfo() {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+  const requestName = 'deploymentInfo';
 
   async function fetchDeploymentInfoWithAnalytics(): Promise<DeploymentResponse[]> {
     const startedAt = Date.now();
     const result = await fetchDeploymentInfo();
-    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt, requestName));
     return result;
   }
 
-  return useQuery(['deploymentInfo'], fetchDeploymentInfoWithAnalytics, {
+  return useQuery([requestName], fetchDeploymentInfoWithAnalytics, {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

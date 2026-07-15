@@ -1,5 +1,6 @@
 import React, {JSX} from 'react';
-import { Link } from 'react-router-dom';
+import AppFooter from '../../components/AppFooter';
+import ServiceHeader from '../../components/ServiceHeader';
 import ServiceDiagnostics from '../../components/ServiceDiagnostics';
 import useAPIDiagnostics from '../../network/useAPIDiagnostics';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
@@ -72,25 +73,16 @@ function APIDashboard(): JSX.Element {
 
   return (
       <>
-        <header className="service-header">
-          <div className="service-header-nav">
-            <Link to="/parking" className="back-link" data-analytics-id={"back-to-parking-home-api"}>← Parking Home</Link>
-            <a
-                data-analytics-id={"api-documentation"}
-                href={API_WEBPAGE}
-                className="header-action-link"
-                target="_blank"
-                rel="noreferrer"
-            >
-              API Documentation ↗
-            </a>
-          </div>
-          <p className="service-eyebrow">Settings & diagnostics</p>
-          <h1>API Service Dashboard</h1>
-          <p className="service-subtitle">
-              API uptime, request volume, error rate, logging, and endpoint activity.
-          </p>
-        </header>
+        <ServiceHeader
+          backAnalyticsId="back-to-dashboards-api"
+          title="API Service Dashboard"
+          subtitle="API uptime, request volume, error rate, logging, and endpoint activity."
+          actionLink={{
+            analyticsId: 'api-documentation',
+            href: API_WEBPAGE,
+            label: 'API Documentation ↗',
+          }}
+        />
         <main className="service-container">
           <ServiceDiagnostics
               serviceName="REST API Service"
@@ -117,9 +109,7 @@ function APIDashboard(): JSX.Element {
             )}
           </div>
         </main>
-        <footer>
-            <p>&copy; 2026 Isaac - Parking App Demo.</p>
-        </footer>
+        <AppFooter />
       </>
   );
 }

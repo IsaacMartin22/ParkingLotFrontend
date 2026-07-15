@@ -1,6 +1,6 @@
 import type { AnalyticsRequest, NetworkSuccessPayload } from '../types/analytics';
 
-export function buildNetworkSuccessAnalyticsRequest(durationMillis: number): Omit<
+export function buildNetworkSuccessAnalyticsRequest(durationMillis: number, requestName: string): Omit<
   AnalyticsRequest<NetworkSuccessPayload>,
   'sessionId'
 > {
@@ -13,6 +13,7 @@ export function buildNetworkSuccessAnalyticsRequest(durationMillis: number): Omi
     timestamp: new Date().toISOString(),
     payload: {
       durationMillis,
+      requestName,
     },
   };
 }

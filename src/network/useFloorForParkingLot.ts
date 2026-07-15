@@ -50,16 +50,17 @@ async function fetchParkingLotFloor(parkingLotId: string, floorId: string): Prom
 
 export default function useFloorForParkingLot(parkingLotId: string, floorId: string) {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+  const requestName = 'parkingLotFloor';
 
   async function fetchParkingLotFloorWithAnalytics(): Promise<Floor> {
     const startedAt = Date.now();
     const result = await fetchParkingLotFloor(parkingLotId, floorId);
-    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt, requestName));
     return result;
   }
 
   return useQuery(
-    ['parkingLotFloor', parkingLotId, floorId],
+    [requestName, parkingLotId, floorId],
     fetchParkingLotFloorWithAnalytics,
     {
       enabled: parkingLotId !== undefined && parkingLotId !== null && floorId !== undefined && floorId !== null,

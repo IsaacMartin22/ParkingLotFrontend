@@ -1,5 +1,6 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
+import AppFooter from '../components/AppFooter';
 import '../styles/HomeHeroStyles.css';
 import '../styles/ServicePageStyles.css';
 
@@ -83,9 +84,7 @@ function DashboardHome(): JSX.Element {
         </section>
       </main>
 
-      <footer>
-        <p>&copy; 2026 Isaac - Parking App Demo.</p>
-      </footer>
+      <AppFooter />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { JSX, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import AppFooter from '../../components/AppFooter';
+import ServiceHeader from '../../components/ServiceHeader';
 import useAnalyticsEvents, { AnalyticsEventRecord } from '../../network/useAnalyticsEvents';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import { ANALYTICS_EVENT_TYPES, AnalyticsEventType } from '../../types/analytics';
@@ -163,18 +164,11 @@ function AnalyticsDashboard(): JSX.Element {
 
   return (
     <>
-      <header className="service-header">
-        <div className="service-header-nav">
-          <Link to="/parking" className="back-link" data-analytics-id="back-to-parking-home-analytics">
-            ← Parking Home
-          </Link>
-        </div>
-        <p className="service-eyebrow">Settings & diagnostics</p>
-        <h1>Analytics Dashboard</h1>
-        <p className="service-subtitle">
-          Review client analytics activity and filter events by event type.
-        </p>
-      </header>
+      <ServiceHeader
+        backAnalyticsId="back-to-dashboards-analytics"
+        title="Analytics Dashboard"
+        subtitle="Review client analytics activity and filter events by event type."
+      />
       <main className="service-container analytics-dashboard-container">
         <section className="service-details analytics-dashboard-section">
           <div className="analytics-controls-grid">
@@ -333,9 +327,7 @@ function AnalyticsDashboard(): JSX.Element {
           )}
         </section>
       </main>
-      <footer>
-        <p>&copy; 2026 Isaac - Parking App Demo.</p>
-      </footer>
+      <AppFooter />
     </>
   );
 }

@@ -27,15 +27,16 @@ async function fetchAPIDiagnostics(): Promise<APIDiagnostics> {
 
 export default function useAPIDiagnostics() {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
+  const requestName = 'apiDiagnostics';
 
   async function fetchAPIDiagnosticsWithAnalytics(): Promise<APIDiagnostics> {
     const startedAt = Date.now();
     const result = await fetchAPIDiagnostics();
-    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt));
+    postAnalyticsRequest(buildNetworkSuccessAnalyticsRequest(Date.now() - startedAt, requestName));
     return result;
   }
 
-  return useQuery(['apiDiagnostics'], fetchAPIDiagnosticsWithAnalytics, {
+  return useQuery([requestName], fetchAPIDiagnosticsWithAnalytics, {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
