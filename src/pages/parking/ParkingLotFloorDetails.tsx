@@ -27,7 +27,11 @@ interface ParkingSpaceSseEvent {
   timestamp: number;
 }
 
-function updateFloorFromSseEvent(currentFloor: Floor, event: ParkingSpaceSseEvent): Floor {
+function updateFloorFromSseEvent(currentFloor: Floor | undefined, event: ParkingSpaceSseEvent): Floor | undefined {
+  if (!currentFloor) {
+    return currentFloor;
+  }
+
   let didUpdateSpace = false;
 
   const sections = (currentFloor.sections ?? []).map((section) => ({
@@ -110,7 +114,7 @@ export default function ParkingLotFloors() {
     return () => {
       eventSource.close();
     };
-  }, [floorId, lotId, postAnalyticsRequest, queryClient]);
+  }, [floorId, lotId]);
 
   if (loading) {
     return (
