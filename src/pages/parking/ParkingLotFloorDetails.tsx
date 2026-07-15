@@ -93,22 +93,15 @@ export default function ParkingLotFloors() {
         queryClient.invalidateQueries(['parkingLot', lotId]);
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unable to process parking floor SSE event';
-        postAnalyticsRequest.mutate(buildErrorAnalyticsRequest(errorMessage));
         console.error('Unable to process parking floor SSE event', error);
+        postAnalyticsRequest.mutate(buildErrorAnalyticsRequest(errorMessage));
       }
     };
 
     eventSource.onmessage = handleParkingSpaceEvent;
 
-    eventSource.addEventListener('ADD', handleParkingSpaceEvent);
     eventSource.addEventListener('UPDATE', handleParkingSpaceEvent);
     eventSource.addEventListener('REMOVE', handleParkingSpaceEvent);
-    eventSource.addEventListener('parking-space-added', handleParkingSpaceEvent);
-    eventSource.addEventListener('parking-space-updated', handleParkingSpaceEvent);
-    eventSource.addEventListener('parking-space-removed', handleParkingSpaceEvent);
-    eventSource.addEventListener('car-added', handleParkingSpaceEvent);
-    eventSource.addEventListener('car-updated', handleParkingSpaceEvent);
-    eventSource.addEventListener('car-removed', handleParkingSpaceEvent);
 
     eventSource.onerror = (error) => {
       console.error('Parking floor SSE connection error', error);

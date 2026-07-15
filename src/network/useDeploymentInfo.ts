@@ -1,37 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { API_URL } from '../types/constants';
-import { Commit, Deploy, DeploymentResponse } from '../types/deploymentInfo';
+import { DeploymentResponse } from '../types/deploymentInfo';
 import usePostAnalyticsRequest from './usePostAnalyticsRequest';
 import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
-
-function isCommit(value: unknown): value is Commit {
-  if (!value || typeof value !== 'object') {
-    return false;
-  }
-
-  const candidate = value as Partial<Commit>;
-
-  return typeof candidate.id === 'string' && typeof candidate.message === 'string' && typeof candidate.createdAt === 'string';
-}
-
-function isDeploy(value: unknown): value is Deploy {
-  if (!value || typeof value !== 'object') {
-    return false;
-  }
-
-  const candidate = value as Partial<Deploy>;
-
-  return (
-    typeof candidate.id === 'string' &&
-    isCommit(candidate.commit) &&
-    typeof candidate.status === 'string' &&
-    typeof candidate.trigger === 'string' &&
-    typeof candidate.startedAt === 'string' &&
-    typeof candidate.finishedAt === 'string' &&
-    typeof candidate.createdAt === 'string' &&
-    typeof candidate.updatedAt === 'string'
-  );
-}
 
 function validateDeploymentInfo(response: unknown): DeploymentResponse[] {
   if (!Array.isArray(response)) {
@@ -44,14 +15,6 @@ function validateDeploymentInfo(response: unknown): DeploymentResponse[] {
     }
 
     const parsed = item as Partial<DeploymentResponse>;
-
-    if (!isDeploy(parsed.deploy)) {
-      throw new Error(`Invalid deployment item deploy: ${JSON.stringify(parsed)}`);
-    }
-
-    if (typeof parsed.cursor !== 'string') {
-      throw new Error(`Invalid deployment item cursor: ${JSON.stringify(parsed)}`);
-    }
 
     return {
       deploy: parsed.deploy,
