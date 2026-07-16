@@ -1,7 +1,10 @@
 import React, { JSX, useMemo, useState } from 'react';
 import AppFooter from '../../components/AppFooter';
 import ServiceHeader from '../../components/ServiceHeader';
-import useAnalyticsEvents, { AnalyticsEventRecord } from '../../network/useAnalyticsEvents';
+import useAnalyticsEvents, {
+  ANALYTICS_EVENTS_PAGE_SIZE,
+  AnalyticsEventRecord,
+} from '../../network/useAnalyticsEvents';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import { ANALYTICS_EVENT_TYPES, AnalyticsEventType } from '../../types/analytics';
 import '../../styles/ServicePageStyles.css';
@@ -89,9 +92,16 @@ function AnalyticsDashboard(): JSX.Element {
   const [eventTypeFilter, setEventTypeFilter] = useState<EventTypeFilter>('ALL');
   const [sortField, setSortField] = useState<SortField>('timestamp');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+  const [page, setPage] = useState<number>(1);
   const [visibleColumns, setVisibleColumns] =
     useState<Record<ColumnKey, boolean>>(defaultVisibleColumns);
-  const { data: analyticsEvents = [], isLoading, isError, error } = useAnalyticsEvents();
+  const sortOption = `${sortField}:${sortDirection}`;
+  const {
+    data: analyticsEvents = [],
+    isLoading,
+    isError,
+    error,
+  } = useAnalyticsEvents({ sort: sortOption, page });
   useAnalyticsErrorReporter(error, 'Failed to load analytics events');
 
   const filteredEvents = useMemo(() => {
@@ -139,13 +149,18 @@ function AnalyticsDashboard(): JSX.Element {
   const latestEventTimestamp =
     sortedFilteredEvents.length > 0 ? formatEventTimestamp(sortedFilteredEvents[0].timestamp) : 'N/A';
 
+  const hasNextPage = analyticsEvents.length === ANALYTICS_EVENTS_PAGE_SIZE;
+  const canGoToPreviousPage = page > 1;
+
   const handleSortFieldChange = (value: SortField, toggleDirection = false): void => {
     if (toggleDirection && sortField === value) {
       setSortDirection((current) => (current === 'asc' ? 'desc' : 'asc'));
+      setPage(1);
       return;
     }
 
     setSortField(value);
+    setPage(1);
   };
 
   const handleColumnToggle = (columnKey: ColumnKey): void => {
@@ -214,7 +229,10 @@ function AnalyticsDashboard(): JSX.Element {
                 className="analytics-filter-select"
                 value={sortDirection}
                 data-analytics-id="analytics-sort-direction"
-                onChange={(event) => setSortDirection(event.target.value as SortDirection)}
+                onChange={(event) => {
+                  setSortDirection(event.target.value as SortDirection);
+                  setPage(1);
+                }}
               >
                 <option value="desc">Descending</option>
                 <option value="asc">Ascending</option>
@@ -224,8 +242,8 @@ function AnalyticsDashboard(): JSX.Element {
 
           <div className="analytics-column-toggles">
             {columnDefinitions.map((column) => {
-              if (column.key === "id") {
-                return;
+              if (column.key === 'id') {
+                return null;
               }
               const isVisible = visibleColumns[column.key];
               const isOnlyVisibleColumn = isVisible && visibleColumnCount === 1;
@@ -246,7 +264,7 @@ function AnalyticsDashboard(): JSX.Element {
 
           <div className="analytics-summary-grid">
             <div>
-              <span className="service-card-kicker">Total Events</span>
+              <span className="service-card-kicker">Events on Page</span>
               <p>{analyticsEvents.length.toLocaleString()}</p>
             </div>
             <div>
@@ -260,6 +278,37 @@ function AnalyticsDashboard(): JSX.Element {
             <div>
               <span className="service-card-kicker">Latest Event</span>
               <p>{latestEventTimestamp}</p>
+            </div>
+          </div>
+
+          <div className="analytics-pagination-controls">
+            <div className="analytics-pagination-summary">
+              <span className="service-card-kicker">Page</span>
+              <p>{page.toLocaleString()}</p>
+            </div>
+            <div className="analytics-pagination-summary">
+              <span className="service-card-kicker">Page Size</span>
+              <p>{ANALYTICS_EVENTS_PAGE_SIZE.toLocaleString()}</p>
+            </div>
+            <div className="analytics-pagination-buttons">
+              <button
+                type="button"
+                className="analytics-page-button"
+                data-analytics-id="analytics-page-previous"
+                disabled={isLoading || !canGoToPreviousPage}
+                onClick={() => setPage((current) => Math.max(1, current - 1))}
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                className="analytics-page-button"
+                data-analytics-id="analytics-page-next"
+                disabled={isLoading || !hasNextPage}
+                onClick={() => setPage((current) => current + 1)}
+              >
+                Next
+              </button>
             </div>
           </div>
 

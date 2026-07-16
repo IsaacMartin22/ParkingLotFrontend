@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { ANALYTICS_EVENT_TYPES, AnalyticsEventType } from '../types/analytics';
 import { API_URL } from '../types/constants';
 
+export const ANALYTICS_EVENTS_PAGE_SIZE = 1000;
+
 export interface AnalyticsEventRecord {
   id: string;
   eventType: AnalyticsEventType;
@@ -68,8 +70,28 @@ function normalizeAnalyticsEvents(data: unknown): AnalyticsEventRecord[] {
     .filter((event): event is AnalyticsEventRecord => event !== null);
 }
 
-async function fetchAnalyticsEvents(): Promise<AnalyticsEventRecord[]> {
-  const response = await fetch(`${API_URL}/analytics`);
+export type AnalyticsEventsQueryOptions = {
+  sort?: string;
+  page?: number;
+};
+
+async function fetchAnalyticsEvents({
+  sort,
+  page,
+}: AnalyticsEventsQueryOptions): Promise<AnalyticsEventRecord[]> {
+  const queryParams = new URLSearchParams();
+
+  if (sort) {
+    queryParams.set('sort', sort);
+  }
+
+  if (typeof page === 'number' && Number.isInteger(page) && page > 0) {
+    queryParams.set('page', String(page));
+  }
+
+  const queryString = queryParams.toString();
+  const endpoint = queryString ? `${API_URL}/analytics?${queryString}` : `${API_URL}/analytics`;
+  const response = await fetch(endpoint);
   if (!response.ok) {
     throw new Error(`Failed to load analytics events: API responded with ${response.status}`);
   }
@@ -78,8 +100,10 @@ async function fetchAnalyticsEvents(): Promise<AnalyticsEventRecord[]> {
   return normalizeAnalyticsEvents(data);
 }
 
-export default function useAnalyticsEvents() {
-  return useQuery(['analyticsEvents'], fetchAnalyticsEvents, {
+export default function useAnalyticsEvents(options: AnalyticsEventsQueryOptions = {}) {
+  const { sort = 'timestamp:desc', page = 1 } = options;
+
+  return useQuery(['analyticsEvents', sort, page], () => fetchAnalyticsEvents({ sort, page }), {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
