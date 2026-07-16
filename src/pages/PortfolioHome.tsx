@@ -6,10 +6,10 @@ import {API_GITHUB, SDK_GITHUB, FRONTEND_GITHUB, GITHUB_IO} from "../types/const
 
 const technologies = [
   'React',
-  'TypeScript',
   'Java',
   'Spring Boot',
   'PostgreSQL',
+  'TypeScript',
   'Java SDK',
   'Github Copilot'
 ];
@@ -21,13 +21,6 @@ const infrastructure = [
   'Buildkite',
   'Render',
   'Trello',
-];
-
-const libraries = [
-  'TanStack Query',
-  'Lombok',
-  'Jest',
-  'Flyway',
 ];
 
 const systemContributions = [
@@ -48,12 +41,6 @@ const systemContributions = [
     description:
       'Barebones Java application wrapping an SDK for the API. Used to programmatically interact with the API.',
     link: SDK_GITHUB,
-  },
-  {
-    title: 'Portfolio site',
-    description:
-        'Statically built version of the frontend app hosted and published on my user Github Page',
-    link: GITHUB_IO,
   },
 ];
 
@@ -104,10 +91,10 @@ function PortfolioHome(): JSX.Element {
           <article className="intro-card">
             <h3>Experience</h3>
             <p>
-              Fullstack software engineer with 5 years of experience working with SAAS Web apps and services.
-              Debugging, improving, and modifying software serving thousands of other businesses and millions of
+              Fullstack software engineer with 5 years of experience working with SAAS web apps and services.
+              Responsible for debugging improving, and modifying software serving thousands of other businesses and millions of
               end users. Billions of requests and events worth of traffic generated daily. Experience addressing
-              strain and implementing fairness models for distributed systems with global scale.
+              strain and pain points of distributed systems with global scale.
             </p>
 
             <br /> <br />
