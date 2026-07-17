@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ANALYTICS_EVENT_TYPES, AnalyticsEventType } from '../types/analytics';
+import { ANALYTICS_EVENT_TYPES, AnalyticsEventType, AnalyticsQuery } from '../types/analytics';
 import { API_URL } from '../types/constants';
 
 export const ANALYTICS_EVENTS_PAGE_SIZE = 1000;
@@ -16,12 +16,12 @@ export interface AnalyticsEventRecord {
   payload: Record<string, unknown>;
 }
 
-function isAnalyticsEventType(value: unknown): value is AnalyticsEventType {
-  return typeof value === 'string' && ANALYTICS_EVENT_TYPES.includes(value as AnalyticsEventType);
-}
-
 function isObjectRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isAnalyticsEventType(value: unknown): value is AnalyticsEventType {
+  return typeof value === 'string' && ANALYTICS_EVENT_TYPES.includes(value as AnalyticsEventType);
 }
 
 function normalizeAnalyticsEvent(event: unknown, index: number): AnalyticsEventRecord | null {
@@ -71,27 +71,17 @@ function normalizeAnalyticsEvents(data: unknown): AnalyticsEventRecord[] {
 }
 
 export type AnalyticsEventsQueryOptions = {
-  sort?: string;
-  page?: number;
+  query: AnalyticsQuery;
 };
 
-async function fetchAnalyticsEvents({
-  sort,
-  page,
-}: AnalyticsEventsQueryOptions): Promise<AnalyticsEventRecord[]> {
-  const queryParams = new URLSearchParams();
-
-  if (sort) {
-    queryParams.set('sort', sort);
-  }
-
-  if (typeof page === 'number' && Number.isInteger(page) && page > 0) {
-    queryParams.set('page', String(page));
-  }
-
-  const queryString = queryParams.toString();
-  const endpoint = queryString ? `${API_URL}/analytics?${queryString}` : `${API_URL}/analytics`;
-  const response = await fetch(endpoint);
+async function fetchAnalyticsEvents(query: AnalyticsQuery): Promise<AnalyticsEventRecord[]> {
+  const response = await fetch(`${API_URL}/analytics/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(query),
+  });
   if (!response.ok) {
     throw new Error(`Failed to load analytics events: API responded with ${response.status}`);
   }
@@ -100,10 +90,8 @@ async function fetchAnalyticsEvents({
   return normalizeAnalyticsEvents(data);
 }
 
-export default function useAnalyticsEvents(options: AnalyticsEventsQueryOptions = {}) {
-  const { sort = 'timestamp:desc', page = 1 } = options;
-
-  return useQuery(['analyticsEvents', sort, page], () => fetchAnalyticsEvents({ sort, page }), {
+export default function useAnalyticsEvents({ query }: AnalyticsEventsQueryOptions) {
+  return useQuery(['analyticsEvents', query], () => fetchAnalyticsEvents(query), {
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

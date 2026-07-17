@@ -42,3 +42,28 @@ export interface AnalyticsRequest<TPayload extends AnalyticsPayload = AnalyticsP
   timestamp: string;
   payload: TPayload;
 }
+
+export type AnalyticsQuerySortDirection = 'asc' | 'desc';
+export type AnalyticsQueryField =
+  | 'eventType'
+  | 'currentUrl'
+  | 'browser'
+  | 'operatingSystem'
+  | 'sessionId'
+  | 'ipAddress'
+  | 'timestamp';
+
+export type AnalyticsQueryFilterOperator = 'eq' | 'neq' | 'has' | 'lt' | 'lte' | 'gt' | 'gte';
+
+export interface AnalyticsQueryFilter {
+  field: AnalyticsQueryField;
+  operator: AnalyticsQueryFilterOperator;
+  value: string;
+}
+
+export interface AnalyticsQuery {
+  filters: AnalyticsQueryFilter[];
+  sortField: string;
+  sortDirection: AnalyticsQuerySortDirection;
+  page: number;
+}

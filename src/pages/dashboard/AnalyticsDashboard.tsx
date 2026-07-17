@@ -1,4 +1,4 @@
-import React, { JSX, useMemo, useState } from 'react';
+import React, { JSX, useEffect, useMemo, useState } from 'react';
 import AppFooter from '../../components/AppFooter';
 import ServiceHeader from '../../components/ServiceHeader';
 import useAnalyticsEvents, {
@@ -6,10 +6,14 @@ import useAnalyticsEvents, {
   AnalyticsEventRecord,
 } from '../../network/useAnalyticsEvents';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
-import { ANALYTICS_EVENT_TYPES, AnalyticsEventType } from '../../types/analytics';
+import {
+  AnalyticsQuery,
+  AnalyticsQueryField,
+  AnalyticsQueryFilter,
+  AnalyticsQueryFilterOperator,
+} from '../../types/analytics';
 import '../../styles/ServicePageStyles.css';
 
-type EventTypeFilter = 'ALL' | AnalyticsEventType;
 type SortDirection = 'asc' | 'desc';
 type SortField = Exclude<keyof AnalyticsEventRecord, 'payload'>;
 type ColumnKey = keyof AnalyticsEventRecord;
@@ -23,6 +27,11 @@ type ColumnDefinition = {
   key: ColumnKey;
   label: string;
   sortable: boolean;
+};
+
+type FilterFieldOption = {
+  value: AnalyticsQueryField;
+  label: string;
 };
 
 const sortFieldOptions: readonly SortFieldOption[] = [
@@ -59,6 +68,38 @@ const defaultVisibleColumns: Record<ColumnKey, boolean> = {
   payload: true,
 };
 
+const MAX_ANALYTICS_FILTERS = 10;
+
+const filterFieldOptions: readonly FilterFieldOption[] = [
+  { value: 'eventType', label: 'Event Type' },
+  { value: 'currentUrl', label: 'URL' },
+  { value: 'browser', label: 'Browser' },
+  { value: 'operatingSystem', label: 'Operating System' },
+  { value: 'sessionId', label: 'Session ID' },
+  { value: 'ipAddress', label: 'IP Address' },
+  { value: 'timestamp', label: 'Timestamp' },
+];
+
+const filterOperatorLabels: Record<AnalyticsQueryFilterOperator, string> = {
+  eq: 'Equals',
+  neq: 'Does not equal',
+  has: 'Contains',
+  lt: 'Less than',
+  lte: 'Less than or equal',
+  gt: 'Greater than',
+  gte: 'Greater than or equal',
+};
+
+const allowedOperatorsByField: Record<AnalyticsQueryField, readonly AnalyticsQueryFilterOperator[]> = {
+  eventType: ['eq', 'neq'],
+  currentUrl: ['eq', 'neq', 'has'],
+  browser: ['eq', 'neq', 'has'],
+  operatingSystem: ['eq', 'neq', 'has'],
+  sessionId: ['eq', 'neq', 'has'],
+  ipAddress: ['eq', 'neq', 'has'],
+  timestamp: ['eq', 'neq', 'lt', 'lte', 'gt', 'gte'],
+};
+
 function formatEventTimestamp(timestamp: string): string {
   const date = new Date(timestamp);
   return Number.isNaN(date.getTime()) ? timestamp : date.toLocaleString();
@@ -88,34 +129,64 @@ function renderEventCell(event: AnalyticsEventRecord, key: ColumnKey): JSX.Eleme
   return <>{String(event[key])}</>;
 }
 
+function getAllowedOperators(field: AnalyticsQueryField): readonly AnalyticsQueryFilterOperator[] {
+  return allowedOperatorsByField[field];
+}
+
+function createAnalyticsFilter(field: AnalyticsQueryField = 'eventType'): AnalyticsQueryFilter {
+  return {
+    field,
+    operator: getAllowedOperators(field)[0],
+    value: '',
+  };
+}
+
+function isCompleteAnalyticsFilter(filter: AnalyticsQueryFilter): boolean {
+  return filter.value.trim().length > 0;
+}
+
 function AnalyticsDashboard(): JSX.Element {
-  const [eventTypeFilter, setEventTypeFilter] = useState<EventTypeFilter>('ALL');
   const [sortField, setSortField] = useState<SortField>('timestamp');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const [page, setPage] = useState<number>(1);
+  const [pageInput, setPageInput] = useState<string>('1');
+  const [filters, setFilters] = useState<AnalyticsQueryFilter[]>([]);
   const [visibleColumns, setVisibleColumns] =
     useState<Record<ColumnKey, boolean>>(defaultVisibleColumns);
-  const sortOption = `${sortField}:${sortDirection}`;
+  const activeFilters = useMemo(
+    () =>
+      filters
+        .map((filter) => ({
+          ...filter,
+          value: filter.value.trim(),
+        }))
+        .filter(isCompleteAnalyticsFilter),
+    [filters]
+  );
+  const analyticsQuery = useMemo<AnalyticsQuery>(() => {
+    return {
+      filters: activeFilters,
+      sortField,
+      sortDirection,
+      page,
+    };
+  }, [activeFilters, page, sortDirection, sortField]);
+
   const {
     data: analyticsEvents = [],
     isLoading,
     isError,
     error,
-  } = useAnalyticsEvents({ sort: sortOption, page });
+  } = useAnalyticsEvents({ query: analyticsQuery });
   useAnalyticsErrorReporter(error, 'Failed to load analytics events');
 
-  const filteredEvents = useMemo(() => {
-    return analyticsEvents.filter((event) => {
-      if (eventTypeFilter === 'ALL') {
-        return true;
-      }
-
-      return event.eventType === eventTypeFilter;
-    });
-  }, [analyticsEvents, eventTypeFilter]);
+  const activeFilterCount = useMemo(
+    () => activeFilters.length,
+    [activeFilters]
+  );
 
   const sortedFilteredEvents = useMemo(() => {
-    return [...filteredEvents].sort((left, right) => {
+    return [...analyticsEvents].sort((left, right) => {
       const leftValue = getComparableValue(left, sortField);
       const rightValue = getComparableValue(right, sortField);
       const directionMultiplier = sortDirection === 'asc' ? 1 : -1;
@@ -129,7 +200,7 @@ function AnalyticsDashboard(): JSX.Element {
         sensitivity: 'base',
       }) * directionMultiplier;
     });
-  }, [filteredEvents, sortDirection, sortField]);
+  }, [analyticsEvents, sortDirection, sortField]);
 
   const visibleColumnDefinitions = useMemo(
     () => columnDefinitions.filter((column) => visibleColumns[column.key]),
@@ -152,6 +223,10 @@ function AnalyticsDashboard(): JSX.Element {
   const hasNextPage = analyticsEvents.length === ANALYTICS_EVENTS_PAGE_SIZE;
   const canGoToPreviousPage = page > 1;
 
+  useEffect(() => {
+    setPageInput(String(page));
+  }, [page]);
+
   const handleSortFieldChange = (value: SortField, toggleDirection = false): void => {
     if (toggleDirection && sortField === value) {
       setSortDirection((current) => (current === 'asc' ? 'desc' : 'asc'));
@@ -160,6 +235,55 @@ function AnalyticsDashboard(): JSX.Element {
     }
 
     setSortField(value);
+    setPage(1);
+  };
+
+  const handleFilterFieldChange = (index: number, field: AnalyticsQueryField): void => {
+    setFilters((current) =>
+      current.map((filter, filterIndex) => {
+        if (filterIndex !== index) {
+          return filter;
+        }
+
+        const allowedOperators = getAllowedOperators(field);
+
+        return {
+          field,
+          operator: allowedOperators.includes(filter.operator) ? filter.operator : allowedOperators[0],
+          value: filter.value,
+        };
+      })
+    );
+    setPage(1);
+  };
+
+  const handleFilterOperatorChange = (index: number, operator: AnalyticsQueryFilterOperator): void => {
+    setFilters((current) =>
+      current.map((filter, filterIndex) => (filterIndex === index ? { ...filter, operator } : filter))
+    );
+    setPage(1);
+  };
+
+  const handleFilterValueChange = (index: number, value: string): void => {
+    setFilters((current) =>
+      current.map((filter, filterIndex) => (filterIndex === index ? { ...filter, value } : filter))
+    );
+    setPage(1);
+  };
+
+  const handleAddFilter = (): void => {
+    setFilters((current) => {
+      if (current.length >= MAX_ANALYTICS_FILTERS) {
+        return current;
+      }
+
+      return [...current, createAnalyticsFilter()];
+    });
+    setPage(1);
+  };
+
+  const handleRemoveFilter = (index: number): void => {
+    setFilters((current) => current.filter((_, filterIndex) => filterIndex !== index));
     setPage(1);
   };
 
@@ -177,66 +301,147 @@ function AnalyticsDashboard(): JSX.Element {
     });
   };
 
+  const handlePageInputCommit = (): void => {
+    const parsedPage = Number.parseInt(pageInput, 10);
+
+    if (Number.isNaN(parsedPage) || parsedPage < 1) {
+      setPageInput(String(page));
+      return;
+    }
+
+    setPage(parsedPage);
+    setPageInput(String(parsedPage));
+  };
+
   return (
     <>
       <ServiceHeader
         backAnalyticsId="back-to-dashboards-analytics"
         title="Analytics Dashboard"
-        subtitle="Review client analytics activity and filter events by event type."
+        subtitle="Review client analytics activity and filter events by field."
       />
       <main className="service-container analytics-dashboard-container">
         <section className="service-details analytics-dashboard-section">
-          <div className="analytics-controls-grid">
-            <div className="analytics-control-group">
-              <label htmlFor="analytics-event-type-filter">Filter by event type</label>
-              <select
-                id="analytics-event-type-filter"
-                className="analytics-filter-select"
-                value={eventTypeFilter}
-                data-analytics-id="analytics-event-type-filter"
-                onChange={(event) => setEventTypeFilter(event.target.value as EventTypeFilter)}
-              >
-                <option value="ALL">All event types</option>
-                {ANALYTICS_EVENT_TYPES.map((eventType) => (
-                  <option key={eventType} value={eventType}>
-                    {eventType}
-                  </option>
-                ))}
-              </select>
+          <div className="analytics-query-controls">
+            <div className="analytics-controls-grid analytics-sort-controls">
+              <div className="analytics-control-group">
+                <label htmlFor="analytics-sort-field">Sort by</label>
+                <select
+                  id="analytics-sort-field"
+                  className="analytics-filter-select"
+                  value={sortField}
+                  data-analytics-id="analytics-sort-field"
+                  onChange={(event) => handleSortFieldChange(event.target.value as SortField)}
+                >
+                  {sortFieldOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="analytics-control-group">
+                <label htmlFor="analytics-sort-direction">Sort direction</label>
+                <select
+                  id="analytics-sort-direction"
+                  className="analytics-filter-select"
+                  value={sortDirection}
+                  data-analytics-id="analytics-sort-direction"
+                  onChange={(event) => {
+                    setSortDirection(event.target.value as SortDirection);
+                    setPage(1);
+                  }}
+                >
+                  <option value="desc">Descending</option>
+                  <option value="asc">Ascending</option>
+                </select>
+              </div>
+
+              <div className="analytics-query-actions">
+                <button
+                  type="button"
+                  className="analytics-page-button"
+                  data-analytics-id="analytics-add-filter"
+                  disabled={filters.length >= MAX_ANALYTICS_FILTERS || isLoading}
+                  onClick={handleAddFilter}
+                >
+                  Add filter
+                </button>
+              </div>
             </div>
 
-            <div className="analytics-control-group">
-              <label htmlFor="analytics-sort-field">Sort by</label>
-              <select
-                id="analytics-sort-field"
-                className="analytics-filter-select"
-                value={sortField}
-                data-analytics-id="analytics-sort-field"
-                onChange={(event) => handleSortFieldChange(event.target.value as SortField)}
-              >
-                {sortFieldOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <div className="analytics-filter-stack">
+              {(
+                <div className="analytics-filter-list">
+                  {filters.length > 0 && (
+                    <div className="analytics-filter-row analytics-filter-row-header">
+                      <div>Field</div>
+                      <div>Operator</div>
+                      <div>Value</div>
+                      <div />
+                    </div>
+                  )}
 
-            <div className="analytics-control-group">
-              <label htmlFor="analytics-sort-direction">Sort direction</label>
-              <select
-                id="analytics-sort-direction"
-                className="analytics-filter-select"
-                value={sortDirection}
-                data-analytics-id="analytics-sort-direction"
-                onChange={(event) => {
-                  setSortDirection(event.target.value as SortDirection);
-                  setPage(1);
-                }}
-              >
-                <option value="desc">Descending</option>
-                <option value="asc">Ascending</option>
-              </select>
+                  {filters.map((filter, index) => {
+                    const allowedOperators = getAllowedOperators(filter.field);
+
+                    return (
+                      <div key={`${filter.field}-${index}`} className="analytics-filter-row">
+                        <select
+                          id={`analytics-filter-field-${index}`}
+                          className="analytics-filter-select"
+                          value={filter.field}
+                          onChange={(event) =>
+                            handleFilterFieldChange(index, event.target.value as AnalyticsQueryField)
+                          }
+                        >
+                          {filterFieldOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+
+                        <select
+                          id={`analytics-filter-operator-${index}`}
+                          className="analytics-filter-select"
+                          value={filter.operator}
+                          onChange={(event) =>
+                            handleFilterOperatorChange(
+                              index,
+                              event.target.value as AnalyticsQueryFilterOperator
+                            )
+                          }
+                        >
+                          {allowedOperators.map((operator) => (
+                            <option key={operator} value={operator}>
+                              {filterOperatorLabels[operator]}
+                            </option>
+                          ))}
+                        </select>
+
+                        <input
+                          id={`analytics-filter-value-${index}`}
+                          type="text"
+                          className="analytics-filter-input"
+                          value={filter.value}
+                          onChange={(event) => handleFilterValueChange(index, event.target.value)}
+                        />
+
+                        <button
+                          type="button"
+                          className="analytics-filter-remove-button"
+                          data-analytics-id={`analytics-remove-filter-${index}`}
+                          onClick={() => handleRemoveFilter(index)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
 
@@ -268,11 +473,11 @@ function AnalyticsDashboard(): JSX.Element {
               <p>{analyticsEvents.length.toLocaleString()}</p>
             </div>
             <div>
-              <span className="service-card-kicker">Filtered Events</span>
-              <p>{sortedFilteredEvents.length.toLocaleString()}</p>
+              <span className="service-card-kicker">Active Filters</span>
+              <p>{activeFilterCount.toLocaleString()}</p>
             </div>
             <div>
-              <span className="service-card-kicker">Active Sessions</span>
+              <span className="service-card-kicker">Unique Sessions</span>
               <p>{uniqueSessions.toLocaleString()}</p>
             </div>
             <div>
@@ -282,14 +487,6 @@ function AnalyticsDashboard(): JSX.Element {
           </div>
 
           <div className="analytics-pagination-controls">
-            <div className="analytics-pagination-summary">
-              <span className="service-card-kicker">Page</span>
-              <p>{page.toLocaleString()}</p>
-            </div>
-            <div className="analytics-pagination-summary">
-              <span className="service-card-kicker">Page Size</span>
-              <p>{ANALYTICS_EVENTS_PAGE_SIZE.toLocaleString()}</p>
-            </div>
             <div className="analytics-pagination-buttons">
               <button
                 type="button"
@@ -300,6 +497,24 @@ function AnalyticsDashboard(): JSX.Element {
               >
                 Previous
               </button>
+              <input
+                id="analytics-set-page"
+                type="number"
+                min={1}
+                step={1}
+                className="analytics-page-input"
+                data-analytics-id="analytics-set-page"
+                disabled={isLoading || (!canGoToPreviousPage && !hasNextPage)}
+                value={pageInput}
+                onChange={(event) => setPageInput(event.target.value)}
+                onBlur={handlePageInputCommit}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    event.preventDefault();
+                    handlePageInputCommit();
+                  }
+                }}
+              />
               <button
                 type="button"
                 className="analytics-page-button"
