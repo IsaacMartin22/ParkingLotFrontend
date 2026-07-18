@@ -67,3 +67,22 @@ export interface AnalyticsQuery {
   sortDirection: AnalyticsQuerySortDirection;
   page: number;
 }
+
+export interface AnalyticsEventRecord {
+  id: string;
+  eventType: AnalyticsEventType;
+  currentUrl: string;
+  browser: string;
+  operatingSystem: string;
+  sessionId: string;
+  ipAddress: string;
+  timestamp: string;
+  payload: Record<string, unknown>;
+}
+
+export interface AnalyticsQueryResponse {
+  results: AnalyticsEventRecord[];
+  totalCount: number;
+  totalPages: number;
+  pageSize: number;
+}

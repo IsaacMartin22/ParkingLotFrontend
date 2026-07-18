@@ -3,10 +3,10 @@ import AppFooter from '../../components/AppFooter';
 import ServiceHeader from '../../components/ServiceHeader';
 import useAnalyticsEvents, {
   ANALYTICS_EVENTS_PAGE_SIZE,
-  AnalyticsEventRecord,
 } from '../../network/useAnalyticsEvents';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
 import {
+  AnalyticsEventRecord,
   AnalyticsQuery,
   AnalyticsQueryField,
   AnalyticsQueryFilter,
@@ -173,7 +173,7 @@ function AnalyticsDashboard(): JSX.Element {
   }, [activeFilters, page, sortDirection, sortField]);
 
   const {
-    data: analyticsEvents = [],
+    data: analyticsEventsResponse = { results: [], totalPages: 0, totalCount: 0, pageSize: 1000 },
     isLoading,
     isError,
     error,
@@ -186,7 +186,7 @@ function AnalyticsDashboard(): JSX.Element {
   );
 
   const sortedFilteredEvents = useMemo(() => {
-    return [...analyticsEvents].sort((left, right) => {
+    return [...analyticsEventsResponse.results].sort((left, right) => {
       const leftValue = getComparableValue(left, sortField);
       const rightValue = getComparableValue(right, sortField);
       const directionMultiplier = sortDirection === 'asc' ? 1 : -1;
@@ -200,7 +200,7 @@ function AnalyticsDashboard(): JSX.Element {
         sensitivity: 'base',
       }) * directionMultiplier;
     });
-  }, [analyticsEvents, sortDirection, sortField]);
+  }, [analyticsEventsResponse.results, sortDirection, sortField]);
 
   const visibleColumnDefinitions = useMemo(
     () => columnDefinitions.filter((column) => visibleColumns[column.key]),
@@ -220,7 +220,7 @@ function AnalyticsDashboard(): JSX.Element {
   const latestEventTimestamp =
     sortedFilteredEvents.length > 0 ? formatEventTimestamp(sortedFilteredEvents[0].timestamp) : 'N/A';
 
-  const hasNextPage = analyticsEvents.length === ANALYTICS_EVENTS_PAGE_SIZE;
+  const hasNextPage = analyticsEventsResponse.results.length === ANALYTICS_EVENTS_PAGE_SIZE;
   const canGoToPreviousPage = page > 1;
 
   useEffect(() => {
@@ -470,11 +470,11 @@ function AnalyticsDashboard(): JSX.Element {
           <div className="analytics-summary-grid">
             <div>
               <span className="service-card-kicker">Events on Page</span>
-              <p>{analyticsEvents.length.toLocaleString()}</p>
+              <p>{analyticsEventsResponse.results.length.toLocaleString()}</p>
             </div>
             <div>
-              <span className="service-card-kicker">Active Filters</span>
-              <p>{activeFilterCount.toLocaleString()}</p>
+              <span className="service-card-kicker">Total Results</span>
+              <p>{analyticsEventsResponse.totalCount}</p>
             </div>
             <div>
               <span className="service-card-kicker">Unique Sessions</span>

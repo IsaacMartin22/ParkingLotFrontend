@@ -1,20 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { ANALYTICS_EVENT_TYPES, AnalyticsEventType, AnalyticsQuery } from '../types/analytics';
+import {
+  ANALYTICS_EVENT_TYPES,
+  AnalyticsEventRecord,
+  AnalyticsEventType,
+  AnalyticsQuery,
+  AnalyticsQueryResponse
+} from '../types/analytics';
 import { API_URL } from '../types/constants';
 
 export const ANALYTICS_EVENTS_PAGE_SIZE = 1000;
-
-export interface AnalyticsEventRecord {
-  id: string;
-  eventType: AnalyticsEventType;
-  currentUrl: string;
-  browser: string;
-  operatingSystem: string;
-  sessionId: string;
-  ipAddress: string;
-  timestamp: string;
-  payload: Record<string, unknown>;
-}
 
 function isObjectRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -58,23 +52,22 @@ function normalizeAnalyticsEvent(event: unknown, index: number): AnalyticsEventR
   };
 }
 
-function normalizeAnalyticsEvents(data: unknown): AnalyticsEventRecord[] {
-  const candidateEvents = Array.isArray(data)
-    ? data
-    : isObjectRecord(data) && Array.isArray(data.events)
-      ? data.events
-      : [];
+function normalizeAnalyticsEvents(data: AnalyticsQueryResponse): AnalyticsQueryResponse {
+  const candidateEvents = data.results
 
-  return candidateEvents
-    .map((event, index) => normalizeAnalyticsEvent(event, index))
-    .filter((event): event is AnalyticsEventRecord => event !== null);
+  return {
+    results: candidateEvents.map((event, index) => normalizeAnalyticsEvent(event, index)).filter((event): event is AnalyticsEventRecord => event !== null),
+    totalPages: data.totalPages,
+    totalCount: data.totalCount,
+    pageSize: data.pageSize
+  }
 }
 
 export type AnalyticsEventsQueryOptions = {
   query: AnalyticsQuery;
 };
 
-async function fetchAnalyticsEvents(query: AnalyticsQuery): Promise<AnalyticsEventRecord[]> {
+async function fetchAnalyticsEvents(query: AnalyticsQuery): Promise<AnalyticsQueryResponse> {
   const response = await fetch(`${API_URL}/analytics/search`, {
     method: 'POST',
     headers: {
@@ -86,7 +79,7 @@ async function fetchAnalyticsEvents(query: AnalyticsQuery): Promise<AnalyticsEve
     throw new Error(`Failed to load analytics events: API responded with ${response.status}`);
   }
 
-  const data: unknown = await response.json();
+  const data: AnalyticsQueryResponse = await response.json();
   return normalizeAnalyticsEvents(data);
 }
 
