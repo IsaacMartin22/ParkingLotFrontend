@@ -180,11 +180,6 @@ function AnalyticsDashboard(): JSX.Element {
   } = useAnalyticsEvents({ query: analyticsQuery });
   useAnalyticsErrorReporter(error, 'Failed to load analytics events');
 
-  const activeFilterCount = useMemo(
-    () => activeFilters.length,
-    [activeFilters]
-  );
-
   const sortedFilteredEvents = useMemo(() => {
     return [...analyticsEventsResponse.results].sort((left, right) => {
       const leftValue = getComparableValue(left, sortField);
@@ -316,7 +311,6 @@ function AnalyticsDashboard(): JSX.Element {
   return (
     <>
       <ServiceHeader
-        backAnalyticsId="back-to-dashboards-analytics"
         title="Analytics Dashboard"
         subtitle="Review client analytics activity and filter events by field."
       />
@@ -330,7 +324,6 @@ function AnalyticsDashboard(): JSX.Element {
                   id="analytics-sort-field"
                   className="analytics-filter-select"
                   value={sortField}
-                  data-analytics-id="analytics-sort-field"
                   onChange={(event) => handleSortFieldChange(event.target.value as SortField)}
                 >
                   {sortFieldOptions.map((option) => (
@@ -347,7 +340,6 @@ function AnalyticsDashboard(): JSX.Element {
                   id="analytics-sort-direction"
                   className="analytics-filter-select"
                   value={sortDirection}
-                  data-analytics-id="analytics-sort-direction"
                   onChange={(event) => {
                     setSortDirection(event.target.value as SortDirection);
                     setPage(1);
@@ -432,7 +424,6 @@ function AnalyticsDashboard(): JSX.Element {
                         <button
                           type="button"
                           className="analytics-filter-remove-button"
-                          data-analytics-id={`analytics-remove-filter-${index}`}
                           onClick={() => handleRemoveFilter(index)}
                         >
                           Remove

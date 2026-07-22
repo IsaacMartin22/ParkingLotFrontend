@@ -137,7 +137,7 @@ export default function ParkingLotFloors() {
       <>
         <header className="service-header parking-page--floor-details">
           <div className="service-header-nav">
-            <Link to={`/parking-lots/${lotId}`} className="back-link" data-analytics-id={"floor-not-found-error-lot-id-"+lotId}>← Lot Details</Link>
+            <Link to={`/parking-lots/${lotId}`} className="back-link">← Lot Details</Link>
           </div>
           <p className="parking-page-path">Hierarchy: Lots {'>'} Floors {'>'} Sections</p>
           <p className="service-eyebrow">Parking lot app</p>
@@ -162,7 +162,7 @@ export default function ParkingLotFloors() {
     <>
       <header className="service-header parking-page--floor-details">
         <div className="service-header-nav">
-          <Link to={`/parking-lots/${lotId}`} className="back-link" data-analytics-id={"back-to-lot-details-lot-id-"+lotId}>← Lot Details</Link>
+          <Link to={`/parking-lots/${lotId}`} className="back-link">← Lot Details</Link>
         </div>
         <p className="parking-page-path">Hierarchy: Lots {'>'} Floors {'>'} Sections</p>
         <p className="service-eyebrow">Parking lot app</p>

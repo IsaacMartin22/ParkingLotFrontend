@@ -8,14 +8,12 @@ type HeaderActionLink = {
 };
 
 type ServiceHeaderProps = {
-  backAnalyticsId: string;
   title: string;
   subtitle: ReactNode;
   actionLink?: HeaderActionLink;
 };
 
 function ServiceHeader({
-  backAnalyticsId,
   title,
   subtitle,
   actionLink,
@@ -23,7 +21,7 @@ function ServiceHeader({
   return (
     <header className="service-header">
       <div className="service-header-nav">
-        <Link to="/dashboards" className="back-link" data-analytics-id={backAnalyticsId}>
+        <Link to="/dashboards" className="back-link">
           ← Dashboards
         </Link>
         {actionLink && (

@@ -45,7 +45,7 @@ export default function ParkingLotDetails() {
     <>
       <header className="service-header parking-page--lot-details">
         <div className="service-header-nav">
-          <Link to="/parking-lots" className="back-link" data-analytics-id="back-to-parking-lots">← Parking Lots</Link>
+          <Link to="/parking-lots" className="back-link">← Parking Lots</Link>
         </div>
         <p className="parking-page-path">Hierarchy: Lots {'>'} Floors</p>
         <p className="service-eyebrow">Parking lot app</p>

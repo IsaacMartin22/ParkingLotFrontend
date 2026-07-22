@@ -9,7 +9,7 @@ function DashboardHome(): JSX.Element {
     <div className="settings-dashboard">
       <header className="service-header">
         <div className="service-header-nav">
-          <Link to="/" className="back-link" data-analytics-id={"back-to-portfolio-from-dashboards"}>← Home</Link>
+          <Link to="/" className="back-link">← Home</Link>
         </div>
         <p className="service-eyebrow">Project demo · parking experience</p>
         <h1>Dashboard Home</h1>
@@ -32,49 +32,49 @@ function DashboardHome(): JSX.Element {
           </div>
 
           <div className="services-grid service-dashboard-grid">
-            <Link to="/parking-lots" className="service-card primary-service-card" data-analytics-id={"parking-explorer-link"}>
+            <Link to="/parking-lots" className="service-card primary-service-card">
               <div className="service-card-icon">🅿️</div>
               <span className="service-card-kicker">Primary experience</span>
               <h3>Parking Explorer</h3>
               <p>View real-time section and space availability for lots and floors.</p>
             </Link>
 
-            <Link to="/api" className="service-card" data-analytics-id={"api-link"}>
+            <Link to="/api" className="service-card">
               <div className="service-card-icon">🛫</div>
               <span className="service-card-kicker">Traffic</span>
               <h3>API Service</h3>
               <p>Check endpoint activity, uptime, and performance for the parking API.</p>
             </Link>
 
-            <Link to="/database" className="service-card" data-analytics-id={"database-link"}>
+            <Link to="/database" className="service-card">
               <div className="service-card-icon">🗄️</div>
               <span className="service-card-kicker">Persistence</span>
               <h3>Database</h3>
               <p>Review latency, retrieval metrics, connection info, and storage health.</p>
             </Link>
 
-            <Link to="/analytics" className="service-card" data-analytics-id="analytics-link">
+            <Link to="/analytics" className="service-card">
               <div className="service-card-icon">📊</div>
               <span className="service-card-kicker">Insights</span>
               <h3>Analytics</h3>
               <p>View an anonymized history of user interaction with this site.</p>
             </Link>
 
-            <Link to="/sdk" className="service-card" data-analytics-id={"sdk-link"}>
+            <Link to="/sdk" className="service-card">
               <div className="service-card-icon">🧩</div>
               <span className="service-card-kicker">Automate</span>
               <h3>SDK</h3>
               <p>Use a Maven published SDK to programmatically interact with the API.</p>
             </Link>
 
-            <Link to="/builds" className="service-card" data-analytics-id="builds-link">
+            <Link to="/builds" className="service-card">
               <div className="service-card-icon">🧱</div>
               <span className="service-card-kicker">CI</span>
               <h3>Builds</h3>
               <p>View recently triggered CI pipelines and build information.</p>
             </Link>
 
-            <Link to="/deployments" className="service-card" data-analytics-id="deployments-link">
+            <Link to="/deployments" className="service-card">
               <div className="service-card-icon">🚀</div>
               <span className="service-card-kicker">Release</span>
               <h3>Deployments</h3>

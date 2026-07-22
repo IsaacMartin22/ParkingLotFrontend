@@ -183,7 +183,6 @@ function BuildsDashboard(): JSX.Element {
   return (
     <>
       <ServiceHeader
-        backAnalyticsId="back-to-dashboards-builds"
         title="Builds Dashboard"
         subtitle="30 most recent builds for pipelines, including outcomes, duration, and timestamps."
         actionLink={{

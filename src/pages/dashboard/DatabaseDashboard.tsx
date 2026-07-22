@@ -97,7 +97,6 @@ function DatabaseDashboard(): JSX.Element {
   return (
     <>
       <ServiceHeader
-        backAnalyticsId="back-to-dashboards-database"
         title="Database Dashboard"
         subtitle="Review persistence health, storage behavior, and database capacity behind the parking lot app."
       />

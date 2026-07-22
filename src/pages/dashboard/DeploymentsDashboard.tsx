@@ -102,7 +102,6 @@ function DeploymentsDashboard(): JSX.Element {
   return (
     <>
       <ServiceHeader
-        backAnalyticsId="back-to-dashboards-deployments"
         title="Deployments Dashboard"
         subtitle="30 most recent deployments, including status, duration, and timestamps."
         actionLink={{

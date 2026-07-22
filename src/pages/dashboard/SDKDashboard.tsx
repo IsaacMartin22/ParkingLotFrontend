@@ -8,7 +8,6 @@ function SDK(): JSX.Element {
   return (
     <>
       <ServiceHeader
-        backAnalyticsId="back-to-dashboards-sdk"
         title="SDK Dashboard"
         subtitle="No diagnostics for SDK. Visit GitHub to clone and use the published SDK for the API."
         actionLink={{

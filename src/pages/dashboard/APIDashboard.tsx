@@ -74,7 +74,6 @@ function APIDashboard(): JSX.Element {
   return (
       <>
         <ServiceHeader
-          backAnalyticsId="back-to-dashboards-api"
           title="API Service Dashboard"
           subtitle="API uptime, request volume, error rate, logging, and endpoint activity."
           actionLink={{

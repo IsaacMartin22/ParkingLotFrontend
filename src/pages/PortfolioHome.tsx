@@ -58,8 +58,8 @@ function PortfolioHome(): JSX.Element {
             is open source and available on my GitHub profile.
           </p>
           <div className="intro-actions">
-            <Link to="/dashboards" className="intro-primary-link" data-analytics-id={"portfolio-parking-link"}>Dashboard Home</Link>
-            <Link to="/dev-notes" className="intro-secondary-link" data-analytics-id={"portfolio-dev-notes-link"}>Developer Notes</Link>
+            <Link to="/dashboards" className="intro-primary-link">Dashboard Home</Link>
+            <Link to="/dev-notes" className="intro-secondary-link">Developer Notes</Link>
             <a
               data-analytics-id={"portfolio-github-link"}
               href="https://github.com/IsaacMartin22"
@@ -92,7 +92,7 @@ function PortfolioHome(): JSX.Element {
             <h3>Experience</h3>
             <p>
               Fullstack software engineer with 5 years of experience working with SAAS web apps and services.
-              Responsible for debugging improving, and modifying software serving thousands of other businesses and millions of
+              Responsible for debugging improving, and modifying software serving thousands of businesses and millions of
               end users. Billions of requests and events worth of traffic generated daily. Experience addressing
               strain and pain points of distributed systems with global scale.
             </p>
