@@ -1,6 +1,7 @@
 import React, { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import AppFooter from '../components/AppFooter';
+import Chatbot from '../components/Chatbot';
 import '../styles/IntroHome.css';
 import {API_GITHUB, SDK_GITHUB, FRONTEND_GITHUB, GITHUB_IO} from "../types/constants";
 
@@ -116,6 +117,16 @@ function PortfolioHome(): JSX.Element {
             </ul>
           </article>
         </section>
+
+          <section className="intro-grid intro-support-grid" aria-label="Chat">
+            <article className="intro-card">
+              <h3>Ask about this project</h3>
+              <p style={{ marginTop: 12, marginBottom: 16, color: 'var(--las-muted)' }}>
+                Have questions about the system architecture, tech stack, or anything else? Chat below.
+              </p>
+              <Chatbot />
+            </article>
+          </section>
       </main>
 
       <AppFooter />
