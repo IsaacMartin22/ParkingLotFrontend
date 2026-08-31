@@ -38,7 +38,7 @@ function PortfolioHome(): JSX.Element {
             <article className="intro-card">
               <h3>Ask about this project</h3>
               <p style={{ marginTop: 12, marginBottom: 16, color: 'var(--las-muted)' }}>
-                Have questions about Isaac? Want to know about this project's tech stack, or anything else? Chat below.
+                Have questions for Isaac? Try asking what Isaac's proudest accomplishment is or what technologies are used in this project below.
               </p>
               <Chatbot />
             </article>
