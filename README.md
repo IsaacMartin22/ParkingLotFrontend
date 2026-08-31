@@ -55,7 +55,6 @@ App available at [http://localhost:3000](http://localhost:3000).
 - `/analytics` - analytics dashboard
 - `/builds` - build dashboard
 - `/deployments` - deployment dashboard
-- `/dev-notes` - developer notes
 - `/parking-lots` - parking lot overview
 - `/parking-lots/:lotId` - parking lot details
 - `/parking-lots/:lotId/floors/:floorId` - parking lot floor details
@@ -63,4 +62,3 @@ App available at [http://localhost:3000](http://localhost:3000).
 ## Deployment
 
 The app is built as a static site. `npm run deploy` is run by me locally to create the production build and publish it using the repository's deployment script.
-

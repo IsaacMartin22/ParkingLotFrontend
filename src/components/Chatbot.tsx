@@ -9,7 +9,10 @@ interface ChatMessage {
 
 function Chatbot(): JSX.Element {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'bot', text: 'Hi! Ask me anything about this project.' },
+    {
+      role: 'bot',
+      text: 'Hi! I am IsaacGPT. Ask about Isaac, this portfolio, or any open ended recruiter questions Isaac provided me context for.',
+    },
   ]);
   const [input, setInput] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -74,7 +77,7 @@ function Chatbot(): JSX.Element {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type a message… (Enter to send)"
+          placeholder="Ask IsaacGPT a question... (Enter to send)"
           rows={1}
           disabled={isLoading}
         />

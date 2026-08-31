@@ -18,7 +18,6 @@ import SDK from "./pages/dashboard/SDKDashboard";
 import AnalyticsDashboard from './pages/dashboard/AnalyticsDashboard';
 import BuildsDashboard from './pages/dashboard/BuildsDashboard';
 import DeploymentsDashboard from "./pages/dashboard/DeploymentsDashboard";
-import DevNotesDashboard from "./pages/dashboard/DevNotesDashboard";
 
 const queryClient = new QueryClient();
 
@@ -135,7 +134,6 @@ function AppShell(): JSX.Element {
         <Route path="/analytics" element={<AnalyticsDashboard />} />
         <Route path="/builds" element={<BuildsDashboard />} />
         <Route path="/deployments" element={<DeploymentsDashboard />} />
-        <Route path="/dev-notes" element={<DevNotesDashboard />} />
         <Route path="/parking-lots" element={<ParkingLotsOverview />} />
         <Route path="/parking-lots/:lotId/floors/:floorId" element={<ParkingLotFloorDetails />} />
         <Route path="/parking-lots/:lotId" element={<ParkingLotDetails />} />
