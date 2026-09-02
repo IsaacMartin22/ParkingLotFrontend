@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound';
 import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
 import InfrastructureHome from "./pages/InfrastructureHome";
 import PortfolioHome from './pages/PortfolioHome';
+import Projects from './pages/Projects';
 import type { AnalyticsRequest, ClickPayload } from './types/analytics';
 
 const queryClient = new QueryClient();
@@ -118,6 +119,7 @@ function AppShell(): JSX.Element {
     <div className={`App app-shell ${isParkingExperience ? 'app-shell--parking' : 'app-shell--portfolio'}`}>
       <Routes>
         <Route path="/" element={<PortfolioHome />} />
+        <Route path="/projects" element={<Projects />} />
         <Route path="/infrastructure" element={<InfrastructureHome />} />
         <Route path="/dashboards" element={<Navigate to="/infrastructure" replace />} />
         <Route path="/parking-lots" element={<ParkingLotsOverview />} />

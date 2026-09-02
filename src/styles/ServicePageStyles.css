@@ -1,28 +1,5 @@
 /* Service Pages Styles */
 
-.infrastructure-home-toolbar {
-  position: absolute;
-  bottom: 32px;
-  left: 32px;
-  z-index: 2;
-}
-
-.infrastructure-back-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 11px;
-  border: 1px solid rgba(28, 74, 120, 0.28);
-  border-radius: 999px;
-  background: linear-gradient(180deg, #eaf4ff 0%, #dfeefe 100%);
-  color: #153b63;
-  text-decoration: none;
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  box-shadow: 0 6px 14px rgba(21, 59, 99, 0.12);
-}
-
 .infrastructure-compact-shell {
   position: relative;
   height: calc(100vh - 12px);
@@ -34,9 +11,22 @@
   overflow: hidden;
 }
 
+.infrastructure-top-nav {
+  z-index: 2;
+}
+
+.infrastructure-header-divider {
+  position: absolute;
+  top: 64px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: #153b6d;
+}
+
 .infrastructure-compact-grid {
   width: 100%;
-  padding-top: 10px;
+  padding-top: 64px;
   display: grid;
   grid-template-columns: repeat(5, minmax(170px, 1fr));
   gap: 0;
@@ -45,7 +35,7 @@
 
 .infrastructure-compact-panel {
   background: transparent;
-  border-left: 1px solid rgba(15, 23, 42, 0.12);
+  border-left: 1px solid #153b6d;
   border-radius: 0;
   padding: 0 10px 0 12px;
   min-height: 100%;
@@ -83,6 +73,10 @@
 .infrastructure-compact-panel:first-child {
   border-left: none;
   padding-left: 0;
+}
+
+.infrastructure-home-toolbar + .infrastructure-compact-shell .infrastructure-compact-grid .infrastructure-compact-panel {
+  border-left-width: 1px;
 }
 
 .infrastructure-compact-panel h3 {

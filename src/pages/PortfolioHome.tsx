@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { Link } from 'react-router-dom';
 import AppFooter from '../components/AppFooter';
 import Chatbot from '../components/Chatbot';
 import { ISAAC_EMAIL, ISAAC_GITHUB, ISAAC_LINKEDIN } from '../types/constants';
@@ -8,11 +9,14 @@ function PortfolioHome(): JSX.Element {
   return (
     <div className="intro-home">
       <nav className="intro-top-nav" aria-label="Portfolio sections">
-        <a href="#projects" className="intro-top-nav-link">Projects</a>
-        <a href="#infrastructure" className="intro-top-nav-link">Infrastructure</a>
-        <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="intro-top-nav-link" download>
-          Resume
-        </a>
+        <Link to="/" className="intro-top-nav-link intro-top-nav-brand">Isaac Martin</Link>
+        <div className="intro-top-nav-links">
+          <Link to="/projects" className="intro-top-nav-link">Projects</Link>
+          <Link to="/infrastructure" className="intro-top-nav-link">Infrastructure</Link>
+          <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="intro-top-nav-link" download>
+            Resume
+          </a>
+        </div>
       </nav>
       <section className="intro-header-bar" aria-label="Portfolio introduction"/>
       <main className="container intro-main">
@@ -24,26 +28,30 @@ function PortfolioHome(): JSX.Element {
             <p></p>
             <p>
               I'm a full stack software engineer with experience building out web apps, services, APIs, and infrastructure.
-              My primary tech stack is Java, Typescript, React, and Spring Boot. I'm most familiar with AWS as a
-              cloud provider, with AWS SQS as messaging and AWS RDS SQL as a relational database.
+              I'm familiar with microservices architecture, AWS, and a variety of AWS services. I've used AWS SQS
+              for event messaging when working with microservices - it's something like Kafka. I'm best with Java for the backend
+              and Typescript for the frontend but I have worked with many other languages and frameworks - Python, C++, React,
+              Angular, Node.js, and Spring Boot to name a few. I am experienced in both relational and non-relational databases.
+            </p>
+            <p>
+              I have experience with Docker containerization, Kubernetes, version control, CI/CD pipelines, automated testing, logging,
+              and monitoring. I've scaled services both vertically and horizontally to adjust to increased loads, analyzed performance
+              bottlenecks for struggling services and databases and made targeted improvements.
+            </p>
+            <p>
+              I've been on the front line for debugging critical "All hands on deck" production outages and been the one to implement
+              a hotfix to stabilize product functionality. I've also resolved thousands of lower severity defects and worked cross
+              collaboratively with product and support to implement new features and improve existing features. In one instance
+              I single handedly automated a manual support process by implementing self service functionality for end users.
+            </p>
+            <p>
+              I work with Github Copilot both professionally and personally to improve my productivity. The bottom of this page
+              provides a RAG chatbot integrating with OpenAI built by me - I know and endorse AI's capabilities when there are tasks in
+              which it can shine. Synthesizing known information is one of those tasks so I've prepped it with my resume and a good
+              chunk of hand written answers for common recruiter questions, it should be able to answer common questions.
             </p>
             <p>
 
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquam sollicitudin leo. Cras iaculis
-              ultricies nulla. Donec quis dui at dolor tempor interdum. Vivamus molestie gravida turpis. Fusce
-              lobortis lorem at ipsum semper sagittis. Nam convallis pellentesque nisl.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada. In in enim a arcu
-              imperdiet malesuada. Sed vel lectus. Donec odio urna, tempus molestie, porttitor ut, iaculis quis,
-              sem. Phasellus rhoncus. Aenean id metus id velit ullamcorper pulvinar.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum fermentum tortor id mi.
-              Pellentesque ipsum. Nulla non arcu lacinia neque faucibus fringilla. Nulla facilisi. Aenean nec
-              eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
             </p>
           </section>
           <aside className="intro-sidebar">

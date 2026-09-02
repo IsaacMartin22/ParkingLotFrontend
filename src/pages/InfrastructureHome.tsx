@@ -223,6 +223,21 @@ function getRequestLabel(endpoint: string): string {
   return 'GET';
 }
 
+function getLastUrlPathSegment(url: string | null | undefined): string {
+  if (!url) {
+    return 'No URL';
+  }
+
+  try {
+    const parsedUrl = new URL(url);
+    const segments = parsedUrl.pathname.split('/').filter(Boolean);
+    return segments[segments.length - 1] ?? '/';
+  } catch {
+    const segments = url.split('/').filter(Boolean);
+    return segments[segments.length - 1] ?? url;
+  }
+}
+
 function InfrastructureHome(): JSX.Element {
   const { data: apiDiagnostics, isLoading: apiLoading, isError: apiError, error: apiErrorObject } = useAPIDiagnostics();
   const { data: databaseDiagnostics, isLoading: databaseLoading, isError: databaseError, error: databaseErrorObject } = useDatabaseDiagnostics();
@@ -330,9 +345,18 @@ function InfrastructureHome(): JSX.Element {
 
   return (
     <main className="infrastructure-compact-shell">
-      <div className="infrastructure-home-toolbar">
-        <Link to="/" className="infrastructure-back-link">Return to Home</Link>
-      </div>
+      <nav className="intro-top-nav infrastructure-top-nav" aria-label="Portfolio sections">
+        <Link to="/" className="intro-top-nav-link intro-top-nav-brand">Isaac Martin</Link>
+        <div className="intro-top-nav-links">
+          <Link to="/projects" className="intro-top-nav-link">Projects</Link>
+          <Link to="/infrastructure" className="intro-top-nav-link">Infrastructure</Link>
+          <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="intro-top-nav-link" download>
+            Resume
+          </a>
+        </div>
+      </nav>
+
+      <div className="infrastructure-header-divider" aria-hidden="true" />
 
       <div className="infrastructure-compact-grid">
         <section className="infrastructure-compact-panel">
@@ -493,7 +517,7 @@ function InfrastructureHome(): JSX.Element {
                     <strong>{event.sessionId.slice(-12)}</strong>
                   </div>
                   <div className="infrastructure-entry-meta-row">
-                    <span>{event.currentUrl || 'No URL'}</span>
+                    <span>{getLastUrlPathSegment(event.currentUrl)}</span>
                   </div>
                   <div className="infrastructure-entry-meta-row">
                     <span>{formatCompactDateTime(event.timestamp)}</span>
