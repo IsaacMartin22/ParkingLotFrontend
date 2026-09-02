@@ -11,7 +11,8 @@
 
 .parking-page-path {
   margin: 0 0 8px;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 2px rgba(2, 9, 19, 0.55);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -26,28 +27,29 @@
   display: inline-block;
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  background: rgba(15, 23, 42, 0.5);
   color: #fff;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(2, 9, 19, 0.6);
 }
 
 .parking-level-pill--lots {
-  background: rgba(14, 165, 233, 0.28);
-  border-color: rgba(125, 211, 252, 0.7);
+  background: rgba(14, 165, 233, 0.45);
+  border-color: rgba(186, 230, 253, 0.9);
 }
 
 .parking-level-pill--lot {
-  background: rgba(245, 158, 11, 0.24);
-  border-color: rgba(252, 211, 77, 0.74);
+  background: rgba(245, 158, 11, 0.42);
+  border-color: rgba(254, 240, 138, 0.9);
 }
 
 .parking-level-pill--floor {
-  background: rgba(236, 72, 153, 0.22);
-  border-color: rgba(244, 114, 182, 0.72);
+  background: rgba(236, 72, 153, 0.4);
+  border-color: rgba(251, 207, 232, 0.9);
 }
 
 .service-header.parking-page--lots {
@@ -143,11 +145,14 @@
 .parking-card-header h4 {
   margin: 0;
   font-size: 1.05em;
+  color: #0f172a;
+  font-weight: 800;
 }
 
 .app-shell--parking .parking-card-header h4,
 .app-shell--parking .floor-section-name {
-  color: var(--las-navy);
+  color: #0b1220;
+  text-shadow: none;
 }
 
 .parking-status {
@@ -290,7 +295,12 @@
 .floor-section-name {
   margin: 0 0 8px;
   font-weight: 700;
-  color: #334155;
+  color: #0f172a;
+}
+
+.floor-summary-card .parking-card-header {
+  background: transparent;
+  border-color: transparent;
 }
 
 .space-grid {
@@ -455,4 +465,3 @@
     grid-template-columns: 1fr;
   }
 }
-

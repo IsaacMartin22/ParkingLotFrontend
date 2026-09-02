@@ -30,7 +30,7 @@ function PortfolioHome(): JSX.Element {
               I am a full-stack software engineer with experience building web applications, services, APIs, and infrastructure.
               I am familiar with microservices architecture and a variety of AWS services. I have used AWS SQS for event messaging
               when working with distributed systems, which has similarities with Kafka. Java is my preferred backend language,
-              TypeScript is my preferred frontend language, and SQL is my preferred database query language. I have experience working
+              TypeScript and React are my preferred frontend, and SQL is my preferred database query language. I have experience working
               with all of the technologies listed in the adjacent column.
             </p>
             <p>
