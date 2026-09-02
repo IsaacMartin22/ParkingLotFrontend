@@ -1,23 +1,15 @@
 import React, {JSX, useEffect, useRef} from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './styles/HeaderFooter.css';
-import HamburgerNavigation from './components/HamburgerNavigation';
 import usePostAnalyticsRequest from './network/usePostAnalyticsRequest';
-import APIDashboard from './pages/dashboard/APIDashboard';
-import DatabaseDashboard from './pages/dashboard/DatabaseDashboard';
 import ParkingLotsOverview from './pages/parking/ParkingLotsOverview';
 import ParkingLotDetails from './pages/parking/ParkingLotDetails';
 import NotFound from './pages/NotFound';
 import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
-import DashboardHome from "./pages/DashboardHome";
+import InfrastructureHome from "./pages/InfrastructureHome";
 import PortfolioHome from './pages/PortfolioHome';
-import Blog from "./pages/Blog";
 import type { AnalyticsRequest, ClickPayload } from './types/analytics';
-import SDK from "./pages/dashboard/SDKDashboard";
-import AnalyticsDashboard from './pages/dashboard/AnalyticsDashboard';
-import BuildsDashboard from './pages/dashboard/BuildsDashboard';
-import DeploymentsDashboard from "./pages/dashboard/DeploymentsDashboard";
 
 const queryClient = new QueryClient();
 
@@ -124,16 +116,10 @@ function AppShell(): JSX.Element {
 
   return (
     <div className={`App app-shell ${isParkingExperience ? 'app-shell--parking' : 'app-shell--portfolio'}`}>
-      <HamburgerNavigation />
       <Routes>
         <Route path="/" element={<PortfolioHome />} />
-        <Route path="/dashboards" element={<DashboardHome />} />
-        <Route path="/api" element={<APIDashboard />} />
-        <Route path="/database" element={<DatabaseDashboard />} />
-        <Route path="/sdk" element={<SDK />} />
-        <Route path="/analytics" element={<AnalyticsDashboard />} />
-        <Route path="/builds" element={<BuildsDashboard />} />
-        <Route path="/deployments" element={<DeploymentsDashboard />} />
+        <Route path="/infrastructure" element={<InfrastructureHome />} />
+        <Route path="/dashboards" element={<Navigate to="/infrastructure" replace />} />
         <Route path="/parking-lots" element={<ParkingLotsOverview />} />
         <Route path="/parking-lots/:lotId/floors/:floorId" element={<ParkingLotFloorDetails />} />
         <Route path="/parking-lots/:lotId" element={<ParkingLotDetails />} />

@@ -15,7 +15,7 @@ function ParkingLotsOverview() {
     <>
       <header className="service-header parking-page--lots">
         <div className="service-header-nav">
-          <Link to="/dashboards" className="back-link">← Dashboards</Link>
+          <Link to="/infrastructure" className="back-link">Infrastructure</Link>
         </div>
         <p className="parking-page-path">Hierarchy: Lots</p>
         <p className="service-eyebrow">Parking lot app</p>

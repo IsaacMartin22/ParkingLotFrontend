@@ -21,8 +21,8 @@ function ServiceHeader({
   return (
     <header className="service-header">
       <div className="service-header-nav">
-        <Link to="/dashboards" className="back-link">
-          ← Dashboards
+        <Link to="/infrastructure" className="back-link">
+          Infrastructure
         </Link>
         {actionLink && (
           <a

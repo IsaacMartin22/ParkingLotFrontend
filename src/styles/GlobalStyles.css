@@ -5,18 +5,19 @@
 }
 
 :root {
-  --las-navy: #071a2f;
-  --las-blue: #0f3557;
-  --las-sky: #48b7d8;
-  --las-gold: #f6b73c;
-  --las-gold-soft: #fff3d6;
-  --las-sand: #f4ead8;
-  --las-asphalt: #1f2933;
-  --las-runway: #2f3842;
-  --las-terminal: #ffffff;
-  --las-muted: #64748b;
-  --las-border: rgba(15, 53, 87, 0.14);
-  --las-shadow: 0 18px 45px rgba(7, 26, 47, 0.14);
+  --las-navy: #e5e7eb;
+  --las-blue: #93c5fd;
+  --las-sky: #94a3b8;
+  --las-gold: #d4a85f;
+  --las-gold-soft: #2a241b;
+  --las-sand: #111827;
+  --las-asphalt: #e2e8f0;
+  --las-runway: #1f2937;
+  --las-terminal: #111827;
+  --las-muted: #94a3b8;
+  --las-border: rgba(148, 163, 184, 0.28);
+  --las-shadow: 0 16px 32px rgba(2, 6, 23, 0.45);
+  --las-panel: rgba(15, 23, 42, 0.85);
 }
 
 body {
@@ -26,9 +27,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--las-asphalt);
-  background:
-    radial-gradient(circle at top left, rgba(72, 183, 216, 0.18), transparent 32rem),
-    linear-gradient(180deg, #f8fbff 0%, var(--las-sand) 100%);
+  background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
   min-height: 100vh;
 }
 

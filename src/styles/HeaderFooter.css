@@ -75,7 +75,7 @@ header {
   padding: 34px 20px;
   color: white;
   box-shadow: 0 16px 36px rgba(7, 26, 47, 0.24);
-  border-bottom: 4px solid var(--las-gold);
+  border-bottom: 4px solid #153b6d;
 }
 
 header h1 {
@@ -88,11 +88,11 @@ main {
 }
 
 footer {
-  background-color: var(--las-navy);
+  background-color: #0b1220;
   color: white;
   padding: 20px;
   text-align: center;
-  border-top: 4px solid var(--las-gold);
+  border-top: 3px solid #153b6d;
 }
 
 footer p {
@@ -100,39 +100,30 @@ footer p {
   margin: 0;
 }
 
-.app-shell--parking .hamburger-toggle {
-  background: rgba(3, 12, 24, 0.94);
-  border-color: rgba(72, 183, 216, 0.44);
-  box-shadow: 0 14px 34px rgba(2, 9, 19, 0.5);
+.app-footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
 }
 
-.app-shell--parking .hamburger-toggle:hover,
-.app-shell--parking .hamburger-toggle:focus-visible {
-  background: rgba(11, 34, 58, 0.98);
-  border-color: rgba(246, 183, 60, 0.64);
+.app-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-weight: 700;
 }
 
-.app-shell--parking .hamburger-menu {
-  background: rgba(11, 20, 34, 0.96);
-  border-color: rgba(72, 183, 216, 0.25);
+.app-footer-link svg {
+  padding: 9px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.14);
 }
 
-.app-shell--parking .hamburger-menu-group-title,
-.app-shell--parking .hamburger-menu-link-title {
-  color: #e2ecff;
+.app-footer-link:hover,
+.app-footer-link:focus-visible {
+  color: var(--las-gold);
+  outline: none;
 }
-
-.app-shell--parking .hamburger-menu-link {
-  background: rgba(255, 255, 255, 0.06);
-  color: #dbe7ff;
-}
-
-.app-shell--parking .hamburger-menu-link:hover,
-.app-shell--parking .hamburger-menu-link:focus-visible {
-  background: rgba(72, 183, 216, 0.22);
-}
-
-.app-shell--parking .hamburger-menu-link-description {
-  color: rgba(226, 236, 255, 0.8);
-}
-

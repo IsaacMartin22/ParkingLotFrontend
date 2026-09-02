@@ -57,11 +57,11 @@ function Blog(): JSX.Element {
               requests from the frontend if I really wanted to, so I added the option for users to create/remove cars from the frontend.
             </p>
             <p>
-              I also at some point decided to make an SDK for the API. I made that decision back when I still wanted the event generator as its
-              own service, that was kind of the reason I wanted an SDK. I wanted to publish it from the API repo and then add it as a dependency
+              I also at some point decided to build a client library for the API. I made that decision back when I still wanted the event generator as its
+              own service, that was kind of the reason I wanted a shared client. I wanted to publish it from the API repo and then add it as a dependency
               to the generator service. I published the first version, which didn't work, I had a bunch of duplicate files so at some point I
               decided to add a separate common module for the Request and Response files which were shared with the actual API itself. That was
-              a great decision, I then published an SDK version that worked after publishing the common module.
+              a great decision, I then published a working version after publishing the common module.
             </p>
             <p>
               I also knew I wanted to have some sort of visibility into the infrastructure as part of my frontend. I wanted some sort of developer
@@ -69,7 +69,7 @@ function Blog(): JSX.Element {
               successful requests, those sorts of things. So I added diagnostic pages to the frontend, one for each service. The event generator
               diagnostic page isn't great because I was originally intending for it to be its own service, but because it's not there really isn't
               any diagnostic information to display for that page. Not much I can do about that, I don't want to delete the page because there still
-              is an SDK that can be used, which I do want to show that I know how to do.
+              is a shared client that can be used, which I do want to show that I know how to do.
             </p>
             <p>
               There were many changes to styling as well. A lot of editing text too because I expanded the parking app frontend to also be my
@@ -126,16 +126,16 @@ function Blog(): JSX.Element {
             <p className="blog-entry-date">July 7th 2026</p>
             <h3>Day 9</h3>
             <p>
-              Fixed the SDK, it now works entirely. Separated the common JAR elements into its own module and published that to Maven
+              Fixed the client library, it now works entirely. Separated the common JAR elements into its own module and published that to Maven
               as well. Added an add/remove button to the parking space card that does a put/delete request to the api to add or remove
-              a car. Completely gutted the 3rd event generator service, just made it an SDK wrapper, it just doesn't make sense to have
+              a car. Completely gutted the 3rd event generator service, just made it a wrapper around the shared client, it just doesn't make sense to have
               as its own service. The most it should be is maybe a component on the frontend to automatically generate some random events
               but I don't want to clutter up my page so I'm just going to leave it gutted.
             </p>
             <p>
-              I'm really happy with having the new common module for the API, it made syncing the SDK and API way easier, and it will
+              I'm really happy with having the new common module for the API, it made syncing the API and client code way easier, and it will
               also be way easier to maintain if I ever change anything about the API. Seems unlikely I'll change anything but having a
-              separate common module is definitely something I would do if I create an SDK again, which could happen.
+              separate common module is definitely something I would do if I create another client again, which could happen.
             </p>
           </article>
           <article className="blog-entry-card">
@@ -153,7 +153,7 @@ function Blog(): JSX.Element {
             <h3>Day 7</h3>
             <p>
               Another late, quick entry. Was sick today so didn't do much. Added template html page for event generator service, need to
-              check that the configuration adjustments live update the requests going out. SDK isn't working still yet
+              check that the configuration adjustments live update the requests going out. The shared client still needed one more fix.
             </p>
           </article>
           <article className="blog-entry-card">
@@ -163,13 +163,13 @@ function Blog(): JSX.Element {
               It's late, going to make this quick. Another productive day. Fixed a lot of bugs, made site look better, switched over to
               having the event generator service be the 3rd service instead of caching service. Expanded API to include a health ping
               check, will use in frontend to wake up API service. Refactored API to remove car entity, it really didn't make much sense
-              and had a lot of overlap with parking space. The Parking app doesn't really car about car entities, it only cares about what's
+              and had a lot of overlap with parking space. The Parking app doesn't really care about car entities, it only cares about what's
               in parking spaces, so I adjusted the database.
             </p>
             <p>
               Did other work I'm probably forgetting. Cached API check for 10 minutes, added external links to service pages from the
               diagnostic pages. Removed About Me, just doesn't fit in well. Eliminated Service home page and fixed navigation there.
-              Need to work on fixing SDK, just published a new SDK version so I'll import that and figure out what's broken. A lot of
+              Need to work on fixing the shared client, just published a new version so I'll import that and figure out what's broken. A lot of
               the AI code was suspicious and I removed it, the Event Generator service looks a lot cleaner now. Paying the price for
               the AI tech debt in the form of refactoring.
             </p>
@@ -178,8 +178,8 @@ function Blog(): JSX.Element {
             <p className="blog-entry-date">June 30th 2026</p>
             <h3>Day 5</h3>
             <p>
-              Got maven central publishing buildkite step to work, successfully imported the API SDK into the event generator service.
-              The event generator no longer works with the SDK, still need to figure that out, but did publish and import the SDK successfully.
+              Got maven central publishing buildkite step to work, successfully imported the API client into the event generator service.
+              The event generator no longer works with the shared client, still need to figure that out, but did publish and import the dependency successfully.
               Also expanded the API service to add logs so I can display them in the diagnostics page. Not very secure but it's good to show that
               logs are something that should be displayed on a diagnostic page for a service.
             </p>
@@ -204,15 +204,15 @@ function Blog(): JSX.Element {
             </p>
             <p>
               At that point I realized I had to update the event generator, which I did by just copy pasting the new JSON bodies
-              into AI and having it update stuff automatically. But I realized I could publish an SDK for the API project and then
-              use the API SDK http client along with the request bodies as models to make those updates more seamless and help
+              into AI and having it update stuff automatically. But I realized I could publish a shared API client and then
+              use the API http client along with the request bodies as models to make those updates more seamless and help
               me pay attention to when I'm going to make a breaking change to the API, it does affect the frontend service and
               event generator service as well.
             </p>
             <p>
               Maven Central credentials have been created and a buildkite release/publish step has been added to the API service but
               it doesn't work yet. Haven't set that kind of thing up yet so it's a learning process, once it's done though I should
-              be able to publish a new SDK version from buildkite whenever I want by unblocking the release step.
+              be able to publish a new client version from buildkite whenever I want by unblocking the release step.
             </p>
           </article>
           <article className="blog-entry-card">

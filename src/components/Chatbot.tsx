@@ -1,4 +1,4 @@
-import React, { JSX, useState, useRef, useEffect, KeyboardEvent } from 'react';
+import React, { JSX, useState, KeyboardEvent } from 'react';
 import useSendChatMessage from '../network/useSendChatMessage';
 import '../styles/Chatbot.css';
 
@@ -9,18 +9,11 @@ interface ChatMessage {
 
 function Chatbot(): JSX.Element {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      role: 'bot',
-      text: 'Hi! I am IsaacGPT. Ask about Isaac, this portfolio, or any open ended recruiter questions Isaac provided me context for.',
-    },
+    { role: 'bot', text: 'I am a RAG chatbot that accesses a vector database about Isaac. Ask me questions' },
   ]);
   const [input, setInput] = useState('');
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const hasUserMessage = messages.some((msg) => msg.role === 'user');
   const { mutate: sendMessage, isLoading } = useSendChatMessage();
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
 
   function handleSend() {
     const trimmed = input.trim();
@@ -51,11 +44,7 @@ function Chatbot(): JSX.Element {
 
   return (
     <div className="chatbot">
-      <div className="chatbot-header">
-        <span className="chatbot-title">Chat</span>
-      </div>
-
-      <div className="chatbot-messages">
+      <div className={`chatbot-messages ${hasUserMessage ? 'chatbot-messages--expanded' : ''}`}>
         {messages.map((msg, i) => (
           <div key={i} className={`chatbot-bubble chatbot-bubble--${msg.role}`}>
             {msg.text}
@@ -68,7 +57,6 @@ function Chatbot(): JSX.Element {
             <span />
           </div>
         )}
-        <div ref={bottomRef} />
       </div>
 
       <div className="chatbot-input-row">
@@ -77,7 +65,7 @@ function Chatbot(): JSX.Element {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask IsaacGPT a question... (Enter to send)"
+          placeholder="Ask a question about my background..."
           rows={1}
           disabled={isLoading}
         />
@@ -86,8 +74,9 @@ function Chatbot(): JSX.Element {
           onClick={handleSend}
           disabled={isLoading || !input.trim()}
           aria-label="Send message"
+          type="button"
         >
-          ➤
+          Send
         </button>
       </div>
     </div>
