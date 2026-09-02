@@ -27,6 +27,7 @@
   gap: 10px;
   background: rgba(30, 41, 59, 0.12);
   scrollbar-color: rgba(2, 6, 23, 0.95) rgba(15, 23, 42, 0.35);
+  scroll-padding-top: 14px;
 }
 
 .chatbot-messages::-webkit-scrollbar {
@@ -43,7 +44,7 @@
 }
 
 .chatbot-messages--expanded {
-  margin-top: -150px;
+  padding-top: 18px;
 }
 
 .chatbot-bubble {

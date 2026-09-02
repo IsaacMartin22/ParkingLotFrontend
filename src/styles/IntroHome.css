@@ -183,6 +183,29 @@
   line-height: 1.55;
 }
 
+.intro-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  border-left: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.intro-skill-box {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 8px;
+  border-right: 1px solid rgba(148, 163, 184, 0.3);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+  background: transparent;
+  color: #e2e8f0;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border-radius: 0;
+}
+
 .intro-panel {
   padding: 22px;
   background: rgba(255, 255, 255, 0.9);

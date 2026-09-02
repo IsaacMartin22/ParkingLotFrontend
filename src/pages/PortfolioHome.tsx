@@ -27,62 +27,87 @@ function PortfolioHome(): JSX.Element {
             <p><b>Las Vegas, NV - Office/Hybrid/Remote - Open to relocation</b></p>
             <p></p>
             <p>
-              I'm a full stack software engineer with experience building out web apps, services, APIs, and infrastructure.
-              I'm familiar with microservices architecture, AWS, and a variety of AWS services. I've used AWS SQS
-              for event messaging when working with microservices - it's something like Kafka. I'm best with Java for the backend
-              and Typescript for the frontend but I have worked with many other languages and frameworks - Python, C++, React,
-              Angular, Node.js, and Spring Boot to name a few. I am experienced in both relational and non-relational databases.
+              I am a full-stack software engineer with experience building web applications, services, APIs, and infrastructure.
+              I am familiar with microservices architecture and a variety of AWS services. I have used AWS SQS for event messaging
+              when working with distributed systems, which has similarities with Kafka. Java is my preferred backend language,
+              TypeScript is my preferred frontend language, and SQL is my preferred database query language. I have experience working
+              with all of the technologies listed in the adjacent column.
             </p>
             <p>
-              I have experience with Docker containerization, Kubernetes, version control, CI/CD pipelines, automated testing, logging,
-              and monitoring. I've scaled services both vertically and horizontally to adjust to increased loads, analyzed performance
-              bottlenecks for struggling services and databases and made targeted improvements.
+              I've been on the front lines of debugging critical, "all-hands-on-deck" production outages and have implemented hotfixes
+              to stabilize product functionality. I've also resolved thousands of lower-severity defects and worked cross-functionally
+              with product and support teams to implement new features and improve existing functionality. In one instance, I single-handedly
+              eliminated a manual support process by implementing self-service functionality.
             </p>
             <p>
-              I've been on the front line for debugging critical "All hands on deck" production outages and been the one to implement
-              a hotfix to stabilize product functionality. I've also resolved thousands of lower severity defects and worked cross
-              collaboratively with product and support to implement new features and improve existing features. In one instance
-              I single handedly automated a manual support process by implementing self service functionality for end users.
+              I work with GitHub Copilot both professionally and personally to improve my productivity. Below is a RAG chatbot that I built
+              using OpenAI. I understand, endorse, and use AI when it is well suited to the task at hand. Synthesizing known information is
+              one such task, so I've equipped the chatbot with my resume and a collection of hand-written answers to common
+              behavioral questions (e.g., "What project are you most proud of?") via a MongoDB vector database.
             </p>
             <p>
-              I work with Github Copilot both professionally and personally to improve my productivity. The bottom of this page
-              provides a RAG chatbot integrating with OpenAI built by me - I know and endorse AI's capabilities when there are tasks in
-              which it can shine. Synthesizing known information is one of those tasks so I've prepped it with my resume and a good
-              chunk of hand written answers for common recruiter questions, it should be able to answer common questions.
-            </p>
-            <p>
-
             </p>
           </section>
           <aside className="intro-sidebar">
             <section className="intro-experience-column" aria-label="Work experience">
-              <h2>Work Experience</h2>
               <div className="intro-experience-list">
                 <article className="intro-experience-item">
                   <h3>Software Engineer</h3>
                   <p className="intro-experience-company">Widen, an Acquia Company</p>
-                  <p className="intro-experience-years">March 2024 - June 2026</p>
-                  <p>Improve system performance, extend service API functionality, implement new features</p>
+                  <p className="intro-experience-years">Mar 2024 - Jun 2026 (2.25 years)</p>
                 </article>
                 <article className="intro-experience-item">
                   <h3>Associate Software Engineer</h3>
                   <p className="intro-experience-company">Widen, an Acquia Company</p>
-                  <p className="intro-experience-years">November 2021 - March 2024</p>
-                  <p>Debug customer reported issues</p>
+                  <p className="intro-experience-years">Nov 2021 - Mar 2024 (2.33 years)</p>
                 </article>
               </div>
             </section>
             <section className="intro-experience-column" aria-label="Education">
-              <h2>Education</h2>
               <div className="intro-experience-list">
                 <article className="intro-experience-item">
                   <h3>B.S. in Computer Science</h3>
                   <p className="intro-experience-company">Oregon State University</p>
-                  <p className="intro-experience-years">September 2018 - June 2021</p>
-                  <p>3.68 GPA</p>
+                  <p className="intro-experience-years">Sep 2018 - Jun 2021</p>
                 </article>
               </div>
             </section>
+            <div className="intro-skills-grid" aria-label="Skills">
+              {[
+                'Java',
+                'TypeScript',
+                'React',
+                'Python',
+                'C++',
+                'Rust',
+                'Spring Boot',
+                'Node.js',
+                'SQL',
+                'NoSQL',
+                'YAML',
+                'Groovy',
+                'AWS',
+                'AWS SQS',
+                'AWS S3',
+                'DynamoDB',
+                'Playwright',
+                'Docker',
+                'Kubernetes',
+                'Git',
+                'Buildkite',
+                'REST APIs',
+                'RAG',
+                'Sumologic',
+                'Jest',
+                'JUnit',
+                'HTML',
+                'CSS',
+                'JavaScript',
+                'Grafana',
+              ].map((skill) => (
+                <span key={skill} className="intro-skill-box">{skill}</span>
+              ))}
+            </div>
           </aside>
         </div>
       </main>
