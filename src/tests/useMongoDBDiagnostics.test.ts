@@ -1,4 +1,4 @@
-import { validateMongoDBDiagnostics } from './useMongoDBDiagnostics';
+import { validateMongoDBDiagnostics } from '../network/useMongoDBDiagnostics';
 
 describe('validateMongoDBDiagnostics', () => {
   it('retains valid MongoDB metrics and long-running operations', () => {

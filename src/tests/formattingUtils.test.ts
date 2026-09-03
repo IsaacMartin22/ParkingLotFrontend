@@ -4,7 +4,7 @@ import {
   formatTimestamp,
   getCapacityInfo,
   toNumber,
-} from './formattingUtils';
+} from '../formattingUtils';
 
 describe('formattingUtils', () => {
   describe('toNumber', () => {
