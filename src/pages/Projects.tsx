@@ -7,7 +7,7 @@ import {
   FRONTEND_GITHUB,
   ISAAC_EMAIL,
   ISAAC_GITHUB,
-  ISAAC_LINKEDIN
+  ISAAC_LINKEDIN, SDK_GITHUB
 } from '../types/constants';
 import '../styles/IntroHome.css';
 
@@ -38,12 +38,14 @@ function Projects(): JSX.Element {
                 </div>
                 <p className="projects-item-timeline">Java, Typescript, React</p>
                 <ul className="projects-item-list">
-                  <li>Parking lot application using server sent events to keep update clients in real time - <a href={`${process.env.PUBLIC_URL}/parking-lots`} target="_blank" rel="noopener noreferrer">Interactive Demo</a></li>
-                  <li>Analytics collection for analyzing user interaction with the site</li>
-                  <li>RAG portfolio chatbot with vector searching to facilitate information retrieval for recruiters</li>
-                  <li>Integrations with external APIs and technologies - Render, Buildkite, Sumologic, OpenAI, PostgreSQL, MongoDB</li>
-                  <li>Establish common artifacts shared between the service and SDK and publish modules to Maven using semantic versioning</li>
-                  <li>Public SDK for programmatic interaction with backend endpoints</li>
+                  <li>Built multiple services and repositories from the ground up - <a href={FRONTEND_GITHUB} target="_blank" rel="noopener noreferrer">Frontend</a>, <a href={API_GITHUB} target="_blank" rel="noopener noreferrer">Backend</a>, <a href={SDK_GITHUB} target="_blank" rel="noopener noreferrer">SDK</a>,
+                    relational database, NoSQL vector search database, and integrations</li>
+                  <li>Built a parking lot application that pushes live updates to clients with server-sent events - <a href={`${process.env.PUBLIC_URL}/parking-lots`} target="_blank" rel="noopener noreferrer">Interactive Demo</a></li>
+                  <li>Collected analytics to evaluate user interaction with the site</li>
+                  <li>Created an RAG-powered portfolio chatbot that used vector search to facilitate recruiter information retrieval</li>
+                  <li>Integrated external APIs and technologies including Render, Buildkite, Sumologic, OpenAI, PostgreSQL, and MongoDB</li>
+                  <li>Established common artifacts shared between the service and SDK and published modules to Maven using semantic versioning</li>
+                  <li>Released a public SDK for programmatic interaction with backend endpoints</li>
                 </ul>
               </article>
 
@@ -55,10 +57,10 @@ function Projects(): JSX.Element {
                 <p className="projects-item-timeline">Java</p>
                 <ul className="projects-item-list">
                   <li>Built a playable card-battle prototype in libGDX with a focus on clean game-state flow, turn logic, and player interactions</li>
-                  <li>Worked across 2D and 3D rendering ideas, UI composition, and scene presentation to create a more polished game feel</li>
-                  <li>Designed and iterated on gameplay systems for cards, effects, and decision-making gameplay</li>
-                  <li>Implemented dynamic asset loading and unloading to keep the game responsive while managing runtime resources efficiently</li>
-                  <li>Optimized memory usage and screen transitions to improve stability and create a smoother overall experience</li>
+                  <li>Explored 2D and 3D rendering and scene composition to create a more polished game presentation</li>
+                  <li>Designed gameplay systems for cards, effects, and decision-making while keeping the architecture maintainable</li>
+                  <li>Implemented dynamic asset loading and unloading to keep the game responsive</li>
+                  <li>Optimized memory usage and screen transitions to improve stability and reduce jank</li>
                 </ul>
               </article>
 
@@ -69,10 +71,10 @@ function Projects(): JSX.Element {
                 </div>
                 <p className="projects-item-timeline">Java</p>
                 <ul className="projects-item-list">
-                  <li>Automated a manual support process by implementing full stack self service functionality for end users</li>
-                  <li>Implement snackbar error messaging to reduce database load and improve user experience</li>
-                  <li>Expand API coverage for internal and external APIs and SDKs by creating new Spring Boot endpoints</li>
-                  <li>Resolve several critical defects and thousands of lower severity defects over my tenure at Widen</li>
+                  <li>Automated a manual support process by implementing full-stack self-service functionality for end users</li>
+                  <li>Added snackbar error messaging to reduce database load and improve the user experience</li>
+                  <li>Expanded API coverage for internal and external APIs and SDKs by creating new Spring Boot endpoints</li>
+                  <li>Resolved several critical defects and thousands of lower-severity defects over my tenure at Widen</li>
                 </ul>
               </article>
 
@@ -83,9 +85,9 @@ function Projects(): JSX.Element {
                 </div>
                 <p className="projects-item-timeline">CSS, Typescript</p>
                 <ul className="projects-item-list">
-                  <li>Lichess - Community driven Chess website</li>
-                  <li>Hiring-agent - HackerRank's open source AI Resume evaluator</li>
-                  <li>My other projects - Portfolio Frontend, Portfolio Backend, Portfolio SDK, and libGDX card game are all open source as well</li>
+                  <li>Contributed to Lichess, the community-driven chess website</li>
+                  <li>Worked on Hiring-agent, HackerRank's open-source AI resume evaluator</li>
+                  <li>Open-sourced my other projects, including Portfolio Frontend, Portfolio Backend, Portfolio SDK, and the libGDX card game</li>
                 </ul>
               </article>
 

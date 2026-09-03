@@ -2,6 +2,7 @@ const API_URL = 'https://api-service-i1ms.onrender.com/api';
 
 const API_WEBPAGE = 'https://api-service-i1ms.onrender.com/';
 
+const SDK_GITHUB = 'https://github.com/IsaacMartin22/ParkingLotEventGenerator';
 const API_GITHUB = 'https://github.com/IsaacMartin22/ParkingLotAPI';
 const ISAAC_GITHUB = 'https://github.com/IsaacMartin22';
 const ISAAC_LINKEDIN = 'https://www.linkedin.com/in/isaac-martin-1272a3201/';
@@ -17,6 +18,7 @@ export {
   API_URL,
   API_WEBPAGE,
   API_GITHUB,
+  SDK_GITHUB,
   CARD_GAME_GITHUB,
   FRONTEND_GITHUB,
   GITHUB_IO,
