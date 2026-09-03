@@ -1,10 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
-import { APIDiagnostics } from '../types/apiDiagnostics';
+import { APIDiagnostics, HeapMemoryUsage } from '../types/apiDiagnostics';
 import {API_URL} from "../types/constants";
 import usePostAnalyticsRequest from './usePostAnalyticsRequest';
 import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
-function validateAPIDiagnostics(diagnostics: unknown): APIDiagnostics {
+function isHeapMemoryUsage(value: unknown): value is HeapMemoryUsage {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const candidate = value as Partial<HeapMemoryUsage>;
+
+  return (
+    typeof candidate.used === 'number' &&
+    Number.isFinite(candidate.used) &&
+    candidate.used >= 0 &&
+    typeof candidate.max === 'number' &&
+    Number.isFinite(candidate.max) &&
+    candidate.max > 0
+  );
+}
+
+export function validateAPIDiagnostics(diagnostics: unknown): APIDiagnostics {
   if (!diagnostics || typeof diagnostics !== 'object') {
     throw new Error(`Invalid API diagnostics data: ${JSON.stringify(diagnostics)}`);
   }
@@ -14,6 +31,7 @@ function validateAPIDiagnostics(diagnostics: unknown): APIDiagnostics {
   return {
     ...parsed,
     recentLogs: Array.isArray(parsed.recentLogs) ? parsed.recentLogs : [],
+    heapMemoryUsage: isHeapMemoryUsage(parsed.heapMemoryUsage) ? parsed.heapMemoryUsage : undefined,
   };
 }
 

@@ -18,6 +18,11 @@ export interface LogEntry {
   throwable?: string | null;
 }
 
+export interface HeapMemoryUsage {
+  used: number;
+  max: number;
+}
+
 export interface APIDiagnostics {
   startedAt: string;
   uptimeMillis: number;
@@ -26,4 +31,5 @@ export interface APIDiagnostics {
   failedRequests: number;
   endpoints: Record<string, EndpointDiagnostics>;
   recentLogs: LogEntry[];
+  heapMemoryUsage?: HeapMemoryUsage;
 }
