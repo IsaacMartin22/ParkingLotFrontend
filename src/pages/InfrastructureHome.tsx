@@ -136,6 +136,33 @@ function getConnectionTone(activeConnections: number | null | undefined, maxConn
   return 'danger';
 }
 
+function formatHeapMemoryUsage(used: number | null | undefined, max: number | null | undefined): string {
+  if (used == null || max == null || !Number.isFinite(used) || !Number.isFinite(max) || used < 0 || max <= 0) {
+    return 'N/A';
+  }
+
+  const usagePercent = (used / max) * 100;
+  return `${formatBytes(used)} / ${formatBytes(max)} (${usagePercent.toFixed(1)}%)`;
+}
+
+export function getHeapUsageTone(used: number | null | undefined, max: number | null | undefined): 'success' | 'warning' | 'danger' {
+  if (used == null || max == null || !Number.isFinite(used) || !Number.isFinite(max) || used < 0 || max <= 0) {
+    return 'warning';
+  }
+
+  const usagePercent = (used / max) * 100;
+
+  if (usagePercent < 50) {
+    return 'success';
+  }
+
+  if (usagePercent <= 80) {
+    return 'warning';
+  }
+
+  return 'danger';
+}
+
 function getUptimeTone(uptimeMillis: number | null | undefined): 'success' | 'warning' | 'danger' {
   if (uptimeMillis == null || Number.isNaN(uptimeMillis)) {
     return 'warning';
@@ -388,6 +415,17 @@ function InfrastructureHome(): JSX.Element {
                       tone={getFailureTone(apiDiagnostics.failedRequests)}
                     />
                   ) : 'N/A'}
+                </strong>
+              </div>
+              <div className="infrastructure-mini-stat-row">
+                <span>Heap memory</span>
+                <strong>
+                  {apiDiagnostics?.heapMemoryUsage ? (
+                    <StatusBadge
+                      label={formatHeapMemoryUsage(apiDiagnostics.heapMemoryUsage.used, apiDiagnostics.heapMemoryUsage.max)}
+                      tone={getHeapUsageTone(apiDiagnostics.heapMemoryUsage.used, apiDiagnostics.heapMemoryUsage.max)}
+                    />
+                  ) : apiLoading ? 'Loading...' : 'N/A'}
                 </strong>
               </div>
             </div>
