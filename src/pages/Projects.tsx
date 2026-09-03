@@ -42,7 +42,7 @@ function Projects(): JSX.Element {
                   <li>Analytics collection for analyzing user interaction with the site</li>
                   <li>RAG portfolio chatbot with vector searching to facilitate information retrieval for recruiters</li>
                   <li>Integrations with external APIs and technologies - Render, Buildkite, Sumologic, OpenAI, PostgreSQL, MongoDB</li>
-                  <li>Maven published common artifacts</li>
+                  <li>Establish common artifacts shared between the service and SDK and publish modules to Maven using semantic versioning</li>
                   <li>Public SDK for programmatic interaction with backend endpoints</li>
                 </ul>
               </article>
@@ -54,24 +54,27 @@ function Projects(): JSX.Element {
                 </div>
                 <p className="projects-item-timeline">Java</p>
                 <ul className="projects-item-list">
-                  <li>2d and 3d rendering and modeling</li>
-                  <li>Dynamic asset loading and unloading</li>
-                  <li>Memory management, screen management</li>
+                  <li>Built a playable card-battle prototype in libGDX with a focus on clean game-state flow, turn logic, and player interactions</li>
+                  <li>Worked across 2D and 3D rendering ideas, UI composition, and scene presentation to create a more polished game feel</li>
+                  <li>Designed and iterated on gameplay systems for cards, effects, and decision-making gameplay</li>
+                  <li>Implemented dynamic asset loading and unloading to keep the game responsive while managing runtime resources efficiently</li>
+                  <li>Optimized memory usage and screen transitions to improve stability and create a smoother overall experience</li>
                 </ul>
               </article>
 
-              {/*<article className="projects-item">*/}
-              {/*  <div className="projects-item-header">*/}
-              {/*    <h3>Minecraft Mod</h3>*/}
-              {/*    <a href={CARD_GAME_GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>*/}
-              {/*  </div>*/}
-              {/*  <p className="projects-item-timeline">Java</p>*/}
-              {/*  <ul className="projects-item-list">*/}
-              {/*    <li>2d and 3d rendering and modeling</li>*/}
-              {/*    <li>Dynamic asset loading and unloading</li>*/}
-              {/*    <li>Memory management, screen management</li>*/}
-              {/*  </ul>*/}
-              {/*</article>*/}
+              <article className="projects-item">
+                <div className="projects-item-header">
+                  <h3>Work</h3>
+                  <p>Private</p>
+                </div>
+                <p className="projects-item-timeline">Java</p>
+                <ul className="projects-item-list">
+                  <li>Automated a manual support process by implementing full stack self service functionality for end users</li>
+                  <li>Implement snackbar error messaging to reduce database load and improve user experience</li>
+                  <li>Expand API coverage for internal and external APIs and SDKs by creating new Spring Boot endpoints</li>
+                  <li>Resolve several critical defects and thousands of lower severity defects over my tenure at Widen</li>
+                </ul>
+              </article>
 
               <article className="projects-item">
                 <div className="projects-item-header">
@@ -82,29 +85,13 @@ function Projects(): JSX.Element {
                 <ul className="projects-item-list">
                   <li>Lichess - Community driven Chess website</li>
                   <li>Hiring-agent - HackerRank's open source AI Resume evaluator</li>
+                  <li>My other projects - Portfolio Frontend, Portfolio Backend, Portfolio SDK, and libGDX card game are all open source as well</li>
                 </ul>
               </article>
+
+
             </div>
           </section>
-          <aside className="intro-sidebar">
-            <section className="intro-experience-column" aria-label="Project details">
-              <h2>Project Fields</h2>
-              <div className="intro-experience-list">
-                <article className="intro-experience-item">
-                  <h3>Description</h3>
-                  <p>Short summary of the project.</p>
-                </article>
-                <article className="intro-experience-item">
-                  <h3>GitHub</h3>
-                  <p>Link to the repository.</p>
-                </article>
-                <article className="intro-experience-item">
-                  <h3>Timeline</h3>
-                  <p>Start and end dates.</p>
-                </article>
-              </div>
-            </section>
-          </aside>
         </div>
       </main>
       <AppFooter

@@ -12,6 +12,8 @@ interface AppFooterProps {
 }
 
 function AppFooter({ links = [] }: AppFooterProps): JSX.Element {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer>
       {links.length > 0 && (
@@ -25,12 +27,13 @@ function AppFooter({ links = [] }: AppFooterProps): JSX.Element {
               rel="noopener noreferrer"
               aria-label={link.ariaLabel ?? `Open ${link.label}`}
             >
-              {link.icon}
+              {link.icon && <span>{link.icon}</span>}
               <span>{link.label}</span>
             </a>
           ))}
         </div>
       )}
+      <p className="app-footer-copyright">© {currentYear} Isaac Martin. All rights reserved.</p>
     </footer>
   );
 }
