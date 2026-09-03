@@ -8,7 +8,6 @@ import ParkingLotDetails from './pages/parking/ParkingLotDetails';
 import NotFound from './pages/NotFound';
 import ParkingLotFloorDetails from "./pages/parking/ParkingLotFloorDetails";
 import InfrastructureHome from "./pages/InfrastructureHome";
-import InteractionsPage from './pages/Interactions';
 import PortfolioHome from './pages/PortfolioHome';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
@@ -123,7 +122,7 @@ function AppShell(): JSX.Element {
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/infrastructure" element={<InfrastructureHome />} />
-        <Route path="/interactions" element={<InteractionsPage />} />
+        <Route path="/interactions" element={<Navigate to="/infrastructure" replace />} />
         <Route path="/dashboards" element={<Navigate to="/infrastructure" replace />} />
         <Route path="/parking-lots" element={<ParkingLotsOverview />} />
         <Route path="/parking-lots/:lotId/floors/:floorId" element={<ParkingLotFloorDetails />} />
