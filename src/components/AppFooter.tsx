@@ -5,6 +5,7 @@ interface FooterLink {
   label: string;
   ariaLabel?: string;
   icon?: ReactNode;
+  target?: string;
 }
 
 interface AppFooterProps {
@@ -23,8 +24,8 @@ function AppFooter({ links = [] }: AppFooterProps): JSX.Element {
               key={link.href}
               href={link.href}
               className="app-footer-link"
-              target="_blank"
-              rel="noopener noreferrer"
+              target={link.target ?? '_blank'}
+              rel={link.target === '_self' ? undefined : 'noopener noreferrer'}
               aria-label={link.ariaLabel ?? `Open ${link.label}`}
             >
               {link.icon && <span>{link.icon}</span>}

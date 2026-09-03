@@ -4,8 +4,8 @@ import '../../styles/ServicePageStyles.css';
 import '../../styles/ParkingLots.css';
 import useListParkingLots from '../../network/useListParkingLots';
 import useAnalyticsErrorReporter from '../../network/useAnalyticsErrorReporter';
-import AppFooter from "../../components/AppFooter";
-import LotSummaryCard from "../../components/LotSummaryCard";
+import PortfolioFooter from '../../components/PortfolioFooter';
+import LotSummaryCard from '../../components/LotSummaryCard';
 
 function ParkingLotsOverview() {
   const { data: lots = [], isLoading: loading, isError, error } = useListParkingLots();
@@ -43,7 +43,7 @@ function ParkingLotsOverview() {
           )}
         </div>
       </main>
-      <AppFooter />
+      <PortfolioFooter />
     </>
   );
 }

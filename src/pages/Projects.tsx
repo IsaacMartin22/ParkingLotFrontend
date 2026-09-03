@@ -1,29 +1,19 @@
 import React, { JSX } from 'react';
-import { Link } from 'react-router-dom';
-import AppFooter from '../components/AppFooter';
+import PortfolioFooter from '../components/PortfolioFooter';
+import TopNav from '../components/TopNav';
 import {
   API_GITHUB,
   CARD_GAME_GITHUB,
   FRONTEND_GITHUB,
-  ISAAC_EMAIL,
   ISAAC_GITHUB,
-  ISAAC_LINKEDIN, SDK_GITHUB
+  SDK_GITHUB
 } from '../types/constants';
 import '../styles/IntroHome.css';
 
 function Projects(): JSX.Element {
   return (
-    <div className="intro-home">
-      <nav className="intro-top-nav" aria-label="Portfolio sections">
-        <Link to="/" className="intro-top-nav-link intro-top-nav-brand">Isaac Martin</Link>
-        <div className="intro-top-nav-links">
-          <Link to="/projects" className="intro-top-nav-link">Projects</Link>
-          <Link to="/infrastructure" className="intro-top-nav-link">Infrastructure</Link>
-          <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="intro-top-nav-link" download>
-            Resume
-          </a>
-        </div>
-      </nav>
+    <div className="intro-home projects-page">
+      <TopNav />
       <section className="intro-header-bar" aria-label="Projects overview" />
       <main className="container intro-main">
         <div className="intro-content-layout">
@@ -96,25 +86,7 @@ function Projects(): JSX.Element {
           </section>
         </div>
       </main>
-      <AppFooter
-        links={[
-          {
-            href: ISAAC_GITHUB,
-            label: '',
-            ariaLabel: 'Open GitHub repository',
-          },
-          {
-            href: ISAAC_LINKEDIN,
-            label: '',
-            ariaLabel: 'Open LinkedIn',
-          },
-          {
-            href: ISAAC_EMAIL,
-            label: '',
-            ariaLabel: 'Send email to Isaac Martin',
-          },
-        ]}
-      />
+      <PortfolioFooter />
     </div>
   );
 }

@@ -1,23 +1,13 @@
 import React, { JSX } from 'react';
-import { Link } from 'react-router-dom';
-import AppFooter from '../components/AppFooter';
 import Chatbot from '../components/Chatbot';
-import { ISAAC_EMAIL, ISAAC_GITHUB, ISAAC_LINKEDIN } from '../types/constants';
+import PortfolioFooter from '../components/PortfolioFooter';
+import TopNav from '../components/TopNav';
 import '../styles/IntroHome.css';
 
 function PortfolioHome(): JSX.Element {
   return (
     <div className="intro-home">
-      <nav className="intro-top-nav" aria-label="Portfolio sections">
-        <Link to="/" className="intro-top-nav-link intro-top-nav-brand">Isaac Martin</Link>
-        <div className="intro-top-nav-links">
-          <Link to="/projects" className="intro-top-nav-link">Projects</Link>
-          <Link to="/infrastructure" className="intro-top-nav-link">Infrastructure</Link>
-          <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="intro-top-nav-link" download>
-            Resume
-          </a>
-        </div>
-      </nav>
+      <TopNav />
       <section className="intro-header-bar" aria-label="Portfolio introduction"/>
       <main className="container intro-main">
         <div className="intro-content-layout">
@@ -46,6 +36,9 @@ function PortfolioHome(): JSX.Element {
               behavioral questions (e.g., "What project are you most proud of?") via a MongoDB vector database.
             </p>
             <p>
+              <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="resume-link" download>
+                Download my resume
+              </a>
             </p>
           </section>
           <aside className="intro-sidebar">
@@ -112,25 +105,7 @@ function PortfolioHome(): JSX.Element {
         </div>
       </main>
       <Chatbot />
-      <AppFooter
-        links={[
-          {
-            href: ISAAC_GITHUB,
-            label: 'GitHub',
-            ariaLabel: 'Open GitHub profile',
-          },
-          {
-            href: ISAAC_LINKEDIN,
-            label: 'LinkedIn',
-            ariaLabel: 'Open LinkedIn profile',
-          },
-          {
-            href: ISAAC_EMAIL,
-            label: 'Email',
-            ariaLabel: 'Send email to Isaac Martin',
-          },
-        ]}
-      />
+      <PortfolioFooter />
     </div>
   );
 }

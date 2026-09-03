@@ -1,5 +1,6 @@
 import React, { JSX, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import PortfolioFooter from '../components/PortfolioFooter';
+import TopNav from '../components/TopNav';
 import useAPIDiagnostics from '../network/useAPIDiagnostics';
 import useAnalyticsEvents from '../network/useAnalyticsEvents';
 import useBuildkiteInfo from '../network/useBuildkiteInfo';
@@ -344,22 +345,14 @@ function InfrastructureHome(): JSX.Element {
   );
 
   return (
-    <main className="infrastructure-compact-shell">
-      <nav className="intro-top-nav infrastructure-top-nav" aria-label="Portfolio sections">
-        <Link to="/" className="intro-top-nav-link intro-top-nav-brand">Isaac Martin</Link>
-        <div className="intro-top-nav-links">
-          <Link to="/projects" className="intro-top-nav-link">Projects</Link>
-          <Link to="/infrastructure" className="intro-top-nav-link">Infrastructure</Link>
-          <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="intro-top-nav-link" download>
-            Resume
-          </a>
-        </div>
-      </nav>
+    <>
+      <main className="infrastructure-compact-shell">
+        <TopNav className="infrastructure-top-nav" />
 
-      <div className="infrastructure-header-divider" aria-hidden="true" />
+        <div className="infrastructure-header-divider" aria-hidden="true" />
 
-      <div className="infrastructure-compact-grid">
-        <section className="infrastructure-compact-panel">
+        <div className="infrastructure-compact-grid">
+          <section className="infrastructure-compact-panel">
           <h3>Backend</h3>
           <div className="infrastructure-column-stack">
             <div className="infrastructure-column-group">
@@ -603,8 +596,10 @@ function InfrastructureHome(): JSX.Element {
             </div>
           </div>
         </section>
-      </div>
-    </main>
+        </div>
+      </main>
+      <PortfolioFooter />
+    </>
   );
 }
 
