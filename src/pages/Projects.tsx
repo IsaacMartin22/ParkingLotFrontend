@@ -29,10 +29,10 @@ function Projects(): JSX.Element {
                 <p className="projects-item-timeline">Java, Typescript, React</p>
                 <ul className="projects-item-list">
                   <li>Built multiple services and repositories from the ground up - <a href={FRONTEND_GITHUB} target="_blank" rel="noopener noreferrer">Frontend</a>, <a href={API_GITHUB} target="_blank" rel="noopener noreferrer">Backend</a>, <a href={SDK_GITHUB} target="_blank" rel="noopener noreferrer">SDK</a>,
-                    relational database, NoSQL vector search database, and integrations</li>
+                    SQL relational database, NoSQL vector search database, and integrations</li>
                   <li>Built a parking lot application that pushes live updates to clients with server-sent events - <a href={`${process.env.PUBLIC_URL}/parking-lots`} target="_blank" rel="noopener noreferrer">Interactive Demo</a></li>
                   <li>Collected analytics to evaluate user interaction with the site</li>
-                  <li>Created an RAG-powered portfolio chatbot that used vector search to facilitate recruiter information retrieval</li>
+                  <li>Created a RAG-powered portfolio chatbot that uses vector search to facilitate recruiter information retrieval</li>
                   <li>Integrated external APIs and technologies including Render, Buildkite, Sumologic, OpenAI, PostgreSQL, and MongoDB</li>
                   <li>Established common artifacts shared between the service and SDK and published modules to Maven using semantic versioning</li>
                   <li>Released a public SDK for programmatic interaction with backend endpoints</li>
@@ -80,7 +80,6 @@ function Projects(): JSX.Element {
                   <li>Open-sourced my other projects, including Portfolio Frontend, Portfolio Backend, Portfolio SDK, and the libGDX card game</li>
                 </ul>
               </article>
-
 
             </div>
           </section>
