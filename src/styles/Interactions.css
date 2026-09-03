@@ -1,23 +1,57 @@
 .interactions-page .container.intro-main {
   max-width: 100%;
   width: 100%;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .interactions-content {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
+  display: block;
   align-items: start;
   width: 100%;
 }
 
 .interactions-table-card {
   border: 1px solid rgba(148, 163, 184, 0.35);
-  border-radius: 0;
-  background: rgba(2, 6, 23, 0.58);
-  padding: 18px 14px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(2, 6, 23, 0.75) 100%);
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.32);
+  padding: 20px 16px;
+}
+
+.interactions-panel {
+  width: 100%;
+}
+
+.interactions-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.interactions-tab {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.7);
+  color: #cbd5e1;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.interactions-tab:hover {
+  border-color: rgba(148, 163, 184, 0.6);
+  background: rgba(30, 41, 59, 0.92);
+}
+
+.interactions-tab:focus-visible {
+  outline: 2px solid rgba(56, 189, 248, 0.65);
+  outline-offset: 1px;
+}
+
+.interactions-tab.is-active {
+  background: rgba(30, 41, 59, 0.95);
+  color: #f8fafc;
 }
 
 .interactions-table-card h1 {
@@ -35,7 +69,9 @@
 .interactions-table th,
 .interactions-table td {
   text-align: left;
-  padding: 10px 8px;
+  padding: 10px 10px;
+  min-width: 120px;
+  max-width: 100%;
   border-bottom: 1px solid rgba(148, 163, 184, 0.22);
   vertical-align: top;
 }
@@ -47,10 +83,19 @@
 }
 
 .interactions-table th {
-  color: #e2e8f0;
+  color: #f1f5f9;
   font-size: 0.84rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+  background: rgba(30, 41, 59, 0.56);
+}
+
+.interactions-table tbody tr:nth-child(even) td {
+  background: rgba(15, 23, 42, 0.26);
+}
+
+.interactions-table tbody tr:hover td {
+  background: rgba(51, 65, 85, 0.36);
 }
 
 .interactions-table tbody tr:last-child td {
@@ -69,8 +114,122 @@
   width: calc((100% - 180px) / 2);
 }
 
+.interactions-table-analytics {
+  table-layout: fixed;
+}
+
+.interactions-table-analytics th,
+.interactions-table-analytics td {
+  border-right: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.interactions-table-analytics th:last-child,
+.interactions-table-analytics td:last-child {
+  border-right: none;
+}
+
+.analytics-header-cell {
+  display: flex;
+  align-items: stretch;
+}
+
+.analytics-column-divider {
+  width: 8px;
+  margin-left: auto;
+  margin-right: -8px;
+  cursor: col-resize;
+  border-left: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.analytics-controls {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.analytics-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+}
+
+.analytics-controls input,
+.analytics-controls select,
+.analytics-controls button,
+.analytics-pagination button,
+.analytics-sort-button {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.7);
+  color: #f8fafc;
+  padding: 6px 10px;
+  border-radius: 7px;
+}
+
+.analytics-controls input:focus,
+.analytics-controls select:focus,
+.analytics-controls button:focus-visible,
+.analytics-pagination button:focus-visible,
+.analytics-sort-button:focus-visible {
+  outline: 2px solid rgba(56, 189, 248, 0.65);
+  outline-offset: 1px;
+}
+
+.analytics-controls button,
+.analytics-pagination button,
+.analytics-sort-button {
+  cursor: pointer;
+}
+
+.analytics-sort-button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.analytics-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  color: #cbd5e1;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.analytics-pagination-top {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.analytics-pagination-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.analytics-column-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-bottom: 12px;
+}
+
+.analytics-column-toggles label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+}
+
 @media (max-width: 960px) {
   .interactions-content {
-    grid-template-columns: 1fr;
+    display: block;
   }
 }
