@@ -481,8 +481,9 @@ function InfrastructureHome(): JSX.Element {
               )) : <div className="infrastructure-entry empty">No long-running queries.</div>}
             </div>
 
+            <div className="infrastructure-database-divider" aria-hidden="true" />
+            <h3>MongoDB</h3>
             <div className="infrastructure-column-group">
-              <span className="infrastructure-column-label">MongoDB diagnostics</span>
               <div className="infrastructure-mini-stat-row">
                 <span>Status</span>
                 <strong><StatusBadge label={mongoDBStatus} tone={getStatusTone(mongoDBStatus)} /></strong>

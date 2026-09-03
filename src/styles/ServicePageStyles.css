@@ -100,6 +100,12 @@
   padding-top: 4px;
 }
 
+.infrastructure-database-divider {
+  height: 1px;
+  background: #153b6d;
+  margin: 12px 0 10px;
+}
+
 .infrastructure-column-label {
   color: var(--las-muted, #64748b);
   font-size: 0.62rem;
