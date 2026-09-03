@@ -120,8 +120,9 @@
 
 .projects-page .intro-copy-block h1,
 .projects-page .intro-copy-block h2 {
-  width: 100%;
-  margin-left: 0;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .projects-list {

@@ -11,6 +11,30 @@ interface ContactResponse {
   message?: string;
 }
 
+async function parseContactResponse(response: Response): Promise<ContactResponse> {
+  const contentType = response.headers.get('content-type') ?? '';
+  if (!contentType.toLowerCase().includes('application/json')) {
+    return { success: response.ok };
+  }
+
+  const rawBody = await response.text();
+  if (!rawBody.trim()) {
+    return { success: response.ok };
+  }
+
+  const parsed: unknown = JSON.parse(rawBody);
+  if (typeof parsed === 'object' && parsed !== null) {
+    const maybeSuccess = 'success' in parsed ? (parsed as { success?: unknown }).success : undefined;
+    const maybeMessage = 'message' in parsed ? (parsed as { message?: unknown }).message : undefined;
+    return {
+      success: typeof maybeSuccess === 'boolean' ? maybeSuccess : response.ok,
+      message: typeof maybeMessage === 'string' ? maybeMessage : undefined,
+    };
+  }
+
+  return { success: response.ok };
+}
+
 async function sendContactEmail(message: string): Promise<string> {
   const trimmedMessage = message.trim();
 
@@ -36,7 +60,7 @@ async function sendContactEmail(message: string): Promise<string> {
       throw new Error(`Contact API responded with ${response.status}`);
     }
 
-    const data: ContactResponse = await response.json();
+    const data = await parseContactResponse(response);
 
     if (!data.success) {
       throw new Error(data.message ?? 'Unable to send your message right now.');
