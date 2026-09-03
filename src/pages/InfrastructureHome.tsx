@@ -7,6 +7,7 @@ import useBuildkiteInfo from '../network/useBuildkiteInfo';
 import useDatabaseDiagnostics from '../network/useDatabaseDiagnostics';
 import useDeploymentInfo from '../network/useDeploymentInfo';
 import useAnalyticsErrorReporter from '../network/useAnalyticsErrorReporter';
+import useMongoDBDiagnostics from '../network/useMongoDBDiagnostics';
 import { formatDuration } from '../formattingUtils';
 import '../styles/ServicePageStyles.css';
 
@@ -242,6 +243,7 @@ function getLastUrlPathSegment(url: string | null | undefined): string {
 function InfrastructureHome(): JSX.Element {
   const { data: apiDiagnostics, isLoading: apiLoading, isError: apiError, error: apiErrorObject } = useAPIDiagnostics();
   const { data: databaseDiagnostics, isLoading: databaseLoading, isError: databaseError, error: databaseErrorObject } = useDatabaseDiagnostics();
+  const { data: mongoDBDiagnostics, isLoading: mongoDBLoading, isError: mongoDBError, error: mongoDBErrorObject } = useMongoDBDiagnostics();
   const { data: buildInfo = [], error: buildsErrorObject } = useBuildkiteInfo();
   const { data: deploymentInfo = [], error: deploymentsErrorObject } = useDeploymentInfo();
   const analyticsQuery = useMemo(
@@ -260,6 +262,7 @@ function InfrastructureHome(): JSX.Element {
 
   useAnalyticsErrorReporter(apiErrorObject, 'Failed to load API diagnostics');
   useAnalyticsErrorReporter(databaseErrorObject, 'Failed to load database diagnostics');
+  useAnalyticsErrorReporter(mongoDBErrorObject, 'Failed to load MongoDB diagnostics');
   useAnalyticsErrorReporter(buildsErrorObject, 'Failed to load build information');
   useAnalyticsErrorReporter(deploymentsErrorObject, 'Failed to load deployment information');
   useAnalyticsErrorReporter(analyticsErrorObject, 'Failed to load analytics summary');
@@ -274,6 +277,7 @@ function InfrastructureHome(): JSX.Element {
 
   const apiStatus = apiError ? 'Unavailable' : !apiDiagnostics ? (apiLoading ? 'Loading' : 'Unavailable') : apiDiagnostics.failedRequests > 0 ? 'Warning' : 'Healthy';
   const databaseStatus = databaseError ? 'Unavailable' : !databaseDiagnostics ? (databaseLoading ? 'Loading' : 'Unavailable') : !databaseDiagnostics.connectivity ? 'Critical' : databaseDiagnostics.longRunningQueries.length > 0 ? 'Warning' : 'Healthy';
+  const mongoDBStatus = mongoDBError ? 'Unavailable' : !mongoDBDiagnostics ? (mongoDBLoading ? 'Loading' : 'Unavailable') : !mongoDBDiagnostics.connectivity ? 'Critical' : mongoDBDiagnostics.longRunningOperations.length > 0 ? 'Warning' : 'Healthy';
 
   const mostRecentBuild = useMemo(
     () =>
@@ -475,6 +479,71 @@ function InfrastructureHome(): JSX.Element {
                   <small>{query.queryText.length > 80 ? `${query.queryText.slice(0, 80)}…` : query.queryText}</small>
                 </div>
               )) : <div className="infrastructure-entry empty">No long-running queries.</div>}
+            </div>
+
+            <div className="infrastructure-column-group">
+              <span className="infrastructure-column-label">MongoDB diagnostics</span>
+              <div className="infrastructure-mini-stat-row">
+                <span>Status</span>
+                <strong><StatusBadge label={mongoDBStatus} tone={getStatusTone(mongoDBStatus)} /></strong>
+              </div>
+              <div className="infrastructure-mini-stat-row">
+                <span>Uptime</span>
+                <strong>
+                  {mongoDBDiagnostics ? (
+                    <StatusBadge
+                      label={formatDuration(mongoDBDiagnostics.uptimeMillis)}
+                      tone={getUptimeTone(mongoDBDiagnostics.uptimeMillis)}
+                    />
+                  ) : mongoDBLoading ? 'Loading...' : 'N/A'}
+                </strong>
+              </div>
+              <div className="infrastructure-mini-stat-row">
+                <span>Latency</span>
+                <strong>
+                  {mongoDBDiagnostics ? (
+                    <StatusBadge
+                      label={`${mongoDBDiagnostics.latency.toLocaleString()} ms`}
+                      tone={getLatencyTone(mongoDBDiagnostics.latency)}
+                    />
+                  ) : mongoDBLoading ? 'Loading...' : 'N/A'}
+                </strong>
+              </div>
+              <div className="infrastructure-mini-stat-row">
+                <span>Storage</span>
+                <strong>
+                  {mongoDBDiagnostics ? (
+                    <StatusBadge
+                      label={formatBytes(mongoDBDiagnostics.databaseSize)}
+                      tone={getStorageTone(mongoDBDiagnostics.databaseSize)}
+                    />
+                  ) : mongoDBLoading ? 'Loading...' : 'N/A'}
+                </strong>
+              </div>
+              <div className="infrastructure-mini-stat-row">
+                <span>Connections</span>
+                <strong>
+                  {mongoDBDiagnostics ? (
+                    <StatusBadge
+                      label={`${mongoDBDiagnostics.activeConnections.toLocaleString()} / ${mongoDBDiagnostics.maxConnections.toLocaleString()}`}
+                      tone={getConnectionTone(mongoDBDiagnostics.activeConnections, mongoDBDiagnostics.maxConnections)}
+                    />
+                  ) : 'N/A'}
+                </strong>
+              </div>
+            </div>
+
+            <div className="infrastructure-column-group">
+              <span className="infrastructure-column-label">MongoDB long-running operations</span>
+              {mongoDBDiagnostics && mongoDBDiagnostics.longRunningOperations.length > 0 ? mongoDBDiagnostics.longRunningOperations.slice(0, 5).map((operation, index) => (
+                <div className="infrastructure-entry" key={`${operation.queryText}-${index}`}>
+                  <div className="infrastructure-entry-header">
+                    <span>{operation.timeRunningMillis} ms</span>
+                    <strong>{index + 1}</strong>
+                  </div>
+                  <small>{operation.queryText.length > 80 ? `${operation.queryText.slice(0, 80)}…` : operation.queryText}</small>
+                </div>
+              )) : <div className="infrastructure-entry empty">No long-running operations.</div>}
             </div>
           </div>
         </section>
