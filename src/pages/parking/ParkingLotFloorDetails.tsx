@@ -114,7 +114,7 @@ export default function ParkingLotFloors() {
     return () => {
       eventSource.close();
     };
-  }, [floorId, lotId]);
+  }, [floorId, lotId, postAnalyticsRequest, queryClient]);
 
   if (loading) {
     return (

@@ -2,7 +2,6 @@ import React, { JSX, useMemo } from 'react';
 import PortfolioFooter from '../components/PortfolioFooter';
 import TopNav from '../components/TopNav';
 import useAPIDiagnostics from '../network/useAPIDiagnostics';
-import useAnalyticsEvents from '../network/useAnalyticsEvents';
 import useBuildkiteInfo from '../network/useBuildkiteInfo';
 import useDatabaseDiagnostics from '../network/useDatabaseDiagnostics';
 import useDeploymentInfo from '../network/useDeploymentInfo';
@@ -73,7 +72,7 @@ function getStatusTone(value: string): 'success' | 'warning' | 'danger' {
     return 'success';
   }
 
-  if (['warning', 'blocked', 'build_in_progress', 'queued', 'post'].includes(normalized)) {
+  if (['warning', 'blocked', 'build_in_progress', 'queued', 'post', 'update_in_progress'].includes(normalized)) {
     return 'warning';
   }
 
@@ -252,55 +251,17 @@ function getRequestLabel(endpoint: string): string {
   return 'GET';
 }
 
-function getLastUrlPathSegment(url: string | null | undefined): string {
-  if (!url) {
-    return 'No URL';
-  }
-
-  try {
-    const parsedUrl = new URL(url);
-    const segments = parsedUrl.pathname.split('/').filter(Boolean);
-    return segments[segments.length - 1] ?? '/';
-  } catch {
-    const segments = url.split('/').filter(Boolean);
-    return segments[segments.length - 1] ?? url;
-  }
-}
-
 function InfrastructureHome(): JSX.Element {
   const { data: apiDiagnostics, isLoading: apiLoading, isError: apiError, error: apiErrorObject } = useAPIDiagnostics();
   const { data: databaseDiagnostics, isLoading: databaseLoading, isError: databaseError, error: databaseErrorObject } = useDatabaseDiagnostics();
   const { data: mongoDBDiagnostics, isLoading: mongoDBLoading, isError: mongoDBError, error: mongoDBErrorObject } = useMongoDBDiagnostics();
   const { data: buildInfo = [], error: buildsErrorObject } = useBuildkiteInfo();
   const { data: deploymentInfo = [], error: deploymentsErrorObject } = useDeploymentInfo();
-  const analyticsQuery = useMemo(
-    () => ({
-      filters: [],
-      sortField: 'timestamp',
-      sortDirection: 'desc' as const,
-      page: 1,
-    }),
-    []
-  );
-  const {
-    data: analyticsResponse,
-    error: analyticsErrorObject,
-  } = useAnalyticsEvents({ query: analyticsQuery });
-
   useAnalyticsErrorReporter(apiErrorObject, 'Failed to load API diagnostics');
   useAnalyticsErrorReporter(databaseErrorObject, 'Failed to load database diagnostics');
   useAnalyticsErrorReporter(mongoDBErrorObject, 'Failed to load MongoDB diagnostics');
   useAnalyticsErrorReporter(buildsErrorObject, 'Failed to load build information');
   useAnalyticsErrorReporter(deploymentsErrorObject, 'Failed to load deployment information');
-  useAnalyticsErrorReporter(analyticsErrorObject, 'Failed to load analytics summary');
-
-  const totalAnalyticsEvents = analyticsResponse?.totalCount ?? 0;
-  const analyticsResults = useMemo(() => analyticsResponse?.results ?? [], [analyticsResponse?.results]);
-  const uniqueSessions = new Set(analyticsResults.map((event) => event.sessionId)).size;
-  const last24HoursEvents = useMemo(() => {
-    const cutoffTime = Date.now() - 24 * 60 * 60 * 1000;
-    return analyticsResults.filter((event) => new Date(event.timestamp).getTime() >= cutoffTime).length;
-  }, [analyticsResults]);
 
   const apiStatus = apiError ? 'Unavailable' : !apiDiagnostics ? (apiLoading ? 'Loading' : 'Unavailable') : apiDiagnostics.failedRequests > 0 ? 'Warning' : 'Healthy';
   const databaseStatus = databaseError ? 'Unavailable' : !databaseDiagnostics ? (databaseLoading ? 'Loading' : 'Unavailable') : !databaseDiagnostics.connectivity ? 'Critical' : databaseDiagnostics.longRunningQueries.length > 0 ? 'Warning' : 'Healthy';
@@ -314,38 +275,27 @@ function InfrastructureHome(): JSX.Element {
 
   const mostRecentDeployment = deploymentInfo[0] ?? null;
 
-  const displayAnalyticsEvents = useMemo(() => {
-    const sortedResults = [...analyticsResults].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    const cutoffTime = Date.now() - 7 * 24 * 60 * 60 * 1000;
-    const recentSevenDays = sortedResults.filter((event) => new Date(event.timestamp).getTime() >= cutoffTime);
-
-    return recentSevenDays.length > 0 ? recentSevenDays : sortedResults.slice(0, 5);
-  }, [analyticsResults]);
-
   const buildsForDisplay = useMemo(() => {
     const sortedBuilds = [...buildInfo].sort((a, b) => new Date(b.created_at ?? 0).getTime() - new Date(a.created_at ?? 0).getTime());
     const pipelineCounts = new Map<string, number>();
 
-    return sortedBuilds.filter((build) => {
-      const pipelineName = build.pipeline?.name ?? 'Pipeline';
-      const currentCount = pipelineCounts.get(pipelineName) ?? 0;
+    return sortedBuilds
+      .filter((build) => {
+        const pipelineName = build.pipeline?.name ?? 'Pipeline';
+        const currentCount = pipelineCounts.get(pipelineName) ?? 0;
 
-      if (currentCount >= 3) {
-        return false;
-      }
+        if (currentCount >= 3) {
+          return false;
+        }
 
-      pipelineCounts.set(pipelineName, currentCount + 1);
-      return true;
-    });
+        pipelineCounts.set(pipelineName, currentCount + 1);
+        return true;
+      })
+      .slice(0, 5);
   }, [buildInfo]);
 
   const recentDeployments = useMemo(
-    () => deploymentInfo.slice(0, 4),
-    [deploymentInfo]
-  );
-
-  const olderDeployments = useMemo(
-    () => deploymentInfo.slice(4, 8),
+    () => deploymentInfo.slice(0, 5),
     [deploymentInfo]
   );
 
@@ -454,7 +404,6 @@ function InfrastructureHome(): JSX.Element {
 
         <section className="infrastructure-compact-panel">
           <h3>PostgreSQL</h3>
-          <div className="infrastructure-column-stack">
             <div className="infrastructure-column-group">
               <div className="infrastructure-mini-stat-row">
                 <span>Status</span>
@@ -518,8 +467,9 @@ function InfrastructureHome(): JSX.Element {
                 </div>
               )) : <div className="infrastructure-entry empty">No long-running queries.</div>}
             </div>
+        </section>
 
-            <div className="infrastructure-database-divider" aria-hidden="true" />
+          <section className="infrastructure-compact-panel">
             <h3>MongoDB</h3>
             <div className="infrastructure-column-group">
               <div className="infrastructure-mini-stat-row">
@@ -584,49 +534,6 @@ function InfrastructureHome(): JSX.Element {
                 </div>
               )) : <div className="infrastructure-entry empty">No long-running operations.</div>}
             </div>
-          </div>
-        </section>
-
-        <section className="infrastructure-compact-panel">
-          <h3>Analytics</h3>
-          <div className="infrastructure-column-stack">
-            <div className="infrastructure-column-group">
-              <div className="infrastructure-mini-stat-row">
-                <span>Last 24 hours</span>
-                <strong>{last24HoursEvents.toLocaleString()}</strong>
-              </div>
-              <div className="infrastructure-mini-stat-row">
-                <span>Events</span>
-                <strong>{totalAnalyticsEvents.toLocaleString()}</strong>
-              </div>
-              <div className="infrastructure-mini-stat-row">
-                <span>Sessions</span>
-                <strong>{uniqueSessions.toLocaleString()}</strong>
-              </div>
-              <div className="infrastructure-mini-stat-row">
-                <span>State</span>
-                <strong><StatusBadge label={analyticsResponse ? 'Live' : 'Unavailable'} tone={analyticsResponse ? 'success' : 'danger'} /></strong>
-              </div>
-            </div>
-
-            <div className="infrastructure-column-group">
-              <span className="infrastructure-column-label">Recent Activity</span>
-              {displayAnalyticsEvents.length > 0 ? displayAnalyticsEvents.map((event) => (
-                <div className="infrastructure-entry" key={`${event.id}-${event.sessionId}`}>
-                  <div className="infrastructure-entry-header">
-                    <span>{event.eventType}</span>
-                    <strong>{event.sessionId.slice(-12)}</strong>
-                  </div>
-                  <div className="infrastructure-entry-meta-row">
-                    <span>{getLastUrlPathSegment(event.currentUrl)}</span>
-                  </div>
-                  <div className="infrastructure-entry-meta-row">
-                    <span>{formatCompactDateTime(event.timestamp)}</span>
-                  </div>
-                </div>
-              )) : <div className="infrastructure-entry empty">No recent analytics activity.</div>}
-            </div>
-          </div>
         </section>
 
         <section className="infrastructure-compact-panel">
@@ -692,7 +599,7 @@ function InfrastructureHome(): JSX.Element {
 
             <div className="infrastructure-column-group">
               <span className="infrastructure-column-label">Earlier Deployments</span>
-              {[...recentDeployments, ...olderDeployments].length > 0 ? [...recentDeployments, ...olderDeployments].map((deploymentResponse) => (
+              {[...recentDeployments].length > 0 ? [...recentDeployments].map((deploymentResponse) => (
                 <div className="infrastructure-entry" key={`${deploymentResponse.deploy.id}-deployment`}>
                   <div className="infrastructure-entry-header">
                     <span>{formatCompactDateTime(deploymentResponse.deploy.createdAt)}</span>
