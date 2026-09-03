@@ -1,4 +1,4 @@
-import React, { ChangeEvent, JSX, MouseEvent as ReactMouseEvent, useMemo, useState } from 'react';
+import React, { ChangeEvent, JSX, MouseEvent as ReactMouseEvent, useEffect, useMemo, useState } from 'react';
 import PortfolioFooter from '../components/PortfolioFooter';
 import TopNav from '../components/TopNav';
 import useAPIDiagnostics from '../network/useAPIDiagnostics';
@@ -25,6 +25,8 @@ const defaultAnalyticsQuery: AnalyticsQuery = {
   sortDirection: 'desc',
   page: 1,
 };
+
+const infrastructureTabStorageKey = 'infrastructure-home-active-tab';
 
 function formatBytes(bytes: number): string {
   if (!Number.isFinite(bytes) || bytes <= 0) {
@@ -276,8 +278,21 @@ function formatTimestamp(value: string): string {
   return date.toLocaleString();
 }
 
+function getInitialInfrastructureTab(): 'infrastructure' | 'analytics' | 'chatbot' {
+  if (typeof window === 'undefined') {
+    return 'infrastructure';
+  }
+
+  const storedTab = window.sessionStorage.getItem(infrastructureTabStorageKey);
+  if (storedTab === 'analytics' || storedTab === 'chatbot' || storedTab === 'infrastructure') {
+    return storedTab;
+  }
+
+  return 'infrastructure';
+}
+
 function InfrastructureHome(): JSX.Element {
-  const [activeTab, setActiveTab] = useState<'infrastructure' | 'analytics' | 'chatbot'>('infrastructure');
+  const [activeTab, setActiveTab] = useState<'infrastructure' | 'analytics' | 'chatbot'>(getInitialInfrastructureTab);
   const [analyticsColumnWidths, setAnalyticsColumnWidths] = useState<number[]>([8, 12, 12, 18, 12, 12, 12, 14]);
   const [eventTypeFilter, setEventTypeFilter] = useState<string>('PAGE_VIEW');
   const [sessionFilter, setSessionFilter] = useState<string>('');
@@ -312,6 +327,14 @@ function InfrastructureHome(): JSX.Element {
   useAnalyticsErrorReporter(mongoDBErrorObject, 'Failed to load MongoDB diagnostics');
   useAnalyticsErrorReporter(buildsErrorObject, 'Failed to load build information');
   useAnalyticsErrorReporter(deploymentsErrorObject, 'Failed to load deployment information');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.sessionStorage.setItem(infrastructureTabStorageKey, activeTab);
+  }, [activeTab]);
 
   const apiStatus = apiError ? 'Unavailable' : !apiDiagnostics ? (apiLoading ? 'Loading' : 'Unavailable') : apiDiagnostics.failedRequests > 0 ? 'Warning' : 'Healthy';
   const databaseStatus = databaseError ? 'Unavailable' : !databaseDiagnostics ? (databaseLoading ? 'Loading' : 'Unavailable') : !databaseDiagnostics.connectivity ? 'Critical' : databaseDiagnostics.longRunningQueries.length > 0 ? 'Warning' : 'Healthy';
