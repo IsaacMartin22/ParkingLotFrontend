@@ -69,11 +69,11 @@ function formatCompactDateTime(value: string | null | undefined): string {
 function getStatusTone(value: string): 'success' | 'warning' | 'danger' {
   const normalized = value.toLowerCase();
 
-  if (['healthy', 'live', 'passed', 'success', 'ok', 'get'].includes(normalized)) {
+  if (['healthy', 'live', 'passed', 'success', 'ok', 'get', 'deactivated'].includes(normalized)) {
     return 'success';
   }
 
-  if (['warning', 'blocked', 'in progress', 'queued', 'post'].includes(normalized)) {
+  if (['warning', 'blocked', 'build_in_progress', 'queued', 'post'].includes(normalized)) {
     return 'warning';
   }
 
