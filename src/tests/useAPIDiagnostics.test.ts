@@ -1,5 +1,10 @@
 import { validateAPIDiagnostics } from '../network/useAPIDiagnostics';
-import { getHeapUsageTone } from '../pages/InfrastructureHome';
+import {
+  formatCacheHit,
+  formatInteractionMetricMilliseconds,
+  formatInteractionMetricNumber,
+  getHeapUsageTone,
+} from '../pages/InfrastructureHome';
 
 describe('API heap diagnostics', () => {
   it('retains valid heap memory usage', () => {
@@ -44,5 +49,15 @@ describe('API heap diagnostics', () => {
     [80.1, 'danger'],
   ] as const)('assigns the expected heap status tone at %s%% usage', (usagePercent, expectedTone) => {
     expect(getHeapUsageTone(usagePercent, 100)).toBe(expectedTone);
+  });
+
+  it('formats optional interaction metrics for readable table cells', () => {
+    expect(formatCacheHit(true)).toBe('Yes');
+    expect(formatCacheHit(false)).toBe('No');
+    expect(formatCacheHit(undefined)).toBe('N/A');
+    expect(formatInteractionMetricMilliseconds(12.5)).toBe('12.5 ms');
+    expect(formatInteractionMetricMilliseconds(undefined)).toBe('N/A');
+    expect(formatInteractionMetricNumber(3)).toBe('3');
+    expect(formatInteractionMetricNumber(undefined)).toBe('N/A');
   });
 });

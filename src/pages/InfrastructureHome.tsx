@@ -32,6 +32,30 @@ const defaultAnalyticsQuery: AnalyticsQuery = {
 
 const infrastructureTabStorageKey = 'infrastructure-home-active-tab';
 
+export function formatInteractionMetricMilliseconds(value: number | undefined): string {
+  if (value === undefined || !Number.isFinite(value)) {
+    return 'N/A';
+  }
+
+  return `${value.toLocaleString(undefined, { maximumFractionDigits: 2 })} ms`;
+}
+
+export function formatInteractionMetricNumber(value: number | undefined): string {
+  if (value === undefined || !Number.isFinite(value)) {
+    return 'N/A';
+  }
+
+  return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+}
+
+export function formatCacheHit(value: boolean | undefined): string {
+  if (value === undefined) {
+    return 'N/A';
+  }
+
+  return value ? 'Yes' : 'No';
+}
+
 function formatBytes(bytes: number): string {
   if (!Number.isFinite(bytes) || bytes <= 0) {
     return '0 B';
@@ -1270,41 +1294,51 @@ function InfrastructureHome(): JSX.Element {
            <section className="interactions-table-card interactions-panel infrastructure-tab-panel" aria-labelledby="chatbot-table-heading">
              <h1 id="chatbot-table-heading">Chatbot Interactions</h1>
              <div className="interactions-table-scroll-shell">
-               <table className="interactions-table">
+               <table className="interactions-table interactions-table-chatbot">
                  <thead>
                    <tr>
-                     <th scope="col">#</th>
-                     <th scope="col">Timestamp</th>
-                     <th scope="col">User Message</th>
-                     <th scope="col">Assistant Response</th>
+                     <th className="chatbot-interaction-index" scope="col">#</th>
+                     <th className="chatbot-interaction-timestamp" scope="col">Timestamp</th>
+                     <th className="chatbot-interaction-message" scope="col">User Message</th>
+                     <th className="chatbot-interaction-response" scope="col">Assistant Response</th>
+                     <th className="chatbot-interaction-cache-hit" scope="col">Cache Hit</th>
+                     <th className="chatbot-interaction-embedding-latency" scope="col">Embedding Latency (ms)</th>
+                     <th className="chatbot-interaction-vector-search-duration" scope="col">Vector Search Duration (ms)</th>
+                     <th className="chatbot-interaction-document-count" scope="col">Documents Retrieved</th>
+                     <th className="chatbot-interaction-rating" scope="col">Rating</th>
                    </tr>
                  </thead>
                  <tbody>
                    {chatbotInteractionsLoading && (
                      <tr>
-                       <td colSpan={4}>Loading chatbot interactions...</td>
+                       <td colSpan={9}>Loading chatbot interactions...</td>
                      </tr>
                    )}
                    {chatbotInteractionsError && (
                      <tr>
-                       <td colSpan={4}>Failed to load chatbot interactions.</td>
+                       <td colSpan={9}>Failed to load chatbot interactions.</td>
                      </tr>
                    )}
                    {!chatbotInteractionsLoading &&
                      !chatbotInteractionsError &&
                      recentChatbotInteractions?.interactions.length === 0 && (
                        <tr>
-                         <td colSpan={4}>No chatbot interactions available.</td>
+                         <td colSpan={9}>No chatbot interactions available.</td>
                        </tr>
                      )}
                    {!chatbotInteractionsLoading &&
                      !chatbotInteractionsError &&
                      recentChatbotInteractions?.interactions.map((interaction, index) => (
                        <tr key={`${interaction.timestamp}-${index}`}>
-                         <td>{index + 1}</td>
-                         <td>{formatTimestamp(interaction.timestamp)}</td>
-                         <td>{interaction.question}</td>
-                         <td>{interaction.response}</td>
+                         <td className="chatbot-interaction-index">{index + 1}</td>
+                         <td className="chatbot-interaction-timestamp">{formatTimestamp(interaction.timestamp)}</td>
+                         <td className="chatbot-interaction-message">{interaction.question}</td>
+                         <td className="chatbot-interaction-response">{interaction.response}</td>
+                         <td className="chatbot-interaction-cache-hit">{formatCacheHit(interaction.cacheHit)}</td>
+                         <td className="chatbot-interaction-embedding-latency">{formatInteractionMetricMilliseconds(interaction.embeddingLatencyMs)}</td>
+                         <td className="chatbot-interaction-vector-search-duration">{formatInteractionMetricMilliseconds(interaction.vectorSearchDurationMs)}</td>
+                         <td className="chatbot-interaction-document-count">{formatInteractionMetricNumber(interaction.vectorSearchDocumentCount)}</td>
+                         <td className="chatbot-interaction-rating">{formatInteractionMetricNumber(interaction.rating)}</td>
                        </tr>
                      ))}
                  </tbody>

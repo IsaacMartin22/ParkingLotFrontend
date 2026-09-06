@@ -7,7 +7,15 @@ import {
 import usePostAnalyticsRequest from './usePostAnalyticsRequest';
 import { buildNetworkSuccessAnalyticsRequest } from './analyticsNetwork';
 
-function validateChatbotInteractionResponse(interaction: unknown): ChatbotInteractionResponse {
+function getOptionalBoolean(value: unknown): boolean | undefined {
+  return typeof value === 'boolean' ? value : undefined;
+}
+
+function getOptionalNonNegativeNumber(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : undefined;
+}
+
+export function validateChatbotInteractionResponse(interaction: unknown): ChatbotInteractionResponse {
   if (!interaction || typeof interaction !== 'object') {
     throw new Error(`Invalid chatbot interaction: ${JSON.stringify(interaction)}`);
   }
@@ -18,10 +26,15 @@ function validateChatbotInteractionResponse(interaction: unknown): ChatbotIntera
     question: typeof parsed.question === 'string' ? parsed.question : '',
     response: typeof parsed.response === 'string' ? parsed.response : '',
     timestamp: typeof parsed.timestamp === 'string' ? parsed.timestamp : '',
+    cacheHit: getOptionalBoolean(parsed.cacheHit),
+    embeddingLatencyMs: getOptionalNonNegativeNumber(parsed.embeddingLatencyMs),
+    vectorSearchDurationMs: getOptionalNonNegativeNumber(parsed.vectorSearchDurationMs),
+    vectorSearchDocumentCount: getOptionalNonNegativeNumber(parsed.vectorSearchDocumentCount),
+    rating: getOptionalNonNegativeNumber(parsed.rating),
   };
 }
 
-function validateRecentChatbotInteractionsResponse(response: unknown): RecentChatbotInteractionsResponse {
+export function validateRecentChatbotInteractionsResponse(response: unknown): RecentChatbotInteractionsResponse {
   if (!response || typeof response !== 'object') {
     throw new Error(`Invalid recent chatbot interactions response: ${JSON.stringify(response)}`);
   }
