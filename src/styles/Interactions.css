@@ -147,6 +147,62 @@
   width: calc((100% - 72px) / 2);
 }
 
+.interactions-table-chatbot {
+  min-width: 1,700px;
+  table-layout: fixed;
+}
+
+.interactions-table-chatbot th,
+.interactions-table-chatbot td {
+  min-width: 0;
+}
+
+.interactions-table-chatbot .chatbot-interaction-index {
+  width: 56px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-timestamp {
+  width: 130px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-message {
+  width: 280px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-response {
+  width: 360px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-cache-hit {
+  width: 90px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-embedding-latency {
+  width: 160px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-vector-search-duration {
+  width: 190px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-document-count {
+  width: 160px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-rating {
+  width: 90px;
+}
+
+.interactions-table-chatbot .chatbot-interaction-cache-hit,
+.interactions-table-chatbot .chatbot-interaction-embedding-latency,
+.interactions-table-chatbot .chatbot-interaction-vector-search-duration,
+.interactions-table-chatbot .chatbot-interaction-document-count,
+.interactions-table-chatbot .chatbot-interaction-rating {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
 .interactions-table-analytics {
   table-layout: fixed;
 }
