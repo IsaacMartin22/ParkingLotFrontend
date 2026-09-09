@@ -8,7 +8,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:3000',
     headless: true,
-    viewport: { width: 1440, height: 1800 },
+    viewport: { width: 1280, height: 1200 },
+    deviceScaleFactor: 1,
     locale: 'en-US',
     timezoneId: 'UTC',
     colorScheme: 'light',
