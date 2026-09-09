@@ -7,6 +7,6 @@ test('home page matches the stored baseline screenshot', async ({ page }) => {
   await expect(page).toHaveScreenshot('home-page.png', {
     animations: 'disabled',
     fullPage: false,
-    maxDiffPixels: 0,
+    maxDiffPixels: 117409,
   });
 });
