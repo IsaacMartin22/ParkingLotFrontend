@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './playwright',
+  snapshotPathTemplate: '{testDir}/{testFileName}-snapshots/{arg}{ext}',
   fullyParallel: false,
   reporter: 'list',
   use: {
