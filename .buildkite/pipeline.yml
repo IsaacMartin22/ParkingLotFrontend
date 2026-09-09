@@ -6,4 +6,10 @@ steps:
       - "npm ci"
       - "npm test -- --watchAll=false"
 
-
+  - label: ":playwright: End2End"
+    command:
+      - "node --version"
+      - "npm --version"
+      - "npm ci"
+      - "npx playwright install --with-deps chromium"
+      - "npm run End2End"

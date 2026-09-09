@@ -1050,29 +1050,24 @@ function InfrastructureHome(): JSX.Element {
                      <th className="chatbot-interaction-timestamp" scope="col">Timestamp</th>
                      <th className="chatbot-interaction-message" scope="col">User Message</th>
                      <th className="chatbot-interaction-response" scope="col">Assistant Response</th>
-                     <th className="chatbot-interaction-cache-hit" scope="col">Cache Hit</th>
-                     <th className="chatbot-interaction-embedding-latency" scope="col">Embedding Latency (ms)</th>
-                     <th className="chatbot-interaction-vector-search-duration" scope="col">Vector Search Duration (ms)</th>
-                     <th className="chatbot-interaction-document-count" scope="col">Documents Retrieved</th>
-                     <th className="chatbot-interaction-rating" scope="col">Rating</th>
                    </tr>
                  </thead>
                  <tbody>
                    {chatbotInteractionsLoading && (
                      <tr>
-                       <td colSpan={9}>Loading chatbot interactions...</td>
+                       <td colSpan={4}>Loading chatbot interactions...</td>
                      </tr>
                    )}
                    {chatbotInteractionsError && (
                      <tr>
-                       <td colSpan={9}>Failed to load chatbot interactions.</td>
+                       <td colSpan={4}>Failed to load chatbot interactions.</td>
                      </tr>
                    )}
                    {!chatbotInteractionsLoading &&
                      !chatbotInteractionsError &&
                      recentChatbotInteractions?.interactions.length === 0 && (
                        <tr>
-                         <td colSpan={9}>No chatbot interactions available.</td>
+                         <td colSpan={4}>No chatbot interactions available.</td>
                        </tr>
                      )}
                    {!chatbotInteractionsLoading &&
@@ -1083,11 +1078,6 @@ function InfrastructureHome(): JSX.Element {
                          <td className="chatbot-interaction-timestamp">{formatTimestamp(interaction.timestamp)}</td>
                          <td className="chatbot-interaction-message">{interaction.question}</td>
                          <td className="chatbot-interaction-response">{interaction.response}</td>
-                         <td className="chatbot-interaction-cache-hit">{formatCacheHit(interaction.cacheHit)}</td>
-                         <td className="chatbot-interaction-embedding-latency">{formatInteractionMetricMilliseconds(interaction.embeddingLatencyMs)}</td>
-                         <td className="chatbot-interaction-vector-search-duration">{formatInteractionMetricMilliseconds(interaction.vectorSearchDurationMs)}</td>
-                         <td className="chatbot-interaction-document-count">{formatInteractionMetricNumber(interaction.vectorSearchDocumentCount)}</td>
-                         <td className="chatbot-interaction-rating">{formatInteractionMetricNumber(interaction.rating)}</td>
                        </tr>
                      ))}
                  </tbody>
