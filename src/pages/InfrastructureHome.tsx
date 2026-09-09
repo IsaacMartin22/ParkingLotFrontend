@@ -10,7 +10,6 @@ import useAnalyticsErrorReporter from '../network/useAnalyticsErrorReporter';
 import useAnalyticsEvents from '../network/useAnalyticsEvents';
 import useMongoDBDiagnostics from '../network/useMongoDBDiagnostics';
 import useRecentChatbotInteractions from '../network/useRecentChatbotInteractions';
-import useAIUsage, { normalizeAIUsageResponse } from '../network/useAIUsage';
 import { formatDuration } from '../formattingUtils';
 import {
   ANALYTICS_EVENT_TYPES,
@@ -18,8 +17,6 @@ import {
   AnalyticsQueryField,
   AnalyticsQuerySortDirection,
 } from '../types/analytics';
-import { AIUsageRecord, AIUsageResponse, AIUsageSseEvent } from '../types/aiUsage';
-import { API_URL } from '../types/constants';
 import '../styles/ServicePageStyles.css';
 import '../styles/Interactions.css';
 
@@ -306,152 +303,13 @@ function formatTimestamp(value: string): string {
   return date.toLocaleString();
 }
 
-function formatCurrency(amount: number, currency: string): string {
-  return new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: currency || 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 4,
-  }).format(amount);
-}
-
-function formatProviderList(records: { provider: string }[]): string {
-  const uniqueProviders = Array.from(new Set(records.map((record) => record.provider).filter(Boolean)));
-  return uniqueProviders.length > 0 ? uniqueProviders.join(', ') : 'No providers yet';
-}
-
-function buildAIUsageLevels(records: AIUsageRecord[]): AIUsageRecord[][] {
-  if (records.length === 0) {
-    return [];
-  }
-
-  const recordMap = new Map(records.map((record) => [record.id, record]));
-  const childCountByParent = new Map<string, number>();
-  const depthById = new Map<string, number>();
-
-  records.forEach((record) => {
-    if (record.parentTaskId && recordMap.has(record.parentTaskId)) {
-      childCountByParent.set(record.parentTaskId, (childCountByParent.get(record.parentTaskId) ?? 0) + 1);
-    }
-  });
-
-  const getDepth = (record: AIUsageRecord, stack = new Set<string>()): number => {
-    const existingDepth = depthById.get(record.id);
-    if (existingDepth != null) {
-      return existingDepth;
-    }
-
-    if (!record.parentTaskId || !recordMap.has(record.parentTaskId) || stack.has(record.id)) {
-      depthById.set(record.id, 0);
-      return 0;
-    }
-
-    stack.add(record.id);
-    const parent = recordMap.get(record.parentTaskId);
-    const depth = parent ? getDepth(parent, stack) + 1 : 0;
-    stack.delete(record.id);
-    depthById.set(record.id, depth);
-    return depth;
-  };
-
-  const levels = records.reduce<AIUsageRecord[][]>((accumulator, record) => {
-    const depth = getDepth(record);
-    if (!accumulator[depth]) {
-      accumulator[depth] = [];
-    }
-
-    accumulator[depth].push(record);
-    return accumulator;
-  }, []);
-
-  return levels.map((level) =>
-    [...level].sort((left, right) => {
-      const checkpointDelta = Number(right.selectedByHuman) - Number(left.selectedByHuman);
-      if (checkpointDelta !== 0) {
-        return checkpointDelta;
-      }
-
-      const childDelta = (childCountByParent.get(right.id) ?? 0) - (childCountByParent.get(left.id) ?? 0);
-      if (childDelta !== 0) {
-        return childDelta;
-      }
-
-      return new Date(left.startedAt).getTime() - new Date(right.startedAt).getTime();
-    })
-  );
-}
-
-type AIUsageConnector = {
-  fromId: string;
-  toId: string;
-};
-
-type AIUsageNodePosition = {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-};
-
-function getAIUsageConnectors(records: AIUsageRecord[]): AIUsageConnector[] {
-  const recordIdSet = new Set(records.map((record) => record.id));
-
-  return records.flatMap((record) =>
-    record.dependencyTaskIds
-      .filter((dependencyId) => recordIdSet.has(dependencyId))
-      .map((dependencyId) => ({
-        fromId: dependencyId,
-        toId: record.id,
-      }))
-  );
-}
-
-function mergeAIUsageState(currentState: AIUsageResponse | undefined, event: AIUsageSseEvent): AIUsageResponse | undefined {
-  if (!currentState) {
-    return currentState;
-  }
-
-  if (event.type === 'SNAPSHOT') {
-    return normalizeAIUsageResponse({
-      summary: event.summary ?? currentState.summary,
-      records: currentState.records,
-    });
-  }
-
-  if (event.type === 'DELETE') {
-    const nextRecords = currentState.records.filter((record) => record.id !== event.recordId);
-    return normalizeAIUsageResponse({
-      summary: event.summary ?? currentState.summary,
-      records: nextRecords,
-    });
-  }
-
-  if (event.type === 'UPSERT' && event.record) {
-    const existingIndex = currentState.records.findIndex((record) => record.id === event.record?.id);
-    const nextRecords = [...currentState.records];
-
-    if (existingIndex >= 0) {
-      nextRecords[existingIndex] = event.record;
-    } else {
-      nextRecords.unshift(event.record);
-    }
-
-    return normalizeAIUsageResponse({
-      summary: event.summary ?? currentState.summary,
-      records: nextRecords,
-    });
-  }
-
-  return currentState;
-}
-
-function getInitialInfrastructureTab(): 'infrastructure' | 'analytics' | 'chatbot' | 'aiUsage' {
+function getInitialInfrastructureTab(): 'infrastructure' | 'analytics' | 'chatbot' {
   if (typeof window === 'undefined') {
     return 'infrastructure';
   }
 
   const storedTab = window.sessionStorage.getItem(infrastructureTabStorageKey);
-  if (storedTab === 'analytics' || storedTab === 'chatbot' || storedTab === 'infrastructure' || storedTab === 'aiUsage') {
+  if (storedTab === 'analytics' || storedTab === 'chatbot' || storedTab === 'infrastructure') {
     return storedTab;
   }
 
@@ -459,11 +317,7 @@ function getInitialInfrastructureTab(): 'infrastructure' | 'analytics' | 'chatbo
 }
 
 function InfrastructureHome(): JSX.Element {
-  const queryClient = useQueryClient();
-  const aiUsageGraphShellRef = useRef<HTMLDivElement | null>(null);
-  const [aiUsageNodePositions, setAIUsageNodePositions] = useState<Record<string, AIUsageNodePosition>>({});
-  const [selectedAIUsageRecord, setSelectedAIUsageRecord] = useState<AIUsageRecord | null>(null);
-  const [activeTab, setActiveTab] = useState<'infrastructure' | 'analytics' | 'chatbot' | 'aiUsage'>(getInitialInfrastructureTab);
+  const [activeTab, setActiveTab] = useState<'infrastructure' | 'analytics' | 'chatbot'>(getInitialInfrastructureTab);
   const [analyticsColumnWidths, setAnalyticsColumnWidths] = useState<number[]>([8, 12, 12, 18, 12, 12, 12, 14]);
   const [eventTypeFilter, setEventTypeFilter] = useState<string>('PAGE_VIEW');
   const [sessionFilter, setSessionFilter] = useState<string>('');
@@ -493,18 +347,11 @@ function InfrastructureHome(): JSX.Element {
     isLoading: chatbotInteractionsLoading,
     isError: chatbotInteractionsError,
   } = useRecentChatbotInteractions();
-  const {
-    data: aiUsage,
-    isLoading: aiUsageLoading,
-    isError: aiUsageError,
-    error: aiUsageErrorObject,
-  } = useAIUsage();
   useAnalyticsErrorReporter(apiErrorObject, 'Failed to load API diagnostics');
   useAnalyticsErrorReporter(databaseErrorObject, 'Failed to load database diagnostics');
   useAnalyticsErrorReporter(mongoDBErrorObject, 'Failed to load MongoDB diagnostics');
   useAnalyticsErrorReporter(buildsErrorObject, 'Failed to load build information');
   useAnalyticsErrorReporter(deploymentsErrorObject, 'Failed to load deployment information');
-  useAnalyticsErrorReporter(aiUsageErrorObject, 'Failed to load AI usage');
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -513,34 +360,6 @@ function InfrastructureHome(): JSX.Element {
 
     window.sessionStorage.setItem(infrastructureTabStorageKey, activeTab);
   }, [activeTab]);
-
-  useEffect(() => {
-    const eventSource = new EventSource(`${API_URL}/ai-usage/events`);
-
-    const handleAIUsageMessage = (message: MessageEvent<string>) => {
-      try {
-        const parsedEvent = JSON.parse(message.data) as AIUsageSseEvent;
-        queryClient.setQueryData<AIUsageResponse | undefined>(
-          ['aiUsage'],
-          (currentState) => mergeAIUsageState(currentState, parsedEvent)
-        );
-      } catch (error) {
-        console.error('Unable to process AI usage SSE event', error);
-      }
-    };
-
-    eventSource.onmessage = handleAIUsageMessage;
-    eventSource.addEventListener('SNAPSHOT', handleAIUsageMessage);
-    eventSource.addEventListener('UPSERT', handleAIUsageMessage);
-    eventSource.addEventListener('DELETE', handleAIUsageMessage);
-    eventSource.onerror = (error) => {
-      console.error('AI usage SSE connection error', error);
-    };
-
-    return () => {
-      eventSource.close();
-    };
-  }, [queryClient]);
 
   const apiStatus = apiError ? 'Unavailable' : !apiDiagnostics ? (apiLoading ? 'Loading' : 'Unavailable') : apiDiagnostics.failedRequests > 0 ? 'Warning' : 'Healthy';
   const databaseStatus = databaseError ? 'Unavailable' : !databaseDiagnostics ? (databaseLoading ? 'Loading' : 'Unavailable') : !databaseDiagnostics.connectivity ? 'Critical' : databaseDiagnostics.longRunningQueries.length > 0 ? 'Warning' : 'Healthy';
@@ -641,67 +460,6 @@ function InfrastructureHome(): JSX.Element {
 
     return `Showing page ${analyticsQuery.page} of ${analyticsEvents.totalPages} (${analyticsEvents.totalCount} total events)`;
   }, [analyticsEvents, analyticsQuery.page]);
-
-  const aiUsageSummary = useMemo(() => {
-    if (!aiUsage) {
-      return null;
-    }
-
-    return [
-      { label: 'Requests', value: aiUsage.summary.totalRequests.toLocaleString() },
-      { label: 'Tokens', value: aiUsage.summary.totalTokens.toLocaleString() },
-      { label: 'Cost', value: formatCurrency(aiUsage.summary.totalCost, 'USD') },
-      { label: 'Active', value: aiUsage.summary.activeRequests.toLocaleString() },
-      { label: 'Providers', value: aiUsage.summary.providers.toLocaleString() },
-      { label: 'Human checkpoints', value: aiUsage.summary.humanCheckpointCount.toLocaleString() },
-      { label: 'Updated', value: aiUsage.summary.lastUpdatedAt ? formatCompactDateTime(aiUsage.summary.lastUpdatedAt) : 'N/A' },
-    ];
-  }, [aiUsage]);
-
-  const aiUsageLevels = useMemo(() => buildAIUsageLevels(aiUsage?.records ?? []), [aiUsage]);
-  const aiUsageConnectors = useMemo(() => getAIUsageConnectors(aiUsage?.records ?? []), [aiUsage]);
-
-  useLayoutEffect(() => {
-    if (activeTab !== 'aiUsage') {
-      return;
-    }
-
-    const graphShell = aiUsageGraphShellRef.current;
-    if (!graphShell) {
-      return;
-    }
-
-    const updatePositions = () => {
-      const containerRect = graphShell.getBoundingClientRect();
-      const nodes = Array.from(graphShell.querySelectorAll<HTMLElement>('[data-ai-usage-node-id]'));
-      const nextPositions = nodes.reduce<Record<string, AIUsageNodePosition>>((positions, node) => {
-        const nodeId = node.dataset.aiUsageNodeId;
-        if (!nodeId) {
-          return positions;
-        }
-
-        const rect = node.getBoundingClientRect();
-        positions[nodeId] = {
-          left: rect.left - containerRect.left + graphShell.scrollLeft,
-          top: rect.top - containerRect.top + graphShell.scrollTop,
-          width: rect.width,
-          height: rect.height,
-        };
-        return positions;
-      }, {});
-
-      setAIUsageNodePositions(nextPositions);
-    };
-
-    updatePositions();
-    window.addEventListener('resize', updatePositions);
-    graphShell.addEventListener('scroll', updatePositions);
-
-    return () => {
-      window.removeEventListener('resize', updatePositions);
-      graphShell.removeEventListener('scroll', updatePositions);
-    };
-  }, [activeTab, aiUsageLevels, aiUsageConnectors]);
 
   const handleAnalyticsColumnResizeMouseDown = (
     event: ReactMouseEvent<HTMLDivElement>,
@@ -867,15 +625,6 @@ function InfrastructureHome(): JSX.Element {
              onClick={() => setActiveTab('chatbot')}
            >
              Chat Interactions
-           </button>
-           <button
-             type="button"
-             role="tab"
-             aria-selected={activeTab === 'aiUsage'}
-             className={`interactions-tab ${activeTab === 'aiUsage' ? 'is-active' : ''}`}
-             onClick={() => setActiveTab('aiUsage')}
-           >
-             AI Usage
            </button>
           </div>
 
@@ -1344,167 +1093,6 @@ function InfrastructureHome(): JSX.Element {
                  </tbody>
                </table>
              </div>
-           </section>
-         )}
-
-         {activeTab === 'aiUsage' && (
-           <section className="interactions-table-card interactions-panel infrastructure-tab-panel" aria-labelledby="ai-usage-heading">
-             <div className="ai-usage-summary-grid">
-               {aiUsageSummary?.map((item) => (
-                 <div key={item.label} className="ai-usage-summary-card">
-                   <span className="ai-usage-summary-label">{item.label}</span>
-                   <strong className="ai-usage-summary-value">{item.value}</strong>
-                 </div>
-               ))}
-               {!aiUsageSummary && !aiUsageLoading && !aiUsageError && (
-                 <div className="ai-usage-summary-card ai-usage-summary-card--empty">
-                   <span className="ai-usage-summary-label">No summary</span>
-                   <strong className="ai-usage-summary-value">Waiting for data</strong>
-                 </div>
-               )}
-             </div>
-
-             <div className="ai-usage-toolbar">
-               <span className="ai-usage-toolbar-text">
-                 {aiUsageLoading
-                   ? 'Loading AI activity...'
-                   : aiUsageError
-                     ? 'Failed to load AI activity.'
-                     : `${aiUsage?.records.length ?? 0} tasks · ${formatProviderList(aiUsage?.records ?? [])}`}
-               </span>
-             </div>
-
-             <div className="ai-usage-graph-shell">
-               {!aiUsageLoading && !aiUsageError && (
-                 <h2 id="ai-usage-heading" className="ai-usage-workflow-title">
-                   {aiUsage?.summary.workflowTitle ?? 'AI workflow'}
-                 </h2>
-               )}
-               {!aiUsageLoading && !aiUsageError && aiUsageLevels.length > 0 && (
-                 <svg className="ai-usage-graph-lines" aria-hidden="true">
-                   {aiUsageConnectors.map((connector) => {
-                     const from = aiUsageNodePositions[connector.fromId];
-                     const to = aiUsageNodePositions[connector.toId];
-
-                     if (!from || !to) {
-                       return null;
-                     }
-
-                     const startX = from.left + from.width;
-                     const startY = from.top + from.height / 2;
-                     const endX = to.left;
-                     const endY = to.top + to.height / 2;
-                     const midX = startX + (endX - startX) / 2;
-                     const path = `M ${startX} ${startY} C ${midX} ${startY}, ${midX} ${endY}, ${endX} ${endY}`;
-
-                     return <path key={`${connector.fromId}-${connector.toId}`} d={path} className="ai-usage-graph-line" />;
-                   })}
-                 </svg>
-               )}
-               {aiUsageLoading && <div className="ai-usage-empty-state">Loading AI activity...</div>}
-               {aiUsageError && <div className="ai-usage-empty-state">Failed to load AI activity.</div>}
-               {!aiUsageLoading && !aiUsageError && aiUsageLevels.length === 0 && (
-                 <div className="ai-usage-empty-state">No AI activity available.</div>
-               )}
-               {!aiUsageLoading && !aiUsageError && aiUsageLevels.length > 0 && (
-                 <div className="ai-usage-graph-levels" ref={aiUsageGraphShellRef}>
-                   {aiUsageLevels.map((level, levelIndex) => (
-                     <div key={`level-${levelIndex}`} className="ai-usage-level">
-                       <div className="ai-usage-level-row">
-                         {level.map((record) => (
-                           <article
-                             key={record.id}
-                             data-ai-usage-node-id={record.id}
-                             className={`ai-usage-node-card ${record.selectedByHuman ? 'is-human-selected' : ''}`}
-                             role="button"
-                             tabIndex={0}
-                             aria-label={`View details for ${record.title}`}
-                             onClick={() => setSelectedAIUsageRecord(record)}
-                             onKeyDown={(event) => {
-                               if (event.key === 'Enter' || event.key === ' ') {
-                                 event.preventDefault();
-                                 setSelectedAIUsageRecord(record);
-                               }
-                             }}
-                           >
-                             <div className="ai-usage-node-header">
-                               <span className="ai-usage-node-provider">{record.provider}</span>
-                               <StatusBadge label={record.status} tone={getStatusTone(record.status)} />
-                             </div>
-                             <h2 className="ai-usage-node-title">{record.title}</h2>
-                             <p className="ai-usage-node-subtitle">
-                               {record.feature} · {record.model}
-                             </p>
-                             <div className="ai-usage-node-meta">
-                               <span>{record.tokens.total.toLocaleString()} tokens</span>
-                               <span>{formatCurrency(record.cost, 'USD')}</span>
-                             </div>
-                             <div className="ai-usage-node-footer">
-                               <span>{record.requestType}</span>
-                               <span>{record.latencyMillis.toLocaleString()} ms</span>
-                             </div>
-                           </article>
-                         ))}
-                       </div>
-                     </div>
-                   ))}
-                 </div>
-               )}
-             </div>
-             {selectedAIUsageRecord && (
-               <div
-                 className="ai-usage-modal-overlay"
-                 role="presentation"
-                 onClick={() => setSelectedAIUsageRecord(null)}
-               >
-                 <article
-                   className="ai-usage-modal"
-                   role="dialog"
-                   aria-modal="true"
-                   aria-label={`AI task details for ${selectedAIUsageRecord.title}`}
-                   onClick={(event) => event.stopPropagation()}
-                 >
-                   <div className="ai-usage-modal-header">
-                     <h3 className="ai-usage-modal-title">{selectedAIUsageRecord.title}</h3>
-                     <button
-                       type="button"
-                       className="ai-usage-modal-close"
-                       onClick={() => setSelectedAIUsageRecord(null)}
-                       aria-label="Close AI task details"
-                     >
-                       ×
-                     </button>
-                   </div>
-                   <div className="ai-usage-modal-body">
-                     <div className="ai-usage-modal-row"><strong>Status</strong><span><StatusBadge label={selectedAIUsageRecord.status} tone={getStatusTone(selectedAIUsageRecord.status)} /></span></div>
-                     <div className="ai-usage-modal-row"><strong>Provider</strong><span>{selectedAIUsageRecord.provider}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Model</strong><span>{selectedAIUsageRecord.model}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Feature</strong><span>{selectedAIUsageRecord.feature}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Request type</strong><span>{selectedAIUsageRecord.requestType}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Started</strong><span>{formatCompactDateTime(selectedAIUsageRecord.startedAt)}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Completed</strong><span>{formatCompactDateTime(selectedAIUsageRecord.completedAt)}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Latency</strong><span>{selectedAIUsageRecord.latencyMillis.toLocaleString()} ms</span></div>
-                     <div className="ai-usage-modal-row"><strong>Input tokens</strong><span>{selectedAIUsageRecord.tokens.input.toLocaleString()}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Output tokens</strong><span>{selectedAIUsageRecord.tokens.output.toLocaleString()}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Total tokens</strong><span>{selectedAIUsageRecord.tokens.total.toLocaleString()}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Cost</strong><span>{formatCurrency(selectedAIUsageRecord.cost, 'USD')}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Source</strong><span>{selectedAIUsageRecord.source}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Task ID</strong><span>{selectedAIUsageRecord.id}</span></div>
-                     <div className="ai-usage-modal-row"><strong>Parent task</strong><span>{selectedAIUsageRecord.parentTaskId ?? 'None'}</span></div>
-                     <div className="ai-usage-modal-row">
-                       <strong>Dependencies</strong>
-                       <span>{selectedAIUsageRecord.dependencyTaskIds.length > 0 ? selectedAIUsageRecord.dependencyTaskIds.join(', ') : 'None'}</span>
-                     </div>
-                     {selectedAIUsageRecord.selectedByHuman && (
-                       <div className="ai-usage-modal-row">
-                         <strong>Human checkpoint</strong>
-                         <span>{selectedAIUsageRecord.checkpointLabel ?? 'Manually approved dependency'}</span>
-                       </div>
-                     )}
-                   </div>
-                 </article>
-               </div>
-             )}
            </section>
          )}
         </div>
