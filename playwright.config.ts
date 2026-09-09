@@ -4,7 +4,10 @@ export default defineConfig({
   testDir: './playwright',
   snapshotPathTemplate: '{testDir}/{testFileName}-snapshots/{arg}{ext}',
   fullyParallel: false,
-  reporter: 'list',
+  reporter: [
+    ['list'],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+  ],
   use: {
     baseURL: 'http://127.0.0.1:3000',
     headless: true,

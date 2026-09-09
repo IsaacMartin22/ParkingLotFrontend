@@ -7,6 +7,10 @@ steps:
       - "npm test -- --watchAll=false"
 
   - label: ":playwright: End2End"
+    artifact_paths:
+      - "playwright/**/*.png"
+      - "playwright-report/**/*"
+      - "test-results/**/*"
     command:
       - "node --version"
       - "npm --version"
