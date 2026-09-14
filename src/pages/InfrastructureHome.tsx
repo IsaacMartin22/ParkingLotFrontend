@@ -1,5 +1,4 @@
 import React, { ChangeEvent, JSX, MouseEvent as ReactMouseEvent, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import PortfolioFooter from '../components/PortfolioFooter';
 import TopNav from '../components/TopNav';
 import useAPIDiagnostics from '../network/useAPIDiagnostics';
@@ -303,21 +302,21 @@ function formatTimestamp(value: string): string {
   return date.toLocaleString();
 }
 
-function getInitialInfrastructureTab(): 'infrastructure' | 'analytics' | 'chatbot' {
+function getInitialInfrastructureTab(): 'diagnostics' | 'analytics' | 'chatbot' {
   if (typeof window === 'undefined') {
-    return 'infrastructure';
+    return 'diagnostics';
   }
 
   const storedTab = window.sessionStorage.getItem(infrastructureTabStorageKey);
-  if (storedTab === 'analytics' || storedTab === 'chatbot' || storedTab === 'infrastructure') {
+  if (storedTab === 'analytics' || storedTab === 'chatbot' || storedTab === 'diagnostics') {
     return storedTab;
   }
 
-  return 'infrastructure';
+  return 'diagnostics';
 }
 
 function InfrastructureHome(): JSX.Element {
-  const [activeTab, setActiveTab] = useState<'infrastructure' | 'analytics' | 'chatbot'>(getInitialInfrastructureTab);
+  const [activeTab, setActiveTab] = useState<'diagnostics' | 'analytics' | 'chatbot'>(getInitialInfrastructureTab);
   const [analyticsColumnWidths, setAnalyticsColumnWidths] = useState<number[]>([8, 12, 12, 18, 12, 12, 12, 14]);
   const [eventTypeFilter, setEventTypeFilter] = useState<string>('PAGE_VIEW');
   const [sessionFilter, setSessionFilter] = useState<string>('');
@@ -602,11 +601,11 @@ function InfrastructureHome(): JSX.Element {
            <button
              type="button"
              role="tab"
-             aria-selected={activeTab === 'infrastructure'}
-             className={`interactions-tab ${activeTab === 'infrastructure' ? 'is-active' : ''}`}
-             onClick={() => setActiveTab('infrastructure')}
+             aria-selected={activeTab === 'diagnostics'}
+             className={`interactions-tab ${activeTab === 'diagnostics' ? 'is-active' : ''}`}
+             onClick={() => setActiveTab('diagnostics')}
            >
-             Infrastructure
+             Diagnostics
            </button>
            <button
              type="button"
@@ -628,7 +627,7 @@ function InfrastructureHome(): JSX.Element {
            </button>
           </div>
 
-          {activeTab === 'infrastructure' && (
+          {activeTab === 'diagnostics' && (
            <div className="infrastructure-compact-grid">
            <section className="infrastructure-compact-panel">
           <h3>Backend</h3>
