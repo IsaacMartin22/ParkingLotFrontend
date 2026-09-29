@@ -17,17 +17,21 @@ function PortfolioHome(): JSX.Element {
             <p><b>Las Vegas, NV - Office/Hybrid/Remote - Open to relocation</b></p>
             <p></p>
             <p>
-              I am a full-stack software engineer with experience building web applications, services, APIs, and infrastructure.
-              I am familiar with microservices architecture and a variety of AWS services. I have used AWS SQS for event messaging
-              when working with distributed systems, which has similarities with Kafka. Java is my preferred backend language,
-              TypeScript and React are my preferred frontend, and SQL is my preferred database query language. I have experience working
-              with all of the technologies listed in the adjacent column.
+              I am a full-stack software engineer with nearly five years of experience working on real-world production systems in the
+              Digital Asset Management industry - web applications, APIs, backend services, cloud infrastructure, and media distribution services
+              to name a few. Java is my primary backend language,
+              TypeScript and React are my preferred frontend technologies. I have extensive practical experience with AWS,
+              including SQS and other services used to build and operate distributed systems, as well as Docker, Kubernetes, CI/CD, and SQL.
             </p>
             <p>
-              I've been on the front lines of debugging critical, "all-hands-on-deck" production outages and have implemented hotfixes
-              to stabilize product functionality. I've also resolved thousands of lower-severity defects and worked cross-functionally
-              with product and support teams to implement new features and improve existing functionality. In one instance, I single-handedly
-              eliminated a manual support process by implementing self-service functionality.
+              Most of my professional experience has been focused on understanding and improving existing production systems rather
+              than simply building new features. I have investigated thousands of software defects (~IT-5000-IT-9000 in Jira during
+              my time with Widen), participated in on-call rotations,
+              responded to critical production incidents, implemented emergency fixes, and worked across the stack to diagnose problems
+              involving application code, APIs, databases, infrastructure, and distributed systems. I particularly enjoy the process of
+              taking a problem that is difficult to reproduce or understand, tracing it to its underlying cause, and implementing a
+              reliable fix. I have also designed and implemented new functionality when needed; for example, I independently built a
+              full-stack self-service system that completely eliminated a manual support process.
             </p>
             <p>
               I work with GitHub Copilot both professionally and personally to improve my productivity. Below is a RAG chatbot that I built
@@ -70,16 +74,10 @@ function PortfolioHome(): JSX.Element {
                 'Java',
                 'TypeScript',
                 'React',
-                'Python',
-                'C++',
-                'Rust',
                 'Spring Boot',
                 'Node.js',
                 'SQL',
-                'NoSQL',
-                'YAML',
-                'Groovy',
-                'AWS',
+                'DAM',
                 'AWS SQS',
                 'AWS S3',
                 'DynamoDB',
@@ -87,15 +85,12 @@ function PortfolioHome(): JSX.Element {
                 'Docker',
                 'Kubernetes',
                 'Git',
-                'Buildkite',
+                'CI/CD',
                 'REST APIs',
                 'RAG',
                 'Sumologic',
                 'Jest',
                 'JUnit',
-                'HTML',
-                'CSS',
-                'JavaScript',
                 'Grafana',
               ].map((skill) => (
                 <span key={skill} className="intro-skill-box">{skill}</span>

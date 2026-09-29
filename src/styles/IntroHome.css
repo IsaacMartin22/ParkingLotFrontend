@@ -119,7 +119,8 @@
 }
 
 .projects-page .intro-copy-block h1,
-.projects-page .intro-copy-block h2 {
+.projects-page .intro-copy-block h2,
+.projects-page .intro-copy-block p {
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;

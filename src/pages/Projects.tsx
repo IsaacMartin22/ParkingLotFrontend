@@ -20,7 +20,15 @@ function Projects(): JSX.Element {
           <section className="intro-copy-block">
             <h1>Projects</h1>
             <h2>Selected Work</h2>
+            <p>
+              Work responsibilities often take priority over what I would like to work on. I use personal projects
+              to explore technologies and engineering problems that interest me.
+              These projects give me an opportunity to independently make architectural decisions, experiment
+              with new technologies, and build systems from initial design through deployment and operation.
+            </p>
+
             <div className="projects-list">
+
               <article className="projects-item">
                 <div className="projects-item-header">
                   <h3>Portfolio Site</h3>
@@ -29,13 +37,15 @@ function Projects(): JSX.Element {
                 <p className="projects-item-timeline">Java, Typescript, React</p>
                 <ul className="projects-item-list">
                   <li>Built multiple services and repositories from the ground up - <a href={FRONTEND_GITHUB} target="_blank" rel="noopener noreferrer">Frontend</a>, <a href={API_GITHUB} target="_blank" rel="noopener noreferrer">Backend</a>, <a href={SDK_GITHUB} target="_blank" rel="noopener noreferrer">SDK</a>,
-                    SQL relational database, NoSQL vector search database, and integrations</li>
+                    SQL relational database, NoSQL vector search database, and integrations
+                  </li>
                   <li>Built a parking lot application that pushes live updates to clients with server-sent events - <a href={`${process.env.PUBLIC_URL}/parking-lots`} target="_blank" rel="noopener noreferrer">Interactive Demo</a></li>
                   <li>Collected analytics to evaluate user interaction with the site</li>
                   <li>Created a RAG-powered portfolio chatbot that uses vector search to facilitate recruiter information retrieval</li>
                   <li>Integrated external APIs and technologies including Render, Buildkite, Sumologic, OpenAI, PostgreSQL, and MongoDB</li>
                   <li>Established common artifacts shared between the service and SDK and published modules to Maven using semantic versioning</li>
                   <li>Released a public SDK for programmatic interaction with backend endpoints</li>
+                  <li>Hosted and deployed via AWS</li>
                 </ul>
               </article>
 
@@ -46,25 +56,10 @@ function Projects(): JSX.Element {
                 </div>
                 <p className="projects-item-timeline">Java</p>
                 <ul className="projects-item-list">
-                  <li>Built a playable card-battle prototype in libGDX with a focus on clean game-state flow, turn logic, and player interactions</li>
-                  <li>Explored 2D and 3D rendering and scene composition to create a more polished game presentation</li>
-                  <li>Designed gameplay systems for cards, effects, and decision-making while keeping the architecture maintainable</li>
-                  <li>Implemented dynamic asset loading and unloading to keep the game responsive</li>
-                  <li>Optimized memory usage and screen transitions to improve stability and reduce jank</li>
-                </ul>
-              </article>
-
-              <article className="projects-item">
-                <div className="projects-item-header">
-                  <h3>Work</h3>
-                  <p>Private</p>
-                </div>
-                <p className="projects-item-timeline">Java</p>
-                <ul className="projects-item-list">
-                  <li>Automated a manual support process by implementing full-stack self-service functionality for end users</li>
-                  <li>Added snackbar error messaging to reduce database load and improve the user experience</li>
-                  <li>Expanded API coverage for internal and external APIs and SDKs by creating new Spring Boot endpoints</li>
-                  <li>Resolved several critical defects and thousands of lower-severity defects over my tenure at Widen</li>
+                  <li>
+                    A desktop card game inspired by Slay the Spire I built using Java and libGDX. The project gave me experience
+                    designing game state, UI interactions, dynamic asset loading and unloading, and 2d and 3d rendering.
+                  </li>
                 </ul>
               </article>
 
