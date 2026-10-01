@@ -3,7 +3,7 @@ import { API_URL } from '../types/constants';
 import { AnalyticsRequest } from '../types/analytics';
 
 async function postAnalyticsRequest(request: AnalyticsRequest): Promise<void> {
-  if (request.currentUrl?.includes('localhost')) {
+  if (request.currentUrl?.includes('localhost') || request.currentUrl?.includes('127.0.0.')) {
     return;
   }
 
