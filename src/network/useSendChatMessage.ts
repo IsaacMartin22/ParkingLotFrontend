@@ -3,14 +3,62 @@ import { API_URL } from '../types/constants';
 
 interface ChatRequest {
   question: string;
+  model: string;
 }
 
 interface ChatResponse {
   answer: string;
 }
 
-async function sendChatMessage(message: string): Promise<string> {
-  const requestBody: ChatRequest = { question: message };
+function normalizeChatModels(raw: unknown): string[] {
+  if (Array.isArray(raw)) {
+    return raw
+      .map((item) => {
+        if (typeof item === 'string') return item;
+        if (item && typeof item === 'object') {
+          const candidate = item as {
+            name?: unknown;
+            model?: unknown;
+            value?: unknown;
+            modelName?: unknown;
+            model_name?: unknown;
+          };
+          const value = candidate.name ?? candidate.model ?? candidate.value ?? candidate.modelName ?? candidate.model_name;
+          return typeof value === 'string' ? value : '';
+        }
+        return '';
+      })
+      .filter((item): item is string => Boolean(item));
+  }
+
+  if (raw && typeof raw === 'object') {
+    const candidate = raw as {
+      models?: unknown;
+      availableModels?: unknown;
+      available_models?: unknown;
+      data?: unknown;
+    };
+    const nested = candidate.models ?? candidate.availableModels ?? candidate.available_models ?? candidate.data;
+    return normalizeChatModels(nested);
+  }
+
+  return [];
+}
+
+export function validateChatModelsResponse(response: unknown): string[] {
+  return normalizeChatModels(response);
+}
+
+export async function fetchAvailableChatModels(): Promise<string[]> {
+  const res = await fetch(`${API_URL}/chat/models`);
+  if (!res.ok) throw new Error(`Chat models API responded with ${res.status}`);
+
+  const data: unknown = await res.json();
+  return validateChatModelsResponse(data);
+}
+
+async function sendChatMessage(message: string, model: string): Promise<string> {
+  const requestBody: ChatRequest = { question: message, model };
   const res = await fetch(`${API_URL}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -22,5 +70,5 @@ async function sendChatMessage(message: string): Promise<string> {
 }
 
 export default function useSendChatMessage() {
-  return useMutation((message: string) => sendChatMessage(message));
+  return useMutation(({ message, model }: { message: string; model: string }) => sendChatMessage(message, model));
 }

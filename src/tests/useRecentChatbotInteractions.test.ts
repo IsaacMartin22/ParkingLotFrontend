@@ -2,6 +2,7 @@ import {
   validateChatbotInteractionResponse,
   validateRecentChatbotInteractionsResponse,
 } from '../network/useRecentChatbotInteractions';
+import { validateChatModelsResponse } from '../network/useSendChatMessage';
 
 describe('recent chatbot interaction validation', () => {
   it('retains valid chat interaction metrics returned by the API', () => {
@@ -48,5 +49,12 @@ describe('recent chatbot interaction validation', () => {
       vectorSearchDocumentCount: undefined,
       rating: undefined,
     });
+  });
+
+  it('normalizes the chatbot model list returned by the API', () => {
+    expect(validateChatModelsResponse({ models: ['gpt-4o', { model: 'claude-3-5-sonnet' }, ''] })).toEqual([
+      'gpt-4o',
+      'claude-3-5-sonnet',
+    ]);
   });
 });

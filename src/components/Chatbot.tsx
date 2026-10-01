@@ -1,5 +1,6 @@
 import React, { JSX, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import useSendChatMessage from '../network/useSendChatMessage';
+import { useQuery } from '@tanstack/react-query';
+import useSendChatMessage, { fetchAvailableChatModels } from '../network/useSendChatMessage';
 import '../styles/Chatbot.css';
 
 interface ChatMessage {
@@ -13,8 +14,21 @@ function Chatbot(): JSX.Element {
     { role: 'bot', text: 'I am a RAG chatbot that accesses a vector database about Isaac. Ask me questions' },
   ]);
   const [input, setInput] = useState('');
+  const [selectedModel, setSelectedModel] = useState('gpt-6.1-sol');
   const hasUserMessage = messages.some((msg) => msg.role === 'user');
   const { mutate: sendMessage, isLoading } = useSendChatMessage();
+  const { data: availableModels = [] } = useQuery(['chatModels'], fetchAvailableChatModels, {
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  const modelOptions = availableModels.length > 0 ? availableModels : ['gpt-6.1-sol'];
+
+  useEffect(() => {
+    if (availableModels.length && !availableModels.includes(selectedModel)) {
+      setSelectedModel(availableModels[0]);
+    }
+  }, [availableModels, selectedModel]);
 
   useEffect(() => {
     messagesRef.current?.scrollTo({
@@ -25,22 +39,25 @@ function Chatbot(): JSX.Element {
 
   function handleSend() {
     const trimmed = input.trim();
-    if (!trimmed || isLoading) return;
+    if (!trimmed || isLoading || !selectedModel) return;
 
     setMessages((prev) => [...prev, { role: 'user', text: trimmed }]);
     setInput('');
 
-    sendMessage(trimmed, {
-      onSuccess: (response) => {
-        setMessages((prev) => [...prev, { role: 'bot', text: response }]);
+    sendMessage(
+      { message: trimmed, model: selectedModel },
+      {
+        onSuccess: (response) => {
+          setMessages((prev) => [...prev, { role: 'bot', text: response }]);
+        },
+        onError: () => {
+          setMessages((prev) => [
+            ...prev,
+            { role: 'bot', text: 'Sorry, something went wrong. Please try again.' },
+          ]);
+        },
       },
-      onError: () => {
-        setMessages((prev) => [
-          ...prev,
-          { role: 'bot', text: 'Sorry, something went wrong. Please try again.' },
-        ]);
-      },
-    });
+    );
   }
 
   function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
@@ -67,25 +84,44 @@ function Chatbot(): JSX.Element {
         )}
       </div>
 
-      <div className="chatbot-input-row">
-        <textarea
-          className="chatbot-input"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask a question about my background..."
-          rows={1}
-          disabled={isLoading}
-        />
-        <button
-          className="chatbot-send-btn"
-          onClick={handleSend}
-          disabled={isLoading || !input.trim()}
-          aria-label="Send message"
-          type="button"
-        >
-          Send
-        </button>
+      <div className="chatbot-composer">
+        <div className="chatbot-input-row">
+          <textarea
+            className="chatbot-input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask a question about my background..."
+            rows={1}
+            disabled={isLoading || !selectedModel}
+          />
+
+          <label className="chatbot-model-label" htmlFor="chatbot-model-select">
+            <span className="chatbot-model-label-text">Model</span>
+            <select
+              id="chatbot-model-select"
+              className="chatbot-model-select"
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+            >
+              {modelOptions.map((model) => (
+                <option key={model} value={model}>
+                  {model}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <button
+            className="chatbot-send-btn"
+            onClick={handleSend}
+            disabled={isLoading || !input.trim() || !selectedModel}
+            aria-label="Send message"
+            type="button"
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -100,14 +100,69 @@
   40% { transform: translateY(-5px); opacity: 1; }
 }
 
-.chatbot-input-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  padding: 10px 12px;
+.chatbot-composer {
   border-top: 1px solid var(--las-border, #e2e8f0);
   background: transparent;
+  padding: 10px 12px 12px;
   flex-shrink: 0;
+}
+
+.chatbot-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.chatbot-model-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #cbd5e1;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  transform: translateY(1px);
+}
+
+.chatbot-model-label-text {
+  white-space: nowrap;
+}
+
+.chatbot-model-select {
+  min-width: 170px;
+  max-width: 170px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.62);
+  color: #e2e8f0;
+  padding: 8px 30px 8px 12px;
+  font-size: 0.82rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.4;
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #e2e8f0 50%), linear-gradient(135deg, #e2e8f0 50%, transparent 50%);
+  background-position: calc(100% - 16px) calc(50% - 2px), calc(100% - 11px) calc(50% - 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.chatbot-model-select:focus {
+  outline: none;
+  border-color: rgba(148, 163, 184, 0.7);
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.15);
+}
+
+.chatbot-model-select option {
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 0.82rem;
+  padding: 8px 12px;
 }
 
 .chatbot-input {
@@ -115,7 +170,7 @@
   resize: none;
   border: 1px solid var(--las-border, #e2e8f0);
   border-radius: 12px;
-  padding: 9px 12px;
+  padding: 8px 12px 9px;
   font-size: 0.92rem;
   font-family: inherit;
   color: #e2e8f0;
@@ -125,6 +180,7 @@
   overflow-y: auto;
   line-height: 1.5;
   transition: border-color 0.2s ease;
+  transform: translateY(1px);
 }
 
 .chatbot-input:focus {
@@ -152,6 +208,7 @@
   align-items: center;
   justify-content: center;
   transition: background 0.2s ease, transform 0.15s ease;
+  transform: translateY(1px);
 }
 
 .chatbot-send-btn:hover:not(:disabled) {
