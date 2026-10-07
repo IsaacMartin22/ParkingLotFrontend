@@ -28,9 +28,8 @@ function PortfolioHome(): JSX.Element {
               than simply building new features. I have investigated thousands of software defects (~IT-5000-IT-9000 in Jira during
               my time with Widen), participated in on-call rotations,
               responded to critical production incidents, implemented emergency fixes, and worked across the stack to diagnose problems
-              involving application code, APIs, databases, infrastructure, and distributed systems. I particularly enjoy the process of
-              taking a problem that is difficult to reproduce or understand, tracing it to its underlying cause, and implementing a
-              reliable fix. I have also designed and implemented new functionality when needed; for example, I independently built a
+              involving application code, APIs, databases, infrastructure, and distributed systems. I have also designed and implemented
+              new functionality when needed; for example, I independently built a
               full-stack self-service system that completely eliminated a manual support process.
             </p>
             <p>
