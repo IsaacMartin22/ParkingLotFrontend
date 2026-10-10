@@ -1,13 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
+import { ChatbotResponse } from '../types/chatbot';
 import { API_URL } from '../types/constants';
 
 interface ChatRequest {
   question: string;
   model: string;
-}
-
-interface ChatResponse {
-  answer: string;
 }
 
 function normalizeChatModels(raw: unknown): string[] {
@@ -57,16 +54,16 @@ export async function fetchAvailableChatModels(): Promise<string[]> {
   return validateChatModelsResponse(data);
 }
 
-async function sendChatMessage(message: string, model: string): Promise<string> {
+async function sendChatMessage(message: string, model: string): Promise<ChatbotResponse> {
   const requestBody: ChatRequest = { question: message, model };
-  const res = await fetch(`${API_URL}/chat`, {
+  const res = await fetch(`${API_URL}/chat-with-citation`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(requestBody),
   });
   if (!res.ok) throw new Error(`Chat API responded with ${res.status}`);
-  const data: ChatResponse = await res.json();
-  return data.answer;
+  const data: ChatbotResponse = await res.json();
+  return data;
 }
 
 export default function useSendChatMessage() {
