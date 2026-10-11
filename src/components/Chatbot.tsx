@@ -91,7 +91,7 @@ function Chatbot(): JSX.Element {
             {
               role: 'bot',
               text: response.answer,
-              citation: response.citation,
+              //citation: response.citation,
             },
           ]);
         },
