@@ -42,6 +42,7 @@ function Projects(): JSX.Element {
                   <li>Built a parking lot application that pushes live updates to clients with server-sent events - <a href={`${process.env.PUBLIC_URL}/parking-lots`} target="_blank" rel="noopener noreferrer">Interactive Demo</a></li>
                   <li>Collected analytics to evaluate user interaction with the site</li>
                   <li>Created a RAG-powered portfolio chatbot that uses vector search to facilitate recruiter information retrieval</li>
+                  <li>Created an internal MCP for the RAG chatbot to access site analytics</li>
                   <li>Integrated external APIs and technologies including Render, Buildkite, Sumologic, OpenAI, PostgreSQL, and MongoDB</li>
                   <li>Established common module shared between the service and SDK and published artifacts to Maven using semantic versioning</li>
                   <li>Full ownership of services requiring 24/7 uptime - Hosted and deployed via AWS with internal observability</li>
@@ -71,6 +72,7 @@ function Projects(): JSX.Element {
                 <ul className="projects-item-list">
                   <li>Contributed to Lichess, the community-driven chess website</li>
                   <li>Worked on Hiring-agent, HackerRank's open-source AI resume parser and evaluator using PyMuPDF</li>
+                  <li>Contributed to video.js, an open-source HTML5 video player</li>
                   <li>Open-sourced my other projects, including Portfolio Frontend, Portfolio Backend, Portfolio SDK, and the libGDX card game</li>
                 </ul>
               </article>
