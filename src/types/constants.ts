@@ -1,4 +1,4 @@
-const API_URL = 'http://159.203.113.71/api';
+const API_URL = 'https://api.isaaccmart.in/api';
 
 const SDK_GITHUB = 'https://github.com/IsaacMartin22/ParkingLotEventGenerator';
 const API_GITHUB = 'https://github.com/IsaacMartin22/ParkingLotAPI';
