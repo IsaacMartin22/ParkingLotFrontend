@@ -18,7 +18,7 @@
 }
 
 .infrastructure-header-divider {
-  height: 1px;
+  height: 2px;
   flex-shrink: 0;
   margin: 13px 0 21px;
   background: #153b6d;

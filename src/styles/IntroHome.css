@@ -66,8 +66,9 @@
 
 .intro-header-bar {
   width: 100%;
+  height: 2px;
+  flex-shrink: 0;
   margin-top: 13px;
-  padding: 1px;
   background: #153b6d;
 }
 
@@ -436,11 +437,6 @@
     width: 100%;
     justify-content: flex-end;
     flex-wrap: wrap;
-  }
-
-  .intro-header-bar {
-    margin-top: 8px;
-    padding: 24px 0;
   }
 
   .intro-header-bar-summary {

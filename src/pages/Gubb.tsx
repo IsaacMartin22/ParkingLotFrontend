@@ -28,6 +28,7 @@ function Gubb(): JSX.Element {
   return (
     <div className="intro-home">
       <TopNav />
+      <section className="intro-header-bar" aria-label="Gubb overview" />
       <main className="container intro-main">
         <h1>Gubb</h1>
         <section aria-label="About Gubb">
