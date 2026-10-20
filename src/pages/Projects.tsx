@@ -28,6 +28,16 @@ function Projects(): JSX.Element {
             </p>
 
             <div className="projects-list">
+              <article className="projects-item">
+                <div className="projects-item-header">
+                  <h3>Gubb</h3>
+                  <a href={FRONTEND_GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+                </div>
+                <p className="projects-item-timeline">Java, yt-dlp</p>
+                <ul className="projects-item-list">
+                  <li>Video downloading and streaming tool. Currently supporting only TikTok, support for additional sites TBD</li>
+                </ul>
+              </article>
 
               <article className="projects-item">
                 <div className="projects-item-header">
@@ -36,14 +46,13 @@ function Projects(): JSX.Element {
                 </div>
                 <p className="projects-item-timeline">Java, Typescript, React</p>
                 <ul className="projects-item-list">
-                  <li>Features Gubb, a video downloading tool currently only supporting TikTok</li>
-                  <li>Built multiple services and repositories from the ground up - <a href={FRONTEND_GITHUB} target="_blank" rel="noopener noreferrer">Frontend</a>, <a href={API_GITHUB} target="_blank" rel="noopener noreferrer">Backend</a>, <a href={SDK_GITHUB} target="_blank" rel="noopener noreferrer">SDK</a>,
-                    SQL relational database, NoSQL vector search database, and integrations
+                  <li>Full-stack system built from the ground up - <a href={FRONTEND_GITHUB} target="_blank" rel="noopener noreferrer">Frontend</a>, <a href={API_GITHUB} target="_blank" rel="noopener noreferrer">Backend</a>, <a href={SDK_GITHUB} target="_blank" rel="noopener noreferrer">SDK</a>,
+                    PostgreSQL relational database, NoSQL MongoDB database
                   </li>
-                  <li>Collected analytics to evaluate user interaction with the site</li>
-                  <li>Created a RAG-powered portfolio chatbot that uses vector search to facilitate recruiter information retrieval</li>
-                  <li>Created an internal MCP for the RAG chatbot to access site analytics</li>
-                  <li>Integrated external APIs and technologies including Render, Buildkite, Sumologic, OpenAI, PostgreSQL, and MongoDB</li>
+                  <li>Analytics to evaluate user interaction with the site</li>
+                  <li>RAG-powered portfolio chatbot that uses vector search to facilitate recruiter information retrieval</li>
+                  <li>Internal MCP for the RAG chatbot to access site analytics</li>
+                  <li>API integrations with Render, Buildkite, and OpenAI</li>
                   <li>Established common module shared between the service and SDK and published artifacts to Maven using semantic versioning</li>
                 </ul>
               </article>
@@ -56,8 +65,8 @@ function Projects(): JSX.Element {
                 <p className="projects-item-timeline">Java</p>
                 <ul className="projects-item-list">
                   <li>
-                    A desktop card game inspired by Slay the Spire I built using Java and libGDX. The project gave me experience
-                    designing game state, UI interactions, dynamic asset loading and unloading, and 2d and 3d rendering.
+                    A desktop card game inspired by Slay the Spire I built using Java and libGDX. Relevant concepts include
+                    game state, UI interactions, dynamic asset loading and unloading, and 2d and 3d rendering.
                   </li>
                 </ul>
               </article>

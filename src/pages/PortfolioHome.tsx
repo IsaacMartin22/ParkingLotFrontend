@@ -24,19 +24,20 @@ function PortfolioHome(): JSX.Element {
               including SQS and other services used to build and operate distributed systems, as well as Docker, Kubernetes, CI/CD, and SQL.
             </p>
             <p>
-              Most of my professional experience has been focused on understanding and improving existing production systems rather
-              than simply building new features. I have investigated thousands of software defects (~IT-5000-IT-9000 in Jira during
-              my time with Widen), participated in on-call rotations,
-              responded to critical production incidents, implemented emergency fixes, and worked across the stack to diagnose problems
-              involving application code, APIs, databases, infrastructure, and distributed systems. I have also designed and implemented
-              new functionality when needed; for example, I independently built a
-              full-stack self-service system that completely eliminated a manual support process.
+              My professional experience has been focused more on understanding and improving existing production systems
+              than building new features. I have investigated I would estimate 3000 reported defects (Not an exaggerated number),
+              participated in on-call rotations, responded to critical production incidents, implemented emergency fixes, and
+              worked across the stack to diagnose problems
+              involving application code, APIs, databases, infrastructure, and distributed systems. Less commonly I have designed and implemented
+              new functionality; for example, I independently built a full-stack self-service system that completely eliminated a manual support process.
             </p>
             <p>
               I work with GitHub Copilot both professionally and personally to improve my productivity. Below is a RAG chatbot that I built
               using OpenAI. I understand, endorse, and use AI when it is well suited to the task at hand. Synthesizing known information is
               one such task, so I've equipped the chatbot with my resume and a collection of hand-written answers to common
-              behavioral questions (e.g., "What project are you most proud of?") via a MongoDB vector database.
+              behavioral questions (e.g., "What project are you most proud of?") via a MongoDB vector database. The chatbot also accesses an
+              internal MCP which allows it read-only access to analytics for this site, so feel free to ask it about analytics you see in the Internals tab
+              as well.
             </p>
             <p>
               <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="resume-link" download>

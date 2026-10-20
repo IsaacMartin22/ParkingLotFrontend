@@ -22,7 +22,7 @@ function Contact(): JSX.Element {
           <section className="intro-copy-block">
             <h1>Contact</h1>
             <p className="contact-intro">
-              Reach out about a role, a project, or a collaboration. Send a quick note and I&apos;ll get back to you.
+
             </p>
 
             <form className="contact-form" onSubmit={handleSubmit}>
@@ -37,7 +37,7 @@ function Contact(): JSX.Element {
               />
 
               <button type="submit" className="contact-submit-button" disabled={isPending}>
-                {isPending ? 'Sending...' : 'Send Message'}
+                {isPending ? 'Sending...' : 'Send Email'}
               </button>
 
               {isSuccess && (
