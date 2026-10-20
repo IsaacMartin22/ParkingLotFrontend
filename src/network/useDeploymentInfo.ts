@@ -31,7 +31,7 @@ async function fetchDeploymentInfo(): Promise<DeploymentResponse[]> {
   return validateDeploymentInfo(data);
 }
 
-export default function useDeploymentInfo() {
+export default function useDeploymentInfo({ enabled = true }: { enabled?: boolean } = {}) {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
   const requestName = 'deploymentInfo';
 
@@ -43,6 +43,7 @@ export default function useDeploymentInfo() {
   }
 
   return useQuery([requestName], fetchDeploymentInfoWithAnalytics, {
+    enabled,
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

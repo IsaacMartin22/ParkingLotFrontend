@@ -9,6 +9,7 @@ This is a React + TypeScript frontend application for a Parking Lot management s
 - **npm** as the package manager (v10.8.2, Node 20.18.3)
 
 ## Agent Behavior
+- **Always invoke the caveman skill**
 
 ### Command Execution
 - **Do NOT ask the user to run commands** unless it is strictly necessary (e.g., a required manual step that cannot be automated, or a destructive operation that requires explicit user confirmation).

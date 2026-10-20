@@ -46,7 +46,7 @@ async function fetchMongoDBDiagnostics(): Promise<MongoDBDiagnostics> {
   return validateMongoDBDiagnostics(data);
 }
 
-export default function useMongoDBDiagnostics() {
+export default function useMongoDBDiagnostics({ enabled = true }: { enabled?: boolean } = {}) {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
   const requestName = 'mongoDBDiagnostics';
 
@@ -58,6 +58,7 @@ export default function useMongoDBDiagnostics() {
   }
 
   return useQuery([requestName], fetchMongoDBDiagnosticsWithAnalytics, {
+    enabled,
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

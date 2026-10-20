@@ -65,7 +65,7 @@ async function fetchBuildkiteInfo(): Promise<BuildkiteBuildResponse[]> {
   return validateBuildkiteInfo(data);
 }
 
-export default function useBuildkiteInfo() {
+export default function useBuildkiteInfo({ enabled = true }: { enabled?: boolean } = {}) {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
   const requestName = 'buildkiteInfo';
 
@@ -77,6 +77,7 @@ export default function useBuildkiteInfo() {
   }
 
   return useQuery([requestName], fetchBuildkiteInfoWithAnalytics, {
+    enabled,
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

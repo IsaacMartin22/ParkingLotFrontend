@@ -331,21 +331,22 @@ function InfrastructureHome(): JSX.Element {
     ipAddress: false,
     timestamp: true,
   });
-  const { data: apiDiagnostics, isLoading: apiLoading, isError: apiError, error: apiErrorObject } = useAPIDiagnostics();
-  const { data: databaseDiagnostics, isLoading: databaseLoading, isError: databaseError, error: databaseErrorObject } = useDatabaseDiagnostics();
-  const { data: mongoDBDiagnostics, isLoading: mongoDBLoading, isError: mongoDBError, error: mongoDBErrorObject } = useMongoDBDiagnostics();
-  const { data: buildInfo = [], error: buildsErrorObject } = useBuildkiteInfo();
-  const { data: deploymentInfo = [], error: deploymentsErrorObject } = useDeploymentInfo();
+  const diagnosticsEnabled = activeTab === 'diagnostics';
+  const { data: apiDiagnostics, isLoading: apiLoading, isError: apiError, error: apiErrorObject } = useAPIDiagnostics({ enabled: diagnosticsEnabled });
+  const { data: databaseDiagnostics, isLoading: databaseLoading, isError: databaseError, error: databaseErrorObject } = useDatabaseDiagnostics({ enabled: diagnosticsEnabled });
+  const { data: mongoDBDiagnostics, isLoading: mongoDBLoading, isError: mongoDBError, error: mongoDBErrorObject } = useMongoDBDiagnostics({ enabled: diagnosticsEnabled });
+  const { data: buildInfo = [], error: buildsErrorObject } = useBuildkiteInfo({ enabled: diagnosticsEnabled });
+  const { data: deploymentInfo = [], error: deploymentsErrorObject } = useDeploymentInfo({ enabled: diagnosticsEnabled });
   const {
     data: analyticsEvents,
     isLoading: analyticsLoading,
     isError: analyticsError,
-  } = useAnalyticsEvents({ query: analyticsQuery });
+  } = useAnalyticsEvents({ query: analyticsQuery, enabled: activeTab === 'analytics' });
   const {
     data: recentChatbotInteractions,
     isLoading: chatbotInteractionsLoading,
     isError: chatbotInteractionsError,
-  } = useRecentChatbotInteractions();
+  } = useRecentChatbotInteractions({ enabled: activeTab === 'chatbot' });
   useAnalyticsErrorReporter(apiErrorObject, 'Failed to load API diagnostics');
   useAnalyticsErrorReporter(databaseErrorObject, 'Failed to load database diagnostics');
   useAnalyticsErrorReporter(mongoDBErrorObject, 'Failed to load MongoDB diagnostics');

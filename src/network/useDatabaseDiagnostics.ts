@@ -46,7 +46,7 @@ async function fetchDatabaseDiagnostics(): Promise<DatabaseDiagnostics> {
   return validateDatabaseDiagnostics(data);
 }
 
-export default function useDatabaseDiagnostics() {
+export default function useDatabaseDiagnostics({ enabled = true }: { enabled?: boolean } = {}) {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
   const requestName = 'databaseDiagnostics';
 
@@ -58,6 +58,7 @@ export default function useDatabaseDiagnostics() {
   }
 
   return useQuery([requestName], fetchDatabaseDiagnosticsWithAnalytics, {
+    enabled,
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

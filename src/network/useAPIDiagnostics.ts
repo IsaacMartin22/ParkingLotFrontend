@@ -43,7 +43,7 @@ async function fetchAPIDiagnostics(): Promise<APIDiagnostics> {
   return validateAPIDiagnostics(data);
 }
 
-export default function useAPIDiagnostics() {
+export default function useAPIDiagnostics({ enabled = true }: { enabled?: boolean } = {}) {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
   const requestName = 'apiDiagnostics';
 
@@ -55,6 +55,7 @@ export default function useAPIDiagnostics() {
   }
 
   return useQuery([requestName], fetchAPIDiagnosticsWithAnalytics, {
+    enabled,
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

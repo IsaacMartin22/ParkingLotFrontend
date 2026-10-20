@@ -15,6 +15,7 @@ function TopNav({ className = '' }: TopNavProps): JSX.Element {
         <Link to="/projects" className="intro-top-nav-link">Projects</Link>
         <Link to="/infrastructure" className="intro-top-nav-link">Infrastructure</Link>
         <Link to="/contact" className="intro-top-nav-link">Contact</Link>
+        <Link to="/gubb" className="intro-top-nav-link">Gubb</Link>
       </div>
     </nav>
   );

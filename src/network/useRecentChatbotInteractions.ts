@@ -55,7 +55,7 @@ async function fetchRecentChatbotInteractions(): Promise<RecentChatbotInteractio
   return validateRecentChatbotInteractionsResponse(data);
 }
 
-export default function useRecentChatbotInteractions() {
+export default function useRecentChatbotInteractions({ enabled = true }: { enabled?: boolean } = {}) {
   const { mutate: postAnalyticsRequest } = usePostAnalyticsRequest();
   const requestName = 'recentChatbotInteractions';
 
@@ -67,6 +67,7 @@ export default function useRecentChatbotInteractions() {
   }
 
   return useQuery([requestName], fetchRecentChatbotInteractionsWithAnalytics, {
+    enabled,
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

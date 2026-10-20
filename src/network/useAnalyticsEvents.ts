@@ -65,6 +65,7 @@ function normalizeAnalyticsEvents(data: AnalyticsQueryResponse): AnalyticsQueryR
 
 export type AnalyticsEventsQueryOptions = {
   query: AnalyticsQuery;
+  enabled?: boolean;
 };
 
 async function fetchAnalyticsEvents(query: AnalyticsQuery): Promise<AnalyticsQueryResponse> {
@@ -83,8 +84,9 @@ async function fetchAnalyticsEvents(query: AnalyticsQuery): Promise<AnalyticsQue
   return normalizeAnalyticsEvents(data);
 }
 
-export default function useAnalyticsEvents({ query }: AnalyticsEventsQueryOptions) {
+export default function useAnalyticsEvents({ query, enabled = true }: AnalyticsEventsQueryOptions) {
   return useQuery(['analyticsEvents', query], () => fetchAnalyticsEvents(query), {
+    enabled,
     staleTime: 30_000,
     cacheTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

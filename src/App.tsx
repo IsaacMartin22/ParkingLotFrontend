@@ -11,6 +11,7 @@ import InfrastructureHome from "./pages/InfrastructureHome";
 import PortfolioHome from './pages/PortfolioHome';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
+import Gubb from './pages/Gubb';
 import type { AnalyticsRequest, ClickPayload } from './types/analytics';
 
 const queryClient = new QueryClient();
@@ -121,6 +122,7 @@ function AppShell(): JSX.Element {
         <Route path="/" element={<PortfolioHome />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/gubb" element={<Gubb />} />
         <Route path="/infrastructure" element={<InfrastructureHome />} />
         <Route path="/interactions" element={<Navigate to="/infrastructure" replace />} />
         <Route path="/dashboards" element={<Navigate to="/infrastructure" replace />} />
