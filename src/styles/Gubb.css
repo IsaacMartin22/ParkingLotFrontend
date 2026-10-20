@@ -1,25 +1,66 @@
-.gubb-videos {
+﻿.gubb-section {
   margin-top: 32px;
 }
 
-.gubb-videos-header,
-.gubb-video-actions {
+.gubb-section h2 {
+  margin: 0 0 12px;
+}
+
+.gubb-section-header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
-.gubb-video-list {
+.gubb-section-header h2 {
+  margin: 0;
+  margin-right: auto;
+}
+
+.gubb-muted {
+  opacity: 0.75;
+}
+
+.gubb-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gubb-form input {
+  flex: 1 1 280px;
+  max-width: 500px;
+  padding: 8px;
+}
+
+.gubb-form button,
+.gubb-section button {
+  padding: 8px 12px;
+}
+
+.gubb-preview {
+  width: 280px;
+  max-width: 100%;
+}
+
+.gubb-video-grid {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 900px;
   gap: 16px;
+  margin: 16px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .gubb-video {
-  min-width: 0;
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
   border: 1px solid var(--las-border);
   border-radius: 10px;
   overflow-wrap: anywhere;
@@ -28,7 +69,6 @@
 .gubb-video-player {
   display: block;
   width: 100%;
-  max-width: 360px;
   aspect-ratio: 9 / 16;
   object-fit: contain;
   background: #000;
@@ -38,7 +78,9 @@
 .gubb-video dl {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 8px 16px;
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 0.85rem;
 }
 
 .gubb-video dt {
@@ -49,14 +91,21 @@
   margin: 0;
 }
 
+.gubb-video-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .gubb-video-actions a {
   color: #93c5fd;
 }
 
-.gubb-videos button {
-  padding: 8px 12px;
+.gubb-video-actions button {
+  padding: 6px 10px;
 }
 
-.gubb-videos [role="alert"] {
+.gubb-section [role="alert"] {
   color: #fca5a5;
 }

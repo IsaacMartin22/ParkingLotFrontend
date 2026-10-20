@@ -62,14 +62,17 @@ describe('stored Gubb videos', () => {
     }
   }
 
-  function renderVideos(latestJobId: string | null = video.jobId) {
+  function renderVideos(expand = true) {
     act(() => {
       root.render(
         <QueryClientProvider client={queryClient}>
-          <GubbVideos latestJobId={latestJobId} />
+          <GubbVideos />
         </QueryClientProvider>
       );
     });
+    if (expand) {
+      act(() => container.querySelector<HTMLButtonElement>('[aria-label="Toggle all videos"]')!.click());
+    }
   }
 
   beforeEach(() => {
@@ -143,33 +146,20 @@ describe('stored Gubb videos', () => {
     expect(card.querySelector('.gubb-video-actions')).not.toBeNull();
   });
 
-  it('shows only the latest converted video until all videos are requested', async () => {
+  it('keeps all videos collapsed until requested, rendering each in its own card', async () => {
     const olderVideo = { ...video, jobId: 'job-0', url: 'https://example.com/older.mp4' };
     respond([olderVideo, video]);
-    renderVideos(video.jobId);
-    await waitFor(() => expect(container.querySelectorAll('.gubb-video')).toHaveLength(1));
-    expect(container.querySelector('video')?.src).toBe(video.url);
-
-    act(() => container.querySelector<HTMLButtonElement>('[aria-label="Toggle other videos"]')!.click());
-    expect(container.querySelectorAll('.gubb-video')).toHaveLength(2);
-
-    act(() => container.querySelector<HTMLButtonElement>('[aria-label="Toggle other videos"]')!.click());
-    expect(container.querySelectorAll('.gubb-video')).toHaveLength(1);
-    expect(container.querySelector('video')?.src).toBe(video.url);
-
-    renderVideos(olderVideo.jobId);
-    expect(container.querySelectorAll('.gubb-video')).toHaveLength(1);
-    expect(container.querySelector('video')?.src).toBe(olderVideo.url);
-  });
-
-  it('hides stored videos until a conversion is selected, with an option to show all', async () => {
-    respond([video]);
-    renderVideos(null);
-    await waitFor(() => expect(container.textContent).toContain('No stored video matches the latest conversion.'));
+    renderVideos(false);
+    await waitFor(() => expect(container.textContent).toContain('All videos (2)'));
     expect(container.querySelectorAll('.gubb-video')).toHaveLength(0);
 
-    act(() => container.querySelector<HTMLButtonElement>('[aria-label="Toggle other videos"]')!.click());
-    expect(container.querySelectorAll('.gubb-video')).toHaveLength(1);
+    const toggle = container.querySelector<HTMLButtonElement>('[aria-label="Toggle all videos"]')!;
+    act(() => toggle.click());
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    expect(container.querySelectorAll('.gubb-video-grid > li > .gubb-video')).toHaveLength(2);
+
+    act(() => toggle.click());
+    expect(container.querySelectorAll('.gubb-video')).toHaveLength(0);
   });
 
   it('shows video metadata and refreshes the list after a confirmed deletion', async () => {
