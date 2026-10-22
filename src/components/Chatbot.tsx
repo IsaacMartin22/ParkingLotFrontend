@@ -44,7 +44,7 @@ function getCitationUrl(citation: string): string | undefined {
 function Chatbot(): JSX.Element {
   const messagesRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'bot', text: 'I am a RAG chatbot that accesses a vector database about Isaac. Ask me questions' },
+    { role: 'bot', text: 'Have questions about Isaac or this site? See what I can do.' },
   ]);
   const [input, setInput] = useState('');
   const [inputHistoryIndex, setInputHistoryIndex] = useState(-1);

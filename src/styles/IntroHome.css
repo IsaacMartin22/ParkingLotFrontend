@@ -132,6 +132,48 @@
   margin-top: 14px;
 }
 
+.intro-tools {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.58);
+}
+
+.intro-tools h2 {
+  margin: 0 0 12px;
+  color: #f8fafc;
+  font-size: 1.1rem;
+}
+
+.intro-tools-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.intro-tools-list li {
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 6px;
+  color: #e2e8f0;
+}
+
+.intro-tools-list strong {
+  color: #93c5fd;
+  overflow-wrap: anywhere;
+}
+
+.intro-tools-list p {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .resume-link {
   display: inline-block;
   margin-top: 8px;

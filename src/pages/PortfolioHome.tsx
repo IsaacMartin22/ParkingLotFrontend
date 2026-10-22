@@ -1,10 +1,16 @@
 import React, { JSX } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Chatbot from '../components/Chatbot';
 import PortfolioFooter from '../components/PortfolioFooter';
 import TopNav from '../components/TopNav';
+import { fetchAvailableChatTools } from '../network/useSendChatMessage';
 import '../styles/IntroHome.css';
 
 function PortfolioHome(): JSX.Element {
+  const availableTools = useQuery(['chatTools'], fetchAvailableChatTools, {
+    staleTime: 5 * 60 * 1000,
+  });
+
   return (
     <div className="intro-home">
       <TopNav />
@@ -18,27 +24,32 @@ function PortfolioHome(): JSX.Element {
             <p></p>
             <p>
               I am a full-stack software engineer with nearly five years of experience working on real-world production systems in the
-              Digital Asset Management industry - web applications, APIs, backend services, cloud infrastructure, and media distribution services
-              to name a few. Java is my primary backend language,
+              Digital Asset Management industry - web applications, APIs, backend services, and cloud infrastructure. Java is my primary backend language,
               TypeScript and React are my preferred frontend technologies. I have extensive practical experience with AWS,
               including SQS and other services used to build and operate distributed systems, as well as Docker, Kubernetes, CI/CD, and SQL.
             </p>
             <p>
-              My professional experience has been focused more on understanding and improving existing production systems
-              than building new features. I have investigated I would estimate 3000 reported defects (Not an exaggerated number),
-              participated in on-call rotations, responded to critical production incidents, implemented emergency fixes, and
-              worked across the stack to diagnose problems
-              involving application code, APIs, databases, infrastructure, and distributed systems. Less commonly I have designed and implemented
-              new functionality; for example, I independently built a full-stack self-service system that completely eliminated a manual support process.
-            </p>
-            <p>
               I work with GitHub Copilot both professionally and personally to improve my productivity. Below is a RAG chatbot that I built
-              using OpenAI. I understand, endorse, and use AI when it is well suited to the task at hand. Synthesizing known information is
-              one such task, so I've equipped the chatbot with my resume and a collection of hand-written answers to common
-              behavioral questions (e.g., "What project are you most proud of?") via a MongoDB vector database. The chatbot also accesses an
-              internal MCP which allows it read-only access to analytics for this site, so feel free to ask it about analytics you see in the Internals tab
-              as well.
+              using OpenAI. I understand, endorse, and use AI when it is well suited to the task at hand, and MCPs are a great way of integrating
+              LLMs and restricting them to tasks they can handle well. My backend hosts an MCP server I have built, it provides the chatbot with
+              access to the tools described below.
             </p>
+            <section className="intro-tools" aria-labelledby="intro-tools-heading">
+              <h2 id="intro-tools-heading">Tools the chatbot can use</h2>
+              {availableTools.isLoading && <p role="status">Loading available tools...</p>}
+              {availableTools.isError && <p role="alert">Available tools could not be loaded.</p>}
+              {availableTools.data?.tools.length === 0 && <p>No tools are currently available.</p>}
+              {availableTools.data && availableTools.data.tools.length > 0 && (
+                <ul className="intro-tools-list">
+                  {availableTools.data.tools.map((tool) => (
+                    <li key={tool.name}>
+                      <strong>{tool.name}</strong>
+                      {tool.description && <p>{tool.description}</p>}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
             <p>
               <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="resume-link" download>
                 Download my resume
@@ -80,14 +91,13 @@ function PortfolioHome(): JSX.Element {
                 'DAM',
                 'AWS SQS',
                 'AWS S3',
-                'DynamoDB',
                 'Playwright',
                 'Docker',
                 'Kubernetes',
                 'Git',
                 'CI/CD',
                 'REST APIs',
-                'RAG',
+                'RAG/MCPs',
                 'Sumologic',
                 'Jest',
                 'JUnit',

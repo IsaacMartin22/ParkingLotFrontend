@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { ChatbotResponse } from '../types/chatbot';
+import { AvailableToolsResponse, ChatbotResponse } from '../types/chatbot';
 import { API_URL } from '../types/constants';
 
 interface ChatRequest {
@@ -52,6 +52,14 @@ export async function fetchAvailableChatModels(): Promise<string[]> {
 
   const data: unknown = await res.json();
   return validateChatModelsResponse(data);
+}
+
+export async function fetchAvailableChatTools(): Promise<AvailableToolsResponse> {
+  const res = await fetch(`${API_URL}/chat/tools`);
+  if (!res.ok) throw new Error(`Chat tools API responded with ${res.status}`);
+
+  const data: AvailableToolsResponse = await res.json();
+  return data;
 }
 
 async function sendChatMessage(message: string, model: string): Promise<ChatbotResponse> {

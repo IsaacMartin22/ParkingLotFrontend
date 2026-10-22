@@ -26,6 +26,10 @@ function Projects(): JSX.Element {
               These projects give me an opportunity to independently make architectural decisions, experiment
               with new technologies, and build systems from initial design through deployment and operation.
             </p>
+            <p>
+              View my roadmap on <a href="https://trello.com/b/oC579vLv/portfolio-site" target="_blank" rel="noopener noreferrer">Trello</a> - anyone can contribute new feature requests to the board by
+            asking the chatbot on the landing page to create feature requests.
+            </p>
 
             <div className="projects-list">
               <article className="projects-item">
@@ -49,9 +53,9 @@ function Projects(): JSX.Element {
                   <li>Full-stack system built from the ground up - <a href={FRONTEND_GITHUB} target="_blank" rel="noopener noreferrer">Frontend</a>, <a href={API_GITHUB} target="_blank" rel="noopener noreferrer">Backend</a>, <a href={SDK_GITHUB} target="_blank" rel="noopener noreferrer">SDK</a>,
                     PostgreSQL relational database, NoSQL MongoDB database
                   </li>
-                  <li>Analytics to evaluate user interaction with the site</li>
+                  <li>Analytics to evaluate user interaction with the site and observability using New Relic</li>
                   <li>RAG-powered portfolio chatbot that uses vector search to facilitate recruiter information retrieval</li>
-                  <li>Internal MCP for the RAG chatbot to access site analytics</li>
+                  <li>Internal MCP to provide the RAG chatbot with additional custom tools</li>
                   <li>API integrations with Render, Buildkite, and OpenAI</li>
                   <li>Established common module shared between the service and SDK and published artifacts to Maven using semantic versioning</li>
                 </ul>

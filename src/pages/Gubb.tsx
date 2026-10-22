@@ -33,9 +33,9 @@ function Gubb(): JSX.Element {
         <h1>Gubb</h1>
         <section aria-label="About Gubb">
           <p>
-            Gubb is a video downloading and sharing tool that uses yt-dlp to download videos. It currently only supports TikTok. Converted
-            videos delete automatically after 48 hours.
-            It's for people whose names sound similar to Gubb who are too lazy to create a TikTok account to see the funny videos I send
+            Gubb is a social media sharing tool. It currently only supports TikTok. Converted
+            videos delete automatically after 48 hours. It was created for people whose names sound similar to
+            Gubb who are too lazy to create a TikTok account to see the funny videos I send.
           </p>
           <p className="gubb-muted">Sample URL: https://www.tiktok.com/@hunainn/video/7696938907090439444</p>
         </section>
