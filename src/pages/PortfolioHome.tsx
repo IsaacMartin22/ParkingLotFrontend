@@ -34,6 +34,11 @@ function PortfolioHome(): JSX.Element {
               LLMs and restricting them to tasks they can handle well. My backend hosts an MCP server I have built, it provides the chatbot with
               access to the tools described below.
             </p>
+            <p>
+              <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="resume-link" download>
+                Download my resume
+              </a>
+            </p>
             <section className="intro-tools" aria-labelledby="intro-tools-heading">
               <h2 id="intro-tools-heading">Tools the chatbot can use</h2>
               {availableTools.isLoading && <p role="status">Loading available tools...</p>}
@@ -50,11 +55,7 @@ function PortfolioHome(): JSX.Element {
                 </ul>
               )}
             </section>
-            <p>
-              <a href={`${process.env.PUBLIC_URL}/resume.pdf`} className="resume-link" download>
-                Download my resume
-              </a>
-            </p>
+
           </section>
           <aside className="intro-sidebar">
             <section className="intro-experience-column" aria-label="Work experience">
